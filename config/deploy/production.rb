@@ -24,7 +24,7 @@ role :db,  %w( root@198.199.76.136 )
 # role :db,  %w{deploy@example.com}
 
 
-server '198.199.76.136', user: 'root', password: 'P@ssword18', roles: %w( web app db ), my_property: :my_value
+server '198.199.76.136', user: 'root', roles: %w( web app db ), my_property: :my_value
 
 # Configuration
 # =============
