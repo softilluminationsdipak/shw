@@ -1,0 +1,22 @@
+<div class="row-fluid">
+  <div class="span12">
+    <h4>Add SubIDs</h4><br>
+    <div class="row-fluid">
+      <div class="span10">
+        <%= f.label :sub_ids %>
+        <% if f.object.new_record? %>
+          <%= f.text_field :sub_ids, :readonly => true, :value => f.object.secure_randon_string, :class => "form-control span6" %>
+        <% else %>
+          <%= f.text_field :sub_ids, :readonly => true, :class => "form-control span6" %>
+        <% end %>
+      </div>
+      <div class="span10" style="margin:0px;">
+        <%= f.label :subid_label %>
+        <%= f.text_field :subid_label, :class => "form-control span6" %>
+      </div>
+      <div class="span10" style="margin:0px;">
+        <%= f.submit "Submit", :class => "btn btn-default" %>
+      </div>
+    </div>
+  </div>
+</div> 

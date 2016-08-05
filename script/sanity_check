@@ -1,0 +1,225 @@
+#!/usr/bin/env /Users/sherrod/Sites/countrywide/script/runner
+
+require 'erb'
+
+MODEL_DEFAULTS_PATH = "#{RAILS_ROOT}/app/models/defaults"
+
+def yes_or_no?(message)
+  puts "#{message} (Y/N)"
+  response = $stdin.gets.chomp
+  response[0..0].downcase == 'y'
+end
+
+def check_files
+  puts '### Checking Files ###'
+  ["config/installation.json", "public/images/email/logo.gif", "app/views/admin/content/Contractor_Welcome.pdf"].each do |file|
+    print "  #{file}..."
+    print File.exist?(file) ? 'Exists' : 'Missing!'
+    print "\n"
+  end
+end
+
+def check_email_templates
+  puts '### Checking Email Templates ###'
+  path = "#{RAILS_ROOT}/app/views/admin/email_templates/defaults"
+  Installation.default_email_templates.each do |name, info|
+    print "  #{name}..."
+    if EmailTemplate.find_by_name(name)
+      print "Exists\n"
+      next
+    end
+    
+    subject, layout = *Array[Installation.default_email_templates[name]].flatten
+    template = EmailTemplate.new({
+      :name => name,
+      :locked => true,
+      :subject => subject
+    })
+    if layout
+      template.body = File.read("#{path}/#{layout}_layout.html.erb").gsub('<%=yield%>', File.read("#{path}/#{name}.html.erb"))
+    else
+      template.body = File.read("#{path}/#{name}.html.erb")
+    end
+    template.save
+    print "Created\n"
+  end
+end
+
+def check_packages
+  puts '### Checking Packages ###'
+  if Package.count != 0
+    puts "  Packages Exist"
+    return
+  end
+  packages = ActiveSupport::JSON.decode(File.read("#{RAILS_ROOT}/app/models/defaults/packages.json"))
+  packages.each do |object|
+    package = Package.create(object['package'])
+    puts "  #{package.package_name}...Created"
+  end
+end
+
+def check_content
+  puts '### Checking Content ###'
+  Installation.default_content.each do |slug|
+    print "  #{slug}..."
+    if Content.find_by_slug(slug)
+      print "Exists\n"
+      next
+    end
+    
+    template = ERB.new(File.read("#{RAILS_ROOT}/app/views/admin/content/defaults/#{slug}.html.erb"))
+    Content.create({ :slug => slug, :html => template.result(binding) })
+    print "Created\n"
+  end
+end
+
+def check_reasons
+  puts '### Checking Cancellation Reasons ###'
+  if CancellationReason.count != 0
+    puts "  Cancellation Reasons Exist"
+    return
+  end
+  reasons = ActiveSupport::JSON.decode(File.read("#{RAILS_ROOT}/app/models/defaults/cancellation_reasons.json"))
+  reasons.each do |object|
+    reason = CancellationReason.create(object)
+    puts "  #{reason.reason}...Created"
+  end
+end
+
+def check_coverages
+  puts '### Checking Cancellation Reasons ###'
+  if Coverage.count != 0
+    puts "  Coverages Exist"
+    return
+  end
+  Coverage.reload_defaults!
+end
+
+def check_contractors
+  puts '### Checking Contractors ###'
+  if Contractor.count != 0
+    puts "  Contractors Exist"
+    return
+  #  should_import = yes_or_no? "  There are #{Contractor.count} contractors. Should I continue importing from contractors.json?"
+  #  unless should_import
+  #    puts "  Contractors will not be imported"
+  #    return
+  #  end
+  end
+  
+  path = MODEL_DEFAULTS_PATH + "/contractors.json"
+  contractors = ActiveSupport::JSON.decode(File.read(path))
+  puts "  #{contractors.length} Contractors will be imported from #{path}"
+  contractors.each do |object|
+    address_object = object.delete('address')
+    object.delete('id')
+    print "  #{object['company']}..."
+    if Contractor.find_by_company(object['company'])
+      print "Exists\n"
+      next
+    end
+    contractor = Contractor.create(object)
+    print 'Created'
+    if address_object
+      address_object.delete('id')
+      address_object.delete('string')
+      address_object.delete('geocoded')
+      address = contractor.build_address(address_object)
+      address.should_skip_verification_and_geocoding = true
+      address.save
+      print ' with Address'
+    end
+    print "\n"
+    $stdout.flush
+  end
+end
+
+def check_admin_account
+  puts '### Checking Admin Agent & Account ###'
+  print '  Admin Agent...'
+  admin = Agent.find_by_email('admin')
+  if admin
+    print "Exists"
+  else
+    admin = Agent.create({
+      :name => 'Administrator', :email => 'admin', :admin => true
+    })
+    print "Created"
+  end
+  print "\n  Admin Account..."
+  if admin.account
+    print "Exists"
+  else
+    password = Account.generate_random_password
+    Account.create({
+      :email => $installation.admin_email,
+      :password => password,
+      :role => 'admin',
+      :timezone => '-5',
+      :parent_type => 'Agent',
+      :parent_id => admin.id
+    })
+    admin.save
+    print "Created with password \"#{password}\""
+  end
+  print "\n"
+end
+
+puts '### Nationwide Sanity Check 1.0 ###'
+
+if $*.length == 0
+  puts <<-HELP
+  Available checks:
+    admin
+    email_templates
+    packages
+    content
+    reasons
+    coverages
+    contractors
+    files
+    
+  HELP
+elsif $*.include?('all')
+  puts 'I will check for:'
+  puts
+  puts '  1. Admin Agent & Account'
+  puts '  2. Email Templates'
+  puts '  3. Packages'
+  puts '  4. Content'
+  puts '  5. Cancellation Reasons'
+  puts '  6. Coverages'
+  puts '  7. Contractors'
+  puts '  8. Files'
+  puts
+  
+  check_admin_account
+  puts
+  check_email_templates
+  puts
+  check_packages
+  puts
+  check_content
+  puts
+  check_reasons
+  puts
+  check_coverages
+  puts
+  check_contractors
+  puts
+  check_files
+else
+  $*.each do |cmd|
+    case cmd
+    when 'admin'            then check_admin_account
+    when 'email_templates'  then check_email_templates
+    when 'packages'         then check_email_templates
+    when 'content'          then check_content
+    when 'reasons'          then check_reasons
+    when 'coverages'        then check_coverages
+    when 'contractors'      then check_contractors
+    when 'files'            then check_files
+    end # case
+    puts
+  end #each
+end #if

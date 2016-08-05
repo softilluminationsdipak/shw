@@ -1,0 +1,247 @@
+<td valign="top" style="width:370px;">
+	<table class="form_table">
+		<tr>
+			<td class="label"><%= f.label :company, "Company:" %></td>
+			<td><%= f.text_field :company %></td>
+		</tr>
+		<tr>
+			<td class="label"><%= f.label :first_name, "First Name:" %></td>
+			<td><%= f.text_field :first_name %></td>
+		</tr>
+		<%= fields_for :address, address do |a| %>
+			<tr>
+				<td class="label"><%= a.label :address, "Street:" %></td>
+				<td><%= a.text_field :address %></td>
+			</tr>
+			<tr>
+				<td class="label"><%= a.label :state, "State:" %></td>
+				<td><%= a.select :state, state_select_options %></td>
+			</tr>
+		<% end %>
+		<tr>
+			<td class="label">
+				<%= f.label :email, "Email:" %></td><td><%= f.text_field :email %>
+			</td>
+			<td>
+				<a href="#quick_email_<%= @contractor.id %>" role="button" data-toggle="modal">
+					<img alt="Mail_write" src="/assets/icons/mail_write.png">
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><%= f.label :mobile, "Cell:" %></td><td><%= f.text_field :mobile %></td>
+		</tr>
+		<tr>
+			<td class="label"><%= f.label :priority, "Priority:" %></td><td><%= f.select :priority, ["Low", "Normal"] %></td>
+		</tr>
+		<tr>
+			<td class="label"><%= f.label :status, "Contractor Status:" %></td>
+			<td><%= f.select :status, options_for_select(ContractorStatus.active_status.collect{|p| [p.contractor_status, p.csid]}, f.object.status.to_s)  %></td>
+		</tr>
+		<tr>
+			<td class="label"><%= f.label :license_number, "License Number:" %></td>
+			<td><%= f.text_field :license_number %></td>
+		</tr>
+		<tr>
+			<td><b> Application On File? </b></td>
+			<td>
+				<%= f.select :contract_application_status, options_for_select(Contractor::CONTRACT_APPLICATION_STATUS.collect{|p| [p, p]}, f.object.contract_application_status.to_s ) %>
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><%= f.label :lobor_rate, "Labor Rate:" %></td>
+			<td>
+				<% if f.object.lobor_rate.present? %>
+					<% lobor_rate = '%.2f' % f.object.lobor_rate %>
+					<%= f.text_field :lobor_rate, :value => lobor_rate %>
+				<% else %>
+					<%= f.text_field :lobor_rate %>
+				<% end %>
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><%= f.label :min_charge, "Minimum/Claim:" %></td>
+			<td>
+				<% if f.object.min_charge.present? %>
+					<% min_charge = '%.2f' % f.object.min_charge %>
+				<% else %>
+					<% min_charge = 0.0 %>
+				<% end %>
+				<%= f.text_field :min_charge, :value => min_charge %>
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><%= f.label :parts_markup, "Parts Markup:" %></td>
+			<td><%= f.number_field :parts_markup, :style => "width:90%;", :max =>'100' %>%</td> 
+		</tr>
+		<tr>
+			<td class="label"><%= f.label :notes, "Notes:" %></td>
+			<td><%= f.text_area :notes, :rows => 6, :cols => 40, :maxlength => 200 %></td>
+		</tr>
+		<tr>
+			<td class="label">&nbsp;</td>
+			<td><%= submit_tag submit_label, :class => "btn" %></td>
+		</tr>
+	</table>
+</td>
+<td valign="top" style="width:360px;">
+	<table class="form_table">
+		<tr>
+			<td class="label"><%= f.label :job_title, "Job Title:" %></td>
+			<td><%= f.text_field :job_title %></td>
+		</tr>
+		<tr>
+			<td class="label"><%= f.label :last_name, "Last Name:" %></td>
+			<td><%= f.text_field :last_name %></td>
+		</tr>
+
+		<%= fields_for :address, address do |a| %>
+			<tr>
+				<td class="label"><%= a.label :city, "City:" %></td>
+				<td><%= a.text_field :city %></td>
+			</tr>
+			<tr>
+				<td class="label"><%= a.label :zip_code, "Zip code:" %></td>
+				<td><%= a.text_field :zip_code %></td>
+			</tr>
+		<% end %>
+		<tr>
+			<td class="label"><%= f.label :phone, "Phone:" %></td><td><%= f.text_field :phone %></td>
+		</tr>
+		<tr>
+			<td class="label"><%= f.label :fax, "Fax:" %></td><td><%= f.text_field :fax %></td>
+		</tr>
+		<tr>
+			<td class="label"><%= f.label :rating, "Rating:" %></td>
+			<td>
+				<%= f.select :rating, options_for_select([['A', 5],['B', 4],['C', 3],['D', 2],['E', 1]], f.object.rating.to_i)%>				
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><img src="/assets/icons/red_flag_16.png" src="Flagged" />&nbsp;</td>
+			<td>
+				<%= f.check_box :flagged %>&nbsp; 
+				<span style="font-size: 12px;">This contractor is flagged for warning </span>
+				<br><br>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="label"><%= f.label :insured, "Insured?:" %></td>
+			<td><%= f.check_box :insured %><br><br></td>
+		</tr>
+<!--		
+		<tr>
+			<td class="label"><%#= f.label :min_claim, "Min/Claim:" %></td>
+			<td><%#= f.text_field :min_claim, :value => f.object.min_claim.to_i %></td>
+		</tr>
+
+		<tr>
+			<td class="label"><%#= f.label :min_hour, "Min/Hour:" %></td>
+			<td><%#= f.text_field :min_hour, :value => f.object.min_hour.to_i %></td>
+		</tr>
+-->
+		<!--
+		<tr>
+			<td></td>
+			<td><%#= f.file_field :insured_url %></td>
+		</tr> -->
+		<!--<tr>
+			<td class="label"><%#= f.label :fax_or_invoice, "Fax Or Invoice:" %></td>
+			<td><%#= f.file_field :fax_or_invoice %></td> 
+		</tr> -->
+		<tr>
+			<td colspan="2"><hr></td>
+		</tr>
+		<tr>
+			<td colspan="2" id="msgcontractor" style="text-align:center;"> 
+				<% if f.object.account.present? %>
+					<p>This Contractor has a web account.</p>
+				<% else %>
+					<p> This Contractor does <strong>not</strong> have a web account </p>
+				<% end %>
+			</td>
+		</tr>
+		<% unless f.object.account.present? %>
+			<tr>
+				<td colspan="2">
+					<center>
+						<div id="grant_web_acct" class="gwcrp btn btn-link" style="width:30%;">
+							Grant Web Acct
+						</div>
+					</center>
+				</td>
+			</tr>
+		<% end %>
+		<tr>			
+			<td colspan="2">
+				<center>
+					<div id="reset_password" class="gwcrp btn btn-link" style="width:35%;">
+						Reset Password
+					</div>
+				</center>
+			</td>
+		</tr>
+	</table>
+</td>
+
+<script type="text/javascript">
+jQuery(function() {
+	jQuery("#grant_web_acct").click(function(){
+		jQuery.ajax({
+      url:'/admin/accounts/async_grant_web_account/<%=@contractor.id%>',
+      dataType:"json",
+      data: {
+						attachments: [{
+							path: 'app/views/admin/content',
+							filename: 'Contractor_Welcome2.pdf',
+							content_type: 'application/pdf'
+						}],
+						email_template_name: 'Welcome Contractor',
+						object_type: 'Contractor'
+					},
+      success: function(json) {
+       	jQuery('#myModal').modal('show');
+       	jQuery("#modal_title").html("Grant Web Account");
+       	jQuery("#modal_text").html(json.text);
+
+    	}
+    })
+	});
+
+	jQuery("#reset_password").click(function(){
+		jQuery.ajax({
+      url:'/admin/accounts/async_reset_password/<%=@contractor.id%>',
+      data:{ object_type: 'Contractor' },
+      dataType:"json",
+      success: function(json) {
+       	jQuery('#myModal').modal('show');
+       	jQuery("#modal_title").html("Reset Password");
+       	jQuery("#modal_text").html(json.text);
+    	}
+    })
+	});
+
+	jQuery(".gwcrp").click(function(){
+		jQuery.getJSON("/admin/contractors/async_get_web_account/<%=@contractor.id%>", function(data) {
+  		if(data){
+  			jQuery("#msgcontractor").html("This Contractor has a web account.")
+  		}
+		})
+	})
+});
+</script>
+
+<!-- Modal Windows -->
+<div class="modal hide" id="myModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3 id="modal_title"></h3>
+  </div>
+  <div class="modal-body">
+    <p id="modal_text"></p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-primary" data-dismiss="modal">Ok</a>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+{
+    "params": [
+        "SelectHomeWarranty",
+        "Select",
+        "select",
+        "selecthomewarranty.com",
+        "selecthomewarranty.com",
+        "1-855-267-3532",
+        "1-732-490-6612",
+        "SHW1",
+        "EFaxFaxService",
+        true,
+        "UA-30123828-1"
+    ],
+    "active_states": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "UT",
+        "VT",
+        "WV",
+        "WI",
+        "WY",
+        "TX"    
+    ],
+    "credentials": {
+        "smtp": {
+            "user_name": "info@selecthomewarranty.com",
+            "password": "monjoe28",
+            "authentication": "plain",
+            "address": "smtp.gmail.com",
+            "domain": "gmail.com",
+            "port": 587,
+            "enable_starttls_auto": true
+        },
+        "gmaps": "",
+        "authorize": {
+            "login": "3DL32swDtgQ",
+            "password": "43hxCDbwf24J625b"
+            "login": "65zfS6c35sMs",
+            "password": "5CjS5sPgGS23389m"
+            
+        }
+    }
+}

@@ -1,0 +1,35 @@
+<% if @customer.present? %>
+	<h3>Related Claims</h3>
+	<table class="table table-condensed table-striped table-bordered sortable_table">
+		<thead>
+			<tr>
+				<th><strong></strong></th>
+				<th><strong>CONTRACT#</strong></th>
+				<th><strong>CLAIM#</strong></th>
+				<th><strong>CLAIM TEXT</strong></th>
+				<th><strong>CLAIM STATUS</strong></th>
+				<th><strong>PROPERTY</strong></th>
+				<th><strong>SC CHARGE</strong></th>
+				<th><strong>AUTHORIZE AMOUNT</strong></th>
+				<th><strong>INVOICE RECEIVE</strong></th>
+				<th><strong>INVOICE STATUS</strong></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @customer.claims.each do |claim| %>
+				<tr>
+					<td><%= link_to image_tag("/assets/icons/action/edit.png"), "/admin/claims/edit/#{claim.id}", :title => "Edit" %></td>
+					<td><%= link_to claim.customer.contract_number, "/admin/customers/edit/#{claim.customer.id}/#claims" %></td>
+					<td><%= link_to claim.id , "/admin/claims/edit/#{claim.id}" %></td>
+					<td><%= claim.claim_text %></td>
+					<td><%= claim.status %></td>
+					<td><%= claim.property.to_s %></td>
+					<td><%= claim.repair.present? ? claim.repair.formatted_service_charge : '$60.00'%></td>
+					<td><%= claim.repair.present? ? "$%.2f" % claim.repair.amount : '$0.00' %></td>
+					<td><%= claim.invoice_receive.present? ? claim.invoice_receive.strftime('%m/%d/%Y') : '' %></td>
+					<td><%= claim.invoice_status %></td>
+					</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>

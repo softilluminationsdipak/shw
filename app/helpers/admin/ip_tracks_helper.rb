@@ -1,0 +1,2 @@
+module Admin::IpTracksHelper
+end

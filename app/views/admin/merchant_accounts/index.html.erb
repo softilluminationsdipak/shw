@@ -1,0 +1,47 @@
+<h2>Merchant Accounts</h2>
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+	<tr>
+		<th><strong>ID</strong></th>
+		<th><strong>Merchant Type</strong></th>
+		<th><strong>Provider ID</strong></th>
+		<th><strong>Is Default</strong></th>
+		<th><strong>ACTIONS</strong></th>
+	</tr>
+	</thead>
+	
+	<tbody>
+		<% @merchant_accounts.each_with_index do |merchant,index| %>
+			<tr>
+				<td><%= merchant.try(:id) %></td>
+				<td><%= merchant.try(:merchant_type) %></td>
+				<td><%= merchant.try(:merchant_name) %></td>
+				<td><%= merchant.try(:is_default) == true ? 'Yes' : 'No' %></td>
+				<td>
+					<a href="/admin/merchant_accounts/edit/<%= merchant.id %>">Edit&nbsp;&nbsp;</a>&nbsp;
+					<%= link_to 'Delete', "/admin/merchant_accounts/destroy/#{merchant.id}", :confirm => "Are you sure you want to permanently delete this Merchant Account? This operation cannot be undone." %>
+				</td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+<h4 class="breadcrumb">Add New Merchant Account</h4>
+<%= form_for @merchant_account, :url => { :action => "create" }, :method => 'post' do |merchant_account| %>
+	<table class="form_table">
+	 	<tbody>
+			<tr>
+				<td>Merchant Type:</td>
+				<td>
+					<%= select("merchant_account", "merchant_type", [['NMI', 'NMI'], ['Auth.net', 'Auth.net']], { include_blank: true }) %>
+				</td>
+			</tr>
+			<tr>
+				<td>Provider ID:</td>
+				<td><%= merchant_account.text_field :merchant_name, :placeholder => 'Provider ID' %></td>
+			</tr>
+			<tr>
+				<td colspan="4"><br><%= merchant_account.submit "Create Merchant Account",:id => "save_merchant_account", :class => "btn" %></td>
+			</tr>
+	 	</tbody>
+	</table>
+<% end %>

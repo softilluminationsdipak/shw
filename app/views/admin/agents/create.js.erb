@@ -1,0 +1,5 @@
+<% if @error_message.present? %>
+	alert("<%= @error_message.first.to_s %>")
+<% else %>
+	window.location.href = '/admin/agents';
+<% end %>

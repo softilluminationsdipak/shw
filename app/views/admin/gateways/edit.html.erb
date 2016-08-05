@@ -1,0 +1,31 @@
+<%= form_for @gateway, :url => { :action => "update", :id => @gateway.id } do |gateway| %>
+	<table class="form_table">
+	 	<tbody>
+			<tr>
+				<td>Login ID:</td>
+				<td><%= gateway.text_field :login_id, :placeholder => 'Login ID' %></td>
+			</tr>
+			<tr>
+				<td>Transaction Key:</td>
+				<td><%= gateway.text_field :transaction_key, :placeholder => 'Transaction Key' %></td>
+			</tr>
+			<tr>
+				<td>Merchant Name:</td>
+				<td><%= gateway.text_field :merchant_name, :placeholder => 'Merchant Name' %></td>
+			</tr>
+			<tr>
+				<td>URL:</td>
+				<td><%= gateway.text_field :gateway_url, :placeholder => 'Enter URL' %></td>
+			</tr>
+
+			
+			<tr>
+				<td>Is Default</td>
+				<td><%= gateway.check_box :is_default %></td>
+			</tr>			
+			<tr>
+				<td colspan="4"><br><%= gateway.submit "Update Gateway", :class => "btn" %></td>
+			</tr>
+	 	</tbody>
+	</table>
+<% end %>

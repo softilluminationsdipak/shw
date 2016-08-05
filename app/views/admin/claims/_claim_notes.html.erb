@@ -1,0 +1,51 @@
+<h3>Notes</h3>
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+		<tr>
+			<th>CLAIM</th>
+			<th><strong>NOTES</strong></th>
+			
+			<th><strong>UPDATED BY</strong></th>
+			<th>CREATED AT</th>
+			<th><strong>ACTIONS</strong></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% if claim.notes.present? %>
+			<% claim.notes.each do |note| %>
+				<tr>
+					<td><%= note.notable_id if note.notable_type.to_s == "Claim" %></td>
+					<td id="note_text_<%= note.id %>"><%= note.note_text %></td>
+					<td style="width:1%;">
+						<%= claim.updated_by %>
+					</td>
+					
+					<td style="width:10%;">
+					<%= note.created_at.strftime("%m/%d/%Y %I:%M %p") %> </td>
+					</td>
+					<td style="width:10%;">
+						<a data-toggle="modal" href="#edit_notes_<%= note.id %>">EDIT</a> 
+						| <%= link_to 'DELETE', "/admin/notes/destroy/#{note.id}", :confirm => "Are you sure you want to permanently delete this note? This operation cannot be undone." %>
+					</td>
+				</tr>
+
+				<div class="modal hide" id="edit_notes_<%= note.id %>">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">×</button>
+						<h3>Edit Note</h3>
+					</div>
+					<%= form_for note, :url => "/admin/notes/update/#{note.id}", :remote => true do |f| %>
+						<div class="modal-body">
+							<%= hidden_field_tag :claim_id, claim.id %>
+							<p><%= f.text_area :note_text, :style => "height:100px;width:98%;" %></p>
+						</div>
+						<div class="modal-footer">
+							 <%= submit_tag "UPDATE", :name => nil, :class => "btn btn-primary" %>
+						</div>
+					<% end %>
+				</div>
+
+			<% end %>
+		<% end %>
+	</tbody>
+</table>

@@ -1,0 +1,25 @@
+=form_tag '/admin/customers/async_update',:remote => true, :id => "edit_customer_status_popup", :class=>"hide modal fade",:style=> 'height: auto; width: 400px;' do
+  = hidden_field_tag :id,"", :id => "edit_customer_id"
+  .modal-header
+    = button_tag '', :class=> 'close', 'data-dismiss' => 'modal', 'area-hidden' => true do
+      &times;
+    %h5#edit_customer_popup_title
+      Customer Status
+      
+      
+  .modal-body#edit_customer_popup_body
+    .row-fluid
+      .span4
+        Customer
+      .span8#edit_customer_name
+       
+    .row-fluid
+      .span4
+        Status
+      .span8#customer_status_list
+        = fields_for :customer do |p|
+          = p.select :status_id,options_for_select(Customer.formatted_status_array), :id => "edit_customer_status_list"
+        
+    .row-fluid
+      = link_to "Submit","#", :id => "update_customer_status", :class => "btn btn-primary"
+      = link_to "Cancel","#close", :class => "btn close_modal_button", 'data-dismiss' => 'modal'

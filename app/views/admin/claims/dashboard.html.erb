@@ -1,0 +1,21 @@
+
+<div class="row-fluid">
+  <ul class="breadcrumb">
+    <%= render_breadcrumbs :separator => ' / ' %>
+    <li class="pull-right">
+    	<%= link_to "Select All", admin_select_unselect_status_path("select_all") %> |
+    	<%= link_to "Deselect All", admin_select_unselect_status_path("unselect_all") %>
+    </li>
+  </ul>
+</div>
+<div id="layout_content">
+	<h2>Claim Dashboard </h2>
+	<%= render :partial => "/admin/claims/search" %>
+	<div id="current_status_label">
+		<%= render :partial => "/admin/claims/claim_status" %>
+	</div>
+	<br><br><br><br><hr>
+	<div id="current_status_update" class="", style="width:auto;">
+		<%= render :partial => "/admin/claims/claim_dashboard", :locals => {:claims => @claims} %>
+	</div>
+</div>

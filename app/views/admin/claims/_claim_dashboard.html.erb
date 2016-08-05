@@ -1,0 +1,74 @@
+<table class="table table-condensed table-striped table-bordered sortable_table" border="1">
+	<thead>
+		<tr>
+			<th></th>
+			<th></th>
+			<th><strong>Contract #</strong></th>
+			<th><strong>Claim #</strong></th>
+			<th><strong>Contractor ID</strong></th>
+			<th><strong>Status</strong></th>
+			<th><strong>Summary</strong></th>
+			<th><strong>Last Updated</strong></th>
+			<th><strong>Cust. Name</strong></th>
+			<th><strong>Cust. Phone #</strong></th>
+			<th><strong>State</strong></th>
+			<th><strong>Agent</strong></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% claims.each do |claim| %>
+			<% if claim.customer.present? %>
+				<!-- Modal Windows start-->
+				<div class="modal hide" id="myModal_<%= claim.id %>">
+				  <div class="modal-header">
+				    <button type="button" class="close" data-dismiss="modal">×</button>
+				    <h3 id="modal_title">Quick Email</h3>
+				  </div>
+				  <%= form_tag "/admin/email_templates/async_quickly_email_with_js", :method => 'POST', :remote => true do %>
+				  	<div class="modal-body">
+				    	<h4><p id="modal_text">Customer Name : <%= claim.customer.name %></p></h4>
+				    	<%= hidden_field_tag :customer_id, claim.customer.id %>
+				    	<%= hidden_field_tag :clam_id, claim.id %>
+				    	<p id="modal_text">
+				    		<h4> Template : 
+					    		<%= select_tag "template_id", options_for_select(EmailTemplate.all.collect{|p| [p.name, p.id]}) %>
+					    	</h4>
+							</p>
+				  	</div>
+				 	 <div class="modal-footer">
+				    	<%= submit_tag "Send Email", :name => nil, :class => "btn btn-primary" %>
+				  	</div>
+				  <% end %>
+				</div>
+				<!-- Modal Windows end -->
+				<tr>
+					<td><%= link_to "Edit", "/admin/customers/edit/#{claim.customer.id}#claims" %></td>
+					<td>
+						<a href="#myModal_<%= claim.id %>" role="button" data-toggle="modal">
+							<img alt="Mail_write" src="/assets/icons/mail_write.png">
+						</a>
+					</td>
+					<td><%= link_to claim.claim_number2, "/admin/customers/edit/#{claim.customer.id}/#claims" %></td>
+					<td><%= link_to claim.id, "/admin/claims/edit/#{claim.id}" %></td>
+					<td>
+						<% if claim.contractor.present? %>
+							<%= link_to claim.contractor.contractor_id_with_cr, "/admin/contractors/edit/#{claim.contractor.id}" %>
+						<% end %>
+					</td>
+					<td>
+						<% cs = ClaimStatus.find_by_csid(claim.status_code.to_i) %>
+						<span class="badge claim_<%= claim.status_code %>_active" style="font-weight: normal;"><%= claim.status_code.present? ? claim.status : '' %></span>
+					</td>
+					<td><%= "#{claim.try(:claim_type)}: #{claim.truncated_summary(70)}" %></td>
+					<td><%= claim.updated_at ? claim.last_updated_info : '' %></td>
+					<td><%= claim.customer_name %></td>
+					<td><%= claim.customer_phone %></td>
+					<td><%= claim.customer_state %></td>
+					<td><%= claim.agent_name %></td>
+				</tr>
+			<% end %>
+		<% end %>
+	</tbody>
+</table>
+<%= will_paginate @claims, :param_name => 'claim_status' if claims.present? %>
+ 

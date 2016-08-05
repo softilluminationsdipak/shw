@@ -1,0 +1,85 @@
+<% @claim = claim %>
+<table cellpadding="2" cellspacing="0">
+	<tr><br>
+		<td valign="top" style="width:330px;padding-left: 3.5%;">
+			<table class="form_table">
+				<tr>
+					<td class="label"><%= f.label :reimbursement, "REIMBURSEMENT :" %></td>
+					<td class="pleft">
+						<% reimbursement = '%.2f' % f.object.reimbursement.to_f %>
+						<%= f.text_field :reimbursement, :value => reimbursement, :class => "change_reimburse_or_buyout" %>
+					</td>						
+				</tr>
+			</table>
+		</td>
+		<td valign="top" style="width:300px;">
+			<table class="form_table claim_edit_cls">
+				<tr>
+					<td class="label"><%= f.label :release_received, "RELEASE SENT :" %></td>
+					<td class="pleft">
+						<% if @claim.release_received.present? %>
+							<%= f.text_field :release_received, :value => @claim.release_received.strftime("%m/%d/%Y") ,:class => "datepicker" %>
+						<% else %>
+							<%= f.text_field :release_received, :class => "datepicker" %>
+						<% end %>								
+					</td>						
+				</tr>
+			</table>
+		</td>
+		<td valign="top" style="width:300px;">
+			<table class="form_table claim_edit_cls">
+				<tr>
+					<td class="label" style="width: 120px;"><%= f.label :rel_check, "REL CHECK #:" %></td>
+					<td class="pleft">
+						<%= f.text_field :rel_check %>
+					</td>						
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" style="width:300px;padding-left: 5%;">
+			<table class="form_table">
+				<tr style="float: left;">
+					<td class="label"><%= f.label :buyout, "BUYOUT :" %></td>
+					<td class="pleft">
+						<% buyout = '%.2f' % f.object.buyout.to_f %>
+						<%= f.text_field :buyout, :value => buyout, :class => "change_reimburse_or_buyout" %>
+					</td>						
+				</tr>
+			</table>
+		</td>
+		<td valign="top" style="width:300px;">
+		</td>
+		<td valign="top" style="width:300px;">
+			<table class="form_table claim_edit_cls">
+				<tr>
+					<td class="label"><%= f.label :rel_check_date, "REL CHECK DATE :" %></td>
+					<td class="pleft">
+						<% if @claim.rel_check_date.present? %>
+							<%= f.text_field :rel_check_date, :value => @claim.rel_check_date.strftime("%m/%d/%Y") ,:class => "datepicker" %>
+						<% else %>
+							<%= f.text_field :rel_check_date, :class => "datepicker" %>
+						<% end %>								
+					</td>						
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" style=""><br>
+			<% if @claim.reimbursement.present? && @claim.reimbursement.to_s == '0.00' && @claim.buyout.present? && @claim.buyout.to_s == '0.00' %>
+				<%= f.submit "Update REL", :class => "btn", :style => "width:200px;", :id => "add_download_popup", :disabled => true %>
+			<% else %>
+				<%= f.submit "Update REL", :class => "btn", :style => "width:200px;", :id => "add_download_popup" %>
+			<% end %>					
+		</td>
+		<td>
+			<% if @claim.reimbursement.present? && @claim.reimbursement.to_f > 0.0 or @claim.buyout.present? && @claim.buyout.to_f > 0.0 %>
+				<%= link_to "Download B/R Agreement", "/admin/generate_pdf_for_buy_out/#{@claim.id}", :method => :get, :target => "_blank", :class => "btn" %>
+			<% else %>
+				<span id="download_br_agreement" class="btn">Download B/R Agreement</span>
+			<% end %>
+		</td>
+	</tr>
+</table>

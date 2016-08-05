@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">SHW#</Data></Cell>
+        <Cell><Data ss:Type="String">LeadId</Data></Cell>
+        <Cell><Data ss:Type="String">Fullname</Data></Cell>
+        <Cell><Data ss:Type="String">Address</Data></Cell>
+        <Cell><Data ss:Type="String">City</Data></Cell>
+        <Cell><Data ss:Type="String">State</Data></Cell>
+        <Cell><Data ss:Type="String">Zip</Data></Cell>
+        <Cell><Data ss:Type="String">Phone</Data></Cell>
+        <Cell><Data ss:Type="String">Email</Data></Cell>
+        <Cell><Data ss:Type="String">Created At</Data></Cell>
+      </Row>
+    <% @customers.each do |customer| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= customer.id %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= customer.leadid %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= "#{customer.first_name} #{customer.last_name}" %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= customer.customer_address %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= customer.customer_city %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= customer.customer_state %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= customer.customer_zip %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= customer.customer_phone %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= customer.email %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= customer.created_at.strftime("%m/%d/%Y") %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

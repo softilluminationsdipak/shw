@@ -1,0 +1,44 @@
+[{
+    "package": {
+        "duplex_price": 579.99,
+        "condo_price": 399.99,
+        "triplex_price": 669.99,
+        "covers": "Electrical System, A/C, Cooling, Plumbing System, Heating System, Water Heater, Ductwork, Cooktop, Stove/Oven, Microwave (built-in), Plumbing, Stoppage, Garage Door Opener, Dishwasher, Ceiling Fans, Refrigerator, Garbage Disposal, Clothes Washer, Clothes Dryer",
+        "single_price": 399.99,
+        "fourplex_price": 759.99,
+        "package_name": "Full System"
+    }
+},
+{
+    "package": {
+        "duplex_price": 479.99,
+        "condo_price": 299.99,
+        "triplex_price": 569.99,
+        "covers": "Electrical System, Plumbing System, Heating System, Water Heater, Ductwork, Cooktop, Stove/Oven, Microwave (built-in), Plumbing, Stoppage, Garage Door Opener, Dishwasher, Ceiling Fans, Garbage Disposal",
+        "single_price": 299.99,
+        "fourplex_price": 659.99,
+        "package_name": "Deluxe System"
+    }
+},
+{
+    "package": {
+        "duplex_price": 479.99,
+        "condo_price": 299.99,
+        "triplex_price": 569.99,
+        "covers": "Electrical System, Plumbing System, Heating System, Water Heater, Ductwork, A/C Cooling",
+        "single_price": 299.99,
+        "fourplex_price": 659.99,
+        "package_name": "Major Systems Only"
+    }
+},
+{
+    "package": {
+        "duplex_price": 419.99,
+        "condo_price": 279.99,
+        "triplex_price": 519.99,
+        "covers": "Cooktop, Stove/Oven, Microwave (built-in), Dishwasher, Ceiling Fans, Refrigerator, Garbage Disposal, Clothes Washer, Clothes Dryer",
+        "single_price": 279.99,
+        "fourplex_price": 599.99,
+        "package_name": "Home Appliances Package"
+    }
+}]

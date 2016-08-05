@@ -1,0 +1,24 @@
+<% Claim.statuses.each do |status| %>
+	<% claim_status = @active_statuses.include?(status.last.to_i) == true ? "claim_#{status.last.to_i}_active" : "claim_#{status.last.to_i}" %>
+	<div class="" style="padding:3px;float:left;">
+		<span class="status_label <%= claim_status %>">
+			<%= link_to status.first, claim_current_active_statuses_path(:status_id => status.last), :title => status.first, :remote => true %>
+		</span>
+	</div>
+<% end %>
+<% ClaimStatus.all.each do |claim2| %>
+	<style type="text/css">
+		.claim_<%= claim2.csid %> {
+    	background-color: <%= claim2.color_code%>;
+    	color:black;
+   	 	border: 1px solid #5e5b5b;
+    	margin: 3px;
+		}
+		.claim_<%= claim2.csid %>_active {
+    	background-color:<%= claim2.color_code%>;
+    	color:black;
+    	border: 3px solid #666;
+    	margin: 3px;
+		}
+	</style>
+<% end %>

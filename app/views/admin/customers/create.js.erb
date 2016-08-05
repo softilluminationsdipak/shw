@@ -1,0 +1,5 @@
+<% if @msg.present? %>
+	alert("<%= @msg.html_safe %>")
+<% else %>
+	window.location.href = "/admin/customers/edit/<%= @customer.id %>"
+<% end %>

@@ -1,0 +1,88 @@
+--- 
+join_00026: 
+  package_id: "3"
+  coverage_id: "15"
+join_00015: 
+  package_id: "1"
+  coverage_id: "14"
+join_00004: 
+  package_id: "1"
+  coverage_id: "16"
+join_00027: 
+  package_id: "3"
+  coverage_id: "9"
+join_00016: 
+  package_id: "1"
+  coverage_id: "6"
+join_00005: 
+  package_id: "1"
+  coverage_id: "17"
+join_00028: 
+  package_id: "3"
+  coverage_id: "14"
+join_00017: 
+  package_id: "2"
+  coverage_id: "22"
+join_00006: 
+  package_id: "1"
+  coverage_id: "19"
+join_00018: 
+  package_id: "2"
+  coverage_id: "19"
+join_00007: 
+  package_id: "1"
+  coverage_id: "27"
+join_00020: 
+  package_id: "2"
+  coverage_id: "8"
+join_00019: 
+  package_id: "2"
+  coverage_id: "27"
+join_00008: 
+  package_id: "1"
+  coverage_id: "20"
+join_00021: 
+  package_id: "2"
+  coverage_id: "6"
+join_00010: 
+  package_id: "1"
+  coverage_id: "3"
+join_00009: 
+  package_id: "1"
+  coverage_id: "7"
+join_00022: 
+  package_id: "2"
+  coverage_id: "3"
+join_00011: 
+  package_id: "1"
+  coverage_id: "15"
+join_00000: 
+  package_id: "1"
+  coverage_id: "22"
+join_00023: 
+  package_id: "3"
+  coverage_id: "16"
+join_00012: 
+  package_id: "1"
+  coverage_id: "1"
+join_00001: 
+  package_id: "1"
+  coverage_id: "21"
+join_00024: 
+  package_id: "3"
+  coverage_id: "17"
+join_00013: 
+  package_id: "1"
+  coverage_id: "8"
+join_00002: 
+  package_id: "1"
+  coverage_id: "18"
+join_00025: 
+  package_id: "3"
+  coverage_id: "7"
+join_00014: 
+  package_id: "1"
+  coverage_id: "9"
+join_00003: 
+  package_id: "1"
+  coverage_id: "2"

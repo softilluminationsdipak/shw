@@ -1,0 +1,119 @@
+<table style="width:100%;">
+	<tr>
+	  <%= form_tag "/admin/contractors", :method => 'get' do %>
+	  	<td style="width:10%;">
+	  		<%= number_field_tag :contractor_id, params[:contractor_id], :placeholder => "CONTRACTOR ID" %>
+	  	</td>
+	  	<td style="width:12%;">
+				<%= select_tag 'state', options_for_select(State.all.map(&:name).sort_by!{ |m| m }.collect{ |u| [u, u] }, params[:state]), {prompt: 'SELECT STATE', :style => "width: 100%;"} %>
+	  	</td>
+	  	<td style="width:10%;">
+	  		<%= text_field_tag :zipcode, params[:zipcode], :placeholder => "ZIPCODE" %>
+	  	</td>
+	  	<td style="width:12%;">
+	  		<%= select_tag 'status', options_for_select(ContractorStatus.active_status.collect{|p| [p.contractor_status, p.csid]}, params[:status]),{prompt: 'SELECT STATUS', :style => "width: 100%;"} %>	  		
+	  	</td>
+		  <td style="padding: 0px 0px 7px 10px;">
+		  	<%= submit_tag "Search", :name => nil, :class => "btn" %>
+		  </td>
+		<% end %>
+	</tr>
+</table>
+<br>
+
+<%= render :partial => "alphabetic_page_nav" %>
+
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead><tr>
+		<th width="10px"><strong>ID</strong></th>
+		<th width="10px"><strong>Flag</strong></th>
+		<th><strong>Company</strong></th>
+		<th><strong>Email</strong></th>
+		<th><strong>Phone</strong></th>
+		<th><strong>State</strong></th>
+		<th><strong>Rating</strong></th>
+		<th><strong>Status</strong></th>
+		<th><strong># of Claims</strong></th>
+		<th><strong>Action</strong></th>
+	</tr></thead>
+	<% if @contractors.present? %>
+	<% @contractors.each do |contractor| %>
+
+	<tr class="hoverable<%=cycle('', ' stripe')%>">
+		<td><%=contractor.contractor_id_with_cr %></td>
+		<td>
+		  <%if contractor.flagged%>
+		    <img src="/assets/icons/red_flag_16.png">
+		  <% end %>
+		</td>
+		<td><%= contractor.company%></td>
+		<td><%= contractor.email%></td>
+		<td><%= clean_phone_number(contractor.phone) %></td>	
+		<td><%= contractor.address.state if contractor.address.present? %></td>
+		<td><%= display_rating_for_contractor(contractor.rating.to_i)  %></td>
+		<td>
+			<a data-toggle="modal" href="#change_status_<%= contractor.id %>" class="update_status_<%= contractor.id %>">
+				<% if contractor.status.present? %>
+					<%= ContractorStatus.find_by_csid(contractor.status.to_i).contractor_status %>
+				<% else %>
+					Edit
+				<% end %>
+			</a>
+			<div class="modal hide" id="change_status_<%= contractor.id %>">
+				<div class="modal-header">
+  				<button type="button" class="close" data-dismiss="modal">×</button>
+  				<h3>Update Status</h3>
+				</div>
+				<%= form_tag "/admin/contractor/#{contractor.id}/update_status", :method => 'post', :remote => true do %>
+				<div class="modal-body">
+  				<p>Contractor Status : 
+  					<%= select_tag "status", options_for_select(ContractorStatus.active_status.collect{|p| [p.contractor_status, p.csid]}, contractor.status.to_s),{prompt: 'SELECT STATUS'}  %>
+  				</p>
+				</div>
+				<div class="modal-footer">
+					 <%= submit_tag "Save Changes", :name => nil, :class => "btn btn-primary" %>
+				</div>
+				<% end %>
+			</div>
+		</td>
+		<td><%= contractor.claims.present? ? contractor.claims.count : 0 %></td>
+		<td><a href="/admin/contractors/edit/<%=contractor.id%>">Edit</a>&nbsp;&nbsp;&nbsp;<%= link_to 'Delete', "/admin/contractors/destroy/#{contractor.id}", :confirm => "Are you sure you want to permanently delete this Contractor? This operation cannot be undone." %></td>
+	</tr>
+
+<% end %>
+<% end %>
+</table>
+
+<%= render :partial => "alphabetic_page_nav" %>
+
+<br>
+<hr>
+
+<h4 class="breadcrumb">Add Contractor</h4>
+
+<%= form_for @contractor, :url => { :action => 'create' } do |f| %>
+	<%= hidden_field_tag "authenticity_token", form_authenticity_token %>
+	<table>
+		<tr>
+			<td>Company:&nbsp;&nbsp;</td>
+			<td><%= f.text_field :company %></td>
+		</tr>
+		<tr>
+			<td>Address:&nbsp;&nbsp;</td>
+			<td><%= fields_for :address do |a| %><%= a.text_field :address %><% end %></td>
+		</tr>
+		<tr>
+			<td>Email:&nbsp;&nbsp;</td>
+			<td><%= f.text_field :email %></td>
+		</tr>
+		<tr>
+			<td>Phone:&nbsp;&nbsp;</td>
+			<td><%= f.text_field :phone %></td>
+		</tr>
+				
+		<tr>
+			<td>&nbsp;</td>
+			<td><%= f.submit "Add & Continue Editing", :class=> "btn" %></td>
+		</tr>
+	</table>
+<% end %>

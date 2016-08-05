@@ -1,0 +1,101 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th></th>
+			<th>ID</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Address</th>
+			<th>City</th>
+			<th>State</th>
+			<th>Zipcode</th>
+			<th>Card #</th>
+			<th>Exp. Date</th>
+		</tr>
+	</thead>
+	<% if customer.credit_cards.present? %>
+		<tbody>
+			<% customer.credit_cards.each do |credit_card| %>
+				<tr>
+					<td><a data-toggle="modal"  backdrop='static' data-keyboard="false" href="#nmi_credit_card_<%= credit_card.id %>" class="">Edit</a></td>
+					<td><%= credit_card.try(:id) %></td>
+					<td><%= credit_card.try(:first_name) %></td>
+					<td><%= credit_card.try(:last_name) %></td>
+					<td><%= credit_card.try(:address).try(:address) %></td>
+					<td><%= credit_card.try(:address).try(:city) %></td>
+					<td><%= credit_card.try(:address).try(:state) %></td>
+					<td><%= credit_card.try(:address).try(:zip_code) %></td>
+					<td><%= credit_card.try(:number) %></td>
+					<td><%= credit_card.try(:exp_date) %></td>										
+				</tr>				
+			<% end %>
+		</tbody>
+	<% end %>
+</table>
+
+<% if customer.credit_cards.present? %>
+	<% customer.credit_cards.each do |credit_card| %>
+		<!-- POPUP CreditCard -->
+		<div class="modal hide" id="nmi_credit_card_<%= credit_card.id %>" data-keyboard="false" data-backdrop="static">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>Update Credit Card</h3>
+			</div>
+			<div class="modal-body"></div>
+			<%= form_tag "/admin/credit_cards/update/#{credit_card.id}", :method => 'post', :remote => true, :class => 'form-horizontal' do %>
+				<div class="control-group">
+			    <label class="control-label" for="number">Credit Card Number</label>
+			    <div class="controls">
+			      <%= text_field_tag 'card[number]', credit_card.number, :placeholder => 'Credit Card Number' %>
+			    </div>
+			  </div>
+				<div class="control-group">
+			    <label class="control-label" for="exp_date">Exp. Date</label>
+			    <div class="controls">
+			      <%= text_field_tag 'card[exp_date]', credit_card.exp_date, :placeholder => 'Exp Date' %>
+			    </div>
+			  </div>			  		  			
+				<div class="control-group">
+			    <label class="control-label" for="first_name">First Name</label>
+			    <div class="controls">
+			      <%= text_field_tag 'card[first_name]', credit_card.first_name, :placeholder => 'First Name' %>
+			    </div>
+			  </div>			  		  			
+				<div class="control-group">
+			    <label class="control-label" for="last_name">Last Name</label>
+			    <div class="controls">
+			      <%= text_field_tag 'card[last_name]', credit_card.last_name, :placeholder => 'Last Name' %>
+			    </div>
+			  </div>			  		  			
+				<div class="control-group">
+			    <label class="control-label" for="address">Address</label>
+			    <div class="controls">
+			      <%= text_field_tag 'address[address]', credit_card.address.address, :placeholder => 'Address' %>
+			    </div>
+			  </div>			  		  			
+				<div class="control-group">
+			    <label class="control-label" for="city">City</label>
+			    <div class="controls">
+			      <%= text_field_tag 'address[city]', credit_card.address.city, :placeholder => 'City' %>
+			    </div>
+			  </div>			  		  			
+				<div class="control-group">
+			    <label class="control-label" for="state">State</label>
+			    <div class="controls">
+			      <%= text_field_tag 'address[state]', credit_card.address.state, :placeholder => 'State' %>
+			    </div>
+			  </div>			  		  			
+				<div class="control-group">
+			    <label class="control-label" for="zipcode">Zipcode</label>
+			    <div class="controls">
+			      <%= text_field_tag 'address[zip_code]', credit_card.address.zip_code, :placeholder => 'Zipcode' %>
+			    </div>
+			  </div>			  		  			
+
+				<div class="modal-footer">
+					<%= submit_tag "Update", class: 'btn btn-primary', id: 'credit_card_update' %>
+				</div>		  
+			<% end %>
+		</div>
+	<% end %>
+<% end %>

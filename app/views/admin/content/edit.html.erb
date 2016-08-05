@@ -1,0 +1,23 @@
+<%= form_for  @content, :url => { :action => "update", :id => @content.id } do |content| %>
+  <table class="form_table">
+    <tbody>
+      <tr>
+        <td>Title:</td>
+        <td><%= content.text_field :slug %></td>
+      </tr>
+      <tr>
+        <td>Is Terms of Services? :</td>
+        <td><%= content.check_box :is_tos %></td>
+      </tr>
+
+      <tr>
+        <td></td>
+        <td><%= content.text_area :html, :class => "tinymce", :cols => 70, :rows => 30 %></td>
+      </tr>
+      <tr>
+        <td colspan="4"><br><%= submit_tag "Update",:id => "save_content", :class => "btn" %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+<%= tinymce %>

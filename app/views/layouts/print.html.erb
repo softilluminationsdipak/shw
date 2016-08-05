@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title><%=$installation.name%> - Customer ID: <%=@customer.id%></title>
+		<style type="text/css">
+			table tr td.label {
+				text-align: right;
+			}
+		</style>
+	</head>
+	<body onload="window.print();">
+		<%=yield%>
+		<%= google_analytics_js %>
+	</body>
+</html>

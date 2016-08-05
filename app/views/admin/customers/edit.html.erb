@@ -1,0 +1,1266 @@
+<% content_for :js_date_picker do %>
+  <%= stylesheet_link_tag 'jsDatePick_ltr.min' %>
+  <%= javascript_include_tag 'jsDatePick.min.1.3' %>
+<% end %>
+
+<script>
+	jQuery(document).ready(function(){
+		jQuery("#notenotabletype").change(function(){ 
+			var note_type = jQuery("#notenotabletype").val();
+			jQuery.ajax({
+	  		type:'POST',
+	  		url:'/admin/notes/update_note_reference',
+	  		data:{type :note_type, customer_id: '<%= @customer.id %>' },
+	  		dataType:"script"
+	  	});
+		})
+	});
+
+
+window.addEvent('domready',function(){
+	new JsDatePick({
+			useMode:2,
+			target:"CallDateField_0",
+			dateFormat:"%d-%M-%Y"
+		});
+
+	new JsDatePick({
+			useMode:2,
+			target:"renewal_ends_at",
+			dateFormat:"%m/%d/%y",
+			selectedDate: {
+			  year: <%= (DateTime.now+1.year).year %>,
+			  month: <%= (DateTime.now+1.year).month %>,
+			  day: <%= (DateTime.now+1.year).day %>
+			}
+		});
+	new JsDatePick({
+			useMode:2,
+			target:"purchase_date",
+			dateFormat:"%m/%d/%Y"	
+		});
+
+});
+</script>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+    jQuery("#CIFormField_547 td input").attr('maxlength','2')
+	});
+</script>
+
+<% if current_account.customer? %>
+
+<h2>Update My Contact Information</h2>
+<%= form_for @customer, :url => { :action => 'update', :id => @customer.id } do |f| %>
+<%= fields_for :property, @property do |property| %>
+	<table class="form_table">
+		<tr>
+			<td class="label">First Name:</td>
+			<td><%=f.text_field :first_name %></td>
+		</tr>
+		<tr>
+			<td class="label">Last Name:</td>
+			<td><%=f.text_field :last_name %></td>
+		</tr>
+		<tr>
+			<td class="label">Email:</td>
+			<td><%=f.text_field :email%></td>
+		</tr>
+		<tr>
+			<td class="label">Address:</td>
+			<td><%=property.text_field :address, :readonly => "true" %></td>
+		</tr>
+		<tr>
+			<td class="label">City:</td>
+			<td><%=property.text_field :city, :readonly => "true" %></td>
+		</tr>
+		<tr>
+			<td class="label">State:</td>
+			<td><%=property.text_field :state, :size => 2 , :readonly => "true" %></td>
+		</tr>
+		<tr>
+			<td class="label">Zip Code:</td>
+			<td><%=property.text_field :zip_code, :size => 5 , :readonly => "true" %></td>
+		</tr>
+		<tr>
+			<td class="label">Timezone:</td>
+			<td>
+				<% if @customer.account.present? && @customer.account.timezone.present? %>
+					<% tzone = @customer.account.timezone %>
+				<% else %>
+					<% tzone = -5 %>
+				<% end %>
+				<%= render :partial => 'admin/accounts/timezone_select_tag', :locals => { :timezone => tzone } %>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td><%=submit_tag "Save Information"%></td>
+		</tr>
+	</table>
+<% end %><% end %>
+
+<% else %>
+
+<% content_for :gmap_script do %>
+<script src="https://maps.google.com/maps?file=api&amp;v=2&amp;key=<%=$installation.credentials[:gmaps].html_safe%>" type="text/javascript"></script>
+<% end %>
+<% content_for :cip_scripts do %>
+<script type="text/javascript" src="/assets/contractor-map.js"></script>
+<% end %>
+
+<h2><%=h(@customer.name)%> &ndash; Customer ID: <%=@customer.id%>&nbsp;&nbsp;&nbsp;<a href="/admin/customers/edit/<%=@customer.id%>.print" target="_blank">Print Customer</a></h2>
+<script type="text/javascript">
+	$$('body')[0].addEvent('onunload', function() { GUnload(); });
+
+	var tabForWindowLocationHash = function() {
+		switch (window.location.hash.toString()) {
+			case '#properties': return 1;
+			case '#billing': 	return 2;
+			case '#notes': 		return 3;
+			case '#claims': 	return 4;
+			case '#faxes': 		return 5;
+		}
+		return 0;
+	};
+	
+	var pageData = {};
+	var pageDataRequest = new Request.JSON({
+		url: '/admin/customers/async_get_page_data/<%=@customer.id%>',
+		onSuccess: function(data, json) {
+			pageData = data;
+			if (pageData.customer.agent_id == null) pageData.customer.agent_id = '';
+			pageData.agentOptions['--'] = '';
+			
+			if (pageData.customer.cancellation_reason_id == null) pageData.customer.cancellation_reason_id = '';
+			pageData.cancelReasonOptions['--'] = '';
+			
+			if (pageData.customer.contract_status_id == null) pageData.customer.contract_status_id = '';
+			pageData.contractStatusOptions['--'] = '';
+			
+			if (pageData.customer.lead_status_id == null) pageData.customer.lead_status_id = '';
+			pageData.leadStatusOptions['--'] = '';
+
+			quicklyEmailLink.customer = pageData.customer;
+			customerInfoForm.populate(pageData.customer);
+			coverageInfoForm.populate(pageData.customer);
+			
+			if (pageData.customer.has_web_account) {
+				if (pageData.customer.last_login == null)
+					webAccountCurtainPanel.setLabel("This customer has a web account, but has <strong>no recorded login</strong>");
+				else
+					webAccountCurtainPanel.setLabel("Last logged in on <strong>" + pageData.customer.last_login + "</strong>");
+			}
+		}
+	});
+	
+	var customerInfoForm = new CIForm({
+		title: 'Customer Information',
+		submitLabel: 'Update Customer Info.',
+		post: '/admin/customers/async_update/<%=@customer.id%>',
+		fields: [
+			{ label: 'Contract:', type: 'label', property: 'contract_number' },
+			{ label: 'Sales Agent:', type: 'select', property: 'agent_id', name: 'customer[agent_id]', options: function() { return pageData.agentOptions } },
+			{ 
+				label: 'Customer Status:', property: 'status_id', type: 'select',
+				options: {<%= Customer.formatted_status_array.collect { |s,x| "'#{s}':#{x}" }.join(',').html_safe%>},
+				name: 'customer[status_id]',
+      },			
+			{ 
+				label: 'Contract Status:', property: 'contract_status_id', type: 'select',
+				options: function(){ return pageData.contractStatusOptions},
+				name: 'customer[contract_status_id]',
+      },			
+     
+			{ 
+				label: 'Lead Status:', property: 'lead_status_id', type: 'select',
+				options: function(){ return pageData.leadStatusOptions},
+				name: 'customer[lead_status_id]',
+      },			
+
+			{ label: 'Added:', type: 'label', property: 'added' },
+			{ label: 'Last Updated:', type: 'label', property: 'last_updated_info' },
+			{ label: 'Updated By:', property: 'update_by', type: 'label' },
+			{ label: 'First Name:', property: 'first_name', name: 'customer[first_name]' },
+			{ label: 'Last Name:', property: 'last_name', name: 'customer[last_name]' },
+			{
+				label: 'Email:',
+				property: 'email',
+				name: 'customer[email]',
+				noteAfterField: '<span id="quicklyEmailSpan"></span>'
+			},
+			{ label: 'Main Phone:', property: 'phone', name: 'customer[customer_phone]' },
+			{ label: 'Mobile Phone:', property: 'mobile_phone', name: 'customer[mobile_phone]' },
+			{ label: 'Work Phone:', property: 'work_phone', name: 'customer[work_phone]' },
+      { label: 'Call Back Date:', property: 'call_back_on', name: 'customer[call_back_on]',idval: 'CallDateField_0' },
+      {
+				label: 'Referred From:', property: 'from', name: 'customer[from]', size: 25, readonly: true
+			},
+			 {
+				label: 'Cancel Reason:', property: 'cancellation_reason_id', type: 'select',
+				options: function() { return pageData.cancelReasonOptions },
+				name: 'customer[cancellation_reason_id]'
+			}
+		]
+	});
+	
+	var webAccountCurtainPanel = new CICurtainPanel({
+		label: 'This customer does <strong>not</strong> have a web account',
+		cssStyles: { 'margin-left': 107, 'margin-top': 10 },
+		contentStyles: { 'text-align': 'center' },
+		openState: 'reveal',
+		content: new CIVPanel([
+			
+			<% unless @customer.account.present? %>
+			new CILink({
+				label: 'Grant Web Acct.',
+				post: {
+					url: '/admin/accounts/async_grant_web_account/<%=@customer.id%>',
+					paramsFn: {
+						email_template_name: 'Grant_Web_Access',
+						object_type: 'Customer'
+					}
+				},
+				Clicked: function() { this.setLabel('Granting...'); },
+				PostedData: function(response) {
+					CISheet.alert('Grant Web Account', response.text);
+					this.setLabel('Grant Web Acct.');
+					pageDataRequest.get(CIApplication.baseParams);
+				}
+			}),
+			<% end %>
+			new CIElement('br'),
+			new CILink({
+				label: 'Reset Password',
+				post: {
+					url: '/admin/accounts/async_reset_password/<%=@customer.id%>',
+					paramsFn: { object_type: 'Customer' }
+				},
+				PostedData: function(response) { CISheet.alert('Password Reset', response.text); }
+			})
+		])
+	});
+	
+	var coverageInfoForm = new CIForm({
+		title: 'Coverage Information',
+		submitLabel: 'Update Coverage Info.',
+		post: '/admin/customers/async_update/<%=@customer.id%>',
+		
+		labelStyles: { width: 250 },
+		fields: [
+			{ label: 'Contract PDF:', type: 'label', noteBeforeField: '<%=(link_to 'Download', contract_pdf_url(:id => @customer.contract_number.delete('#')), :target => "_blank", :method => "GET")%>'},
+			{ label: 'E-signature:', type: 'label', property: 'esigned' },
+			{ label: 'List Price:', type: 'label', property: 'list_price' },
+			{ label: 'Policy Signed:', type: 'checkbox', name: 'customer[policy_signed]', property: 'policy_signed' },
+			{
+				label: 'Home:', type: 'select', property: 'home_type',
+				name: 'customer[home_type]', options: {
+					'Unspecified':   '', 		
+					'Single-Family': 'single',
+					'Condominium':   'condo',
+					'Duplex':        'duplex',
+					'Triplex':       'triplex',
+					'Fourplex':      'fourplex' 
+				}
+			},{
+				label: 'Size:', type: 'select', property: 'home_size_code', name: 'customer[home_size_code]',
+				options: <%=Customer.home_size_options.html_safe%>
+			},{
+				label: 'Package:', type: 'select', property: 'coverage_type',
+				name: 'customer[coverage_type]', options: function() { return pageData.packageOptions; }
+			},
+			<% @coverage_options.each do |cvg| %>
+			{ label: "<%= cvg if cvg.present? %>", type: 'checkbox', name: 'customer[coverages][<%=cvg.id if cvg.present? %>]', property: 'coverage_<%= cvg.id if cvg.present? %>' },
+			<% end %>
+			null
+		]
+	});
+	coverageInfoForm.addEvent(CIEvent.PostedData, function() { pageDataRequest.get(CIApplication.baseParams); });
+	
+	var propertiesTable = new CITable({
+		title: new CITitle({
+			title: 'Properties',
+			style: CITitle.OnlyBottomBorderStyle
+		}),
+		get: '/admin/properties/async_get_for_customer/<%=@customer.id%>',
+		post: {
+			url: '/admin/properties/async_update/',
+			paramsFn: function(record) { return { id: record.id } }
+		},
+		columns: [
+			new CIColumn({ header: 'Address', property: 'address', editor: { name: 'property[address]' } }),
+			new CIColumn({ header: 'City', property: 'city', width: 100, editor: { name: 'property[city]' } }),
+			new CIColumn({ header: 'State', property: 'state', width: 50, editor: { name: 'property[state]', maxlength: 2 } }),
+			new CIColumn({ header: 'Zip Code', property: 'zip_code', width: 70, editor: { name: 'property[zip_code]' } })
+		] // columns
+	});
+	var addPropertyForm = new CIForm({
+		title: 'Add Property',
+		post: {
+			url: '/admin/properties/async_create',
+			paramsFn: {
+				'property[addressable_id]': <%=@customer.id%>,
+				'property[addressable_type]': 'Customer',
+				'property[address_type]': 'Property'
+			}
+		},
+		submitLabel: 'Add Property',
+		fields: [
+			{ label: 'Address:', name: 'property[address]' },
+			{ label: 'City:', name: 'property[city]' },
+			{ label: 'State:', name: 'property[state]', size: 2, maxlength: 2 },
+			{ label: 'Zip Code:', name: 'property[zip_code]', size: 5 }
+		],
+		PostedData: function() {
+			addPropertyForm.clear(); propertiesTable.getData();
+		}
+	});
+	
+	<% if current_account.can_crud_credit_cards %>
+	
+	var creditCardsTable = new CITable({
+		title: new CITitle({
+			title: 'Credit Cards',
+			style: CITitle.OnlyBottomBorderStyle,
+			content: [
+				new CIImageLink({
+					src: '/assets/icons/action/add.png',
+					alt: 'Add a Credit Card',
+					Clicked: function() { creditCardsTable.postRecord(); }
+				}),
+				new CIImageLink({
+					src: '/assets/icons/action/reload.png',
+					alt: 'Reload Credit Cards',
+					Clicked: function() { creditCardsTable.getData(); }
+				})
+			]
+		}),
+		hideHeader: true,
+		getAfterResourceChange: true,
+		get: '/admin/credit_cards/list_for_customer/<%=@customer.id%>',
+		post: '/admin/credit_cards/add_for_customer/<%=@customer.id%>',
+		'delete': { url: function(card){ return '/admin/credit_cards/destroy/' + card.id; } },
+		deletePrompt: "Are you sure you want to permanently delete this credit card?<br/><br/>This operation cannot be undone.",
+		columns: [
+		new CIColumn({
+			property: 'id',
+			cssStyles: { 'vertical-align': 'top' },
+			renderer: function(id, card) {
+				return new CIVPanel({
+				//	padding: 3,
+					content: [
+						new CIText("<strong>Last 4: {last_4}&nbsp;&nbsp;&nbsp;Exp: {month}/{year}</strong><br/>{address1}<br/>{city}, {state} {zip}".substitute(card)),
+						new CIButton({
+							label: 'Auth Bill',
+							cssStyles: { CIFirmWidth: 30 },
+							Clicked: function() {
+								var billButton = new CIButton({
+									label: "Bill",
+									post: {
+										url: '/admin/credit_cards/bill',
+										params: function() { return { id: id, amount: amountField.getValue() }; }
+									},
+									Clicked: function() { this.setLabel("Billing...").disable(); },
+									PostedData: function(response, json) {
+										if (!response || (response && response.response_code.toInt() != 1)) {
+										// (!response || (response && response['success'] == 'false')) {
+											billButton.enable().setLabel('Bill');
+											CISheet.alert('Charge Failed', card.first_name + ' ' + card.last_name + ' could not be charged ${amount} because:<br/><strong>{reason}</strong><br/><br/>You must wait 2 minutes before retrying.'.substitute({
+												amount: amountField.getValue(),
+												//reason: response.response_reason_text
+												reason: response['response_reason_text']
+											}));
+										} else {
+											sheet.hide();
+											CISheet.alert('Charge Successful', card.first_name + ' ' + card.last_name + ' was successfully charged $' + amountField.getValue() + '. The charge will show in Transactions soon.');
+											transactionsTable.getData.bind(transactionsTable).delay(5000);
+										}
+									}
+								});
+								var amountField = new CIFormField({
+									label: 'Amount:',
+									noteBeforeField: '$',
+									size: 5
+								});
+								var sheet = new CISheet({
+									cssStyles: { CIFirmWidth: 300 },
+									title: 'Bill Customer',
+									buttons: {
+										'default': billButton,
+										other	 : { label: 'Cancel' }
+									},
+									content: new CIVPanel([
+										new CIText("If the charge does not succeed, the customer will be emailed the <strong>Billing</strong> template."),
+										$E('br'),
+										new CIForm({
+											hideSubmitButton: true,
+											fields: [
+												{ label: 'Card:', value: '************' + card.last_4, type: 'label' },
+												amountField
+											]
+										})
+									]),
+									Shown: function() { amountField.giveFocus(); }
+								});
+								sheet.show();
+							}
+						})
+						// new CIButton({
+						// 	label: 'NMI Bill (Manual)',
+						// 	cssStyles: { CIFirmWidth: 30 },
+						// 	Clicked: function() {
+						// 		var billButton = new CIButton({
+						// 			label: "Bill",
+						// 			post: {
+						// 				url: '/admin/subscriptions/bill_manual_nmi',
+						// 				params: function() { return { id: id, amount: amountField.getValue() }; }
+						// 			},
+						// 			Clicked: function() { this.setLabel("Billing...").disable(); },
+						// 			PostedData: function(response, json) {
+						// 				if (!response || (response && response['response'].toInt() != 1)) {
+						// 					billButton.enable().setLabel('Bill');
+						// 					CISheet.alert('Charge Failed', card.first_name + ' ' + card.last_name + ' could not be charged ${amount} because:<br/><strong>{reason}</strong><br/><br/>You must wait 2 minutes before retrying.'.substitute({
+						// 						amount: amountField.getValue(),
+						// 						reason: response['responsetext']
+						// 					}));
+						// 				} else {
+						// 					sheet.hide();
+						// 					CISheet.alert('Charge Successful', card.first_name + ' ' + card.last_name + ' was successfully charged $' + amountField.getValue() + '. The charge will show in Transactions soon.');
+						// 					transactionsTable.getData.bind(transactionsTable).delay(5000);
+						// 					subscriptionsTable.getData.bind(subscriptionsTable).delay(5000);
+						// 				}
+						// 			}
+						// 		});
+						// 		var amountField = new CIFormField({
+						// 			label: 'Amount:',
+						// 			noteBeforeField: '$',
+						// 			size: 5
+						// 		});
+						// 		var sheet = new CISheet({
+						// 			cssStyles: { CIFirmWidth: 300 },
+						// 			title: 'Bill Customer',
+						// 			buttons: {
+						// 				'default': billButton,
+						// 				other	 : { label: 'Cancel' }
+						// 			},
+						// 			content: new CIVPanel([
+						// 				new CIText("If the charge does not succeed, the customer will be emailed the <strong>Billing</strong> template."),
+						// 				$E('br'),
+						// 				new CIForm({
+						// 					hideSubmitButton: true,
+						// 					fields: [
+						// 						{ label: 'Card:', value: '************' + card.last_4, type: 'label' },
+						// 						amountField
+						// 					]
+						// 				})
+						// 			]),
+						// 			Shown: function() { amountField.giveFocus(); }
+						// 		});
+						// 		sheet.show();
+						// 	}
+						// }),
+						// new CIButton({
+						// 	label: 'NMI Bill (Subscription)',
+						// 	Clicked: function() {
+						// 		var billButton = new CIButton({
+						// 			label: "Submit",
+						// 			post: {
+						// 				url: '/admin/subscriptions/bill_subscription_nmi',
+						// 				params: function() { return { id: id, amount: amountField.getValue(), interval: intervalField.getValue(), period: periodField.getValue(), start_date: startDate.getValue(), end_date: endDate.getValue(), occurances: occuranceField.getValue(), no_end_date: no_end_date_field.getValue()}; }
+						// 			},
+						// 			Clicked: function() { this.setLabel("Billing...").disable(); },
+						// 			PostedData: function(response, json) {
+						// 				if (!response || (response && response['response'].toInt() != 1)) {
+						// 					billButton.enable().setLabel('Submit');
+						// 					CISheet.alert('Charge Failed', card.first_name + ' ' + card.last_name + ' could not be charged ${amount} because:<br/><strong>{reason}</strong><br/><br/>You must wait 2 minutes before retrying.'.substitute({
+						// 						amount: amountField.getValue(),
+						// 						reason: response['responsetext']
+						// 					}));
+						// 				} else {
+						// 					sheet.hide();
+						// 					CISheet.alert('Charge Successful', card.first_name + ' ' + card.last_name + ' was successfully charged $' + amountField.getValue() + '. The charge will show in Transactions soon.');
+						// 					transactionsTable.getData.bind(transactionsTable).delay(5000);
+						// 					subscriptionsTable.getData.bind(subscriptionsTable).delay(5000);
+						// 				}
+						// 			}
+						// 		});
+						// 		var amountField = new CIFormField({
+						// 			label: 'Amount:',
+						// 			noteBeforeField: '', 
+						// 			size: 5,
+						// 		});
+						// 		var startDate = new CIFormField({
+						// 			label: 'StartDate:', 
+						// 			property: 'start_date', name: 'start_date', 
+						// 			size: 10, type: 'datepicker'
+						// 		});
+
+						// 		var endDate = new CIFormField({
+						// 			label: 'EndDate', property: 'end_date', name: 'end_date', size: 10, maxlength: 10, type: 'datepicker'
+						// 		});
+						// 		var no_end_date_field = new CIFormField({
+						// 			label: 'No End Date', property: 'no_end_date', name: 'no_end_date', type: 'checkbox'
+						// 		});
+						// 		var occuranceField = new CIFormField({
+						// 			label: 'Occurance',
+						// 			noteBeforeField: '',
+						// 			property: 'occurances',
+						// 			name: 'occurances',
+						// 			size: 3, maxlength: 3
+						// 		});
+						// 		var intervalField = new CIFormField({
+						// 			label: 'Interval:',
+						// 			property: 'interval', 
+						// 			name: 'interval', 
+						// 			size: 3, maxlength: 3
+						// 		});
+						// 		var periodField = new CIFormField({ 
+						// 			label: 'period:',
+						// 			name: 'period', 
+						// 			type: 'select', 
+						// 			options: {
+						// 				'Day': 'Day', 
+						// 				'Week': 'Week', 
+						// 				'Month': 'Month', 
+						// 				'Year': 'Year'
+						// 			}
+						// 		});
+
+						// 		var sheet = new CISheet({
+						// 			cssStyles: { CIFirmWidth: 300 },
+						// 			title: 'Bill Customer',
+						// 			buttons: {
+						// 				'default': billButton,
+						// 				other	 : { label: 'Cancel' }
+						// 			},
+						// 			content: new CIVPanel([
+						// 				new CIText("If the charge does not succeed, the customer will be emailed the <strong>Billing</strong> template."),
+						// 				$E('br'),
+						// 				new CIForm({
+						// 					hideSubmitButton: true,
+						// 					fields: [
+						// 						{ label: 'Card:', value: '************' + card.last_4, type: 'label' },
+						// 						amountField,
+						// 						startDate,
+						// 						endDate,
+						// 						no_end_date_field,
+						// 						intervalField,
+						// 						periodField,
+						// 						occuranceField
+						// 					]
+						// 				})
+						// 			]),
+						// 			Shown: function() { amountField.giveFocus(); }
+						// 		});
+						// 		sheet.show();
+						// 	}
+						// })
+					]
+				});
+			}
+		}),
+		new CIColumn({
+			property: 'id', width: 20,
+			cssStyles: { 'vertical-align': 'top' },
+			renderer: function(id, card) {
+				var editButton = new CIImageLink({
+					src: '/assets/icons/action/edit.png',
+					alt: 'Edit this Credit Card',
+					Clicked: function() {
+						var form = new CIForm({
+							post: '/admin/credit_cards/update/' + id,
+							fields: [
+								{ label: 'Number:', property: 'number', name: 'card[number]' },
+								{ label: 'CVV:', property: 'cvv', name: 'card[cvv]', maxlength: 4 },
+								{ label: 'Exp. Date.:', property: 'exp_date', name: 'card[exp_date]', size: 7 },
+								{ label: 'First Name:', property: 'first_name', name: 'card[first_name]' },
+								{ label: 'Last Name:', property: 'last_name', name: 'card[last_name]' },
+								{ label: 'Address:', property: 'address1', name: 'address[address]' },
+								{ label: 'City:', property: 'city', name: 'address[city]', size: 15 },
+								{ label: 'State:', property: 'state', size: 2, name: 'address[state]' },
+								{ label: 'Zip Code:', property: 'zip', size: 5, name: 'address[zip_code]' }
+							],
+							submitLabel: 'Update Credit Card',
+							PostedData: function(response, json) {
+								creditCardsTable.getData();
+								hud.hide();
+							}
+						});
+						var hud = new CIHud({
+							title: 'Update Credit Card',
+							content: form,
+							offset: { from: editButton.element() },
+							Shown: function() { form.use(card); }
+						});
+						hud.show();
+					}
+				});
+				return new CIVPanel({
+					padding: 3,
+					content: [
+						editButton,
+						new CIImageLink({
+							src: '/assets/icons/action/delete.png',
+							alt: 'Delete this Credit Card',
+							Clicked: function() { creditCardsTable.deleteRecord(card); }
+						})
+					]
+				});
+			}
+		})]
+	});
+	
+	<% end %>
+	
+	var billingAddressForm = new CIForm({
+		title: 'Billing Address',
+		submitLabel: 'Update Address',
+		cssStyles: { CIFirmWidth: 300 },
+		labelStyles: { width: 135 },
+		get: '/admin/customers/async_get_billing_address/<%=@customer.id%>',
+		post: '/admin/customers/async_update_billing_address/<%=@customer.id%>',
+		fields: [
+			{ label: 'Address:', property: 'address', name: 'billing[address]' },
+			{ label: 'City:', property: 'city', name: 'billing[city]' },
+			{ label: 'State:', property: 'state', name: 'billing[state]', size: 2 },
+			{ label: 'Zip Code:', property: 'zip_code', name: 'billing[zip_code]', size: 5 }
+		]
+	});
+	
+	var billingInfoForm = new CIForm({
+		title: 'Billing Info',
+		submitLabel: 'Update Info',
+		get: '/admin/customers/async_get_billing_info/<%=@customer.id%>',
+		post: '/admin/customers/async_update/<%=@customer.id%>',
+		cssStyles: { CIFirmWidth: 300 },
+		labelStyles: { width: 135 },
+		fields: [
+			//{ label: '', type: 'label', noteBeforeField: '<a href="/admin/customers/nmi_payment/<%=@customer.id%>">NMI Payment</a>'},
+			{ label: 'No. Payments:', property: 'num_payments', name: 'customer[num_payments]', size: 4 },
+			{ 
+				label: 'Amt. Per Payment:', property: 'pay_amount', name: 'customer[pay_amount]',
+				size: 6, noteBeforeField: '$' },
+			{ label: 'Total Paid:', property: 'total_paid', type: 'label', noteBeforeField: '$' },
+			{ label: 'Discount:', property: 'discount', type: 'label' },
+			
+		//	<%# if current_account.role == "admin" %>
+		//		{	label: 'Credit Card No:', property: 'credit_card_number', size: 16, type: 'text', name: 'customer[credit_card_number]' },
+		//	<%# else %>
+		//			 {	label: 'Credit Card No:', property: 'credit_card_number', size: 16, type: 'text', name: 'customer[credit_card_number]' },
+			//<%# end %>
+
+			
+
+		//	{ label: 'Exp. Date:', property: 'expirationDate', name: 'customer[expirationDate]', size: 6 },
+		//	{ label: 'Subscription ID:', property: 'subscription_id', name: 'customer[subscription_id]', size: 8 }
+		],
+		PostedData: function() { billingInfoForm.getData(); }
+	});
+	
+	var contractOverridesForm = new CIForm({
+		title: 'Contract Overrides',
+		labelStyles: { CIFirmWidth: 160 },
+		submitLabel: 'Update Overrides',
+		get: '/admin/customers/async_get_overrides/<%=@customer.id%>',
+		post: '/admin/customers/async_update/<%=@customer.id%>',
+		fields: [
+			{ label: 'Contract PDF:', type: 'label', noteBeforeField: '<a href="/admin/customers/contract/<%=@customer.id%>">Download</a>'},
+			{ label: 'Purchase Date:', name: 'customer[purchase_date]', noteAfterField: 'as MM/DD/YYYY', size: 10, idval: 'purchase_date', property: 'purchase_date', readonly: true },
+			{
+				label: 'Months Free', size: 2, name: 'customer[month_fee]', property: 'month_fee'
+			},{
+				label: 'Year:', type: 'select', property: 'year',
+				name: 'customer[year]', options: {
+					'--':   '0', 		
+					'1 Year': '1',
+					'2 Years': '2',
+					'3 Years': '3',
+					'4 Years': '4',
+					'5 Years': '5' 
+				}
+			},{
+				label: 'Service Fee Text:', size: 10, noteAfterField: 'Default is &ldquo;sixty&rdquo;',
+				name: 'customer[service_fee_text_override]', property: 'service_fee_text_override'
+			},{
+				label: 'Service Call Charge:', noteBeforeField: '', size: 3, noteAfterField: 'Default is &ldquo;60&rdquo;',
+				name: 'customer[service_fee_amt_override]', property: 'service_fee_amt_override'
+			},{
+				label: 'Wait Period Text:', size: 10, noteAfterField: 'Default is &ldquo;thirty&rdquo;',
+				name: 'customer[wait_period_text_override]', property: 'wait_period_text_override'
+			},{
+				label: 'Wait Period Days:', size: 3, noteAfterField: 'Default is &ldquo;30&rdquo;',
+				name: 'customer[wait_period_days_override]', property: 'wait_period_days_override'
+			},
+			// {
+			// 	label: '# Payments:', size: 3,
+			// 	name: 'customer[num_payments_override]', property: 'num_payments_override'
+			// },
+			// {
+			// 	label: '# Payments:', size: 3,
+			// 	name: 'customer[num_payments_override]', property: 'num_payments_override'
+			// },
+
+			{
+				label: 'Payment Schedule:', type: 'select', options: <%=@customer.payment_schedule_options_json.html_safe%>,
+				name: 'customer[payment_schedule_override]', property: 'payment_schedule_override'
+			},{
+				label: 'Notes:', type: 'textarea',  maxlength: 5, rows: 6, cols: 90,
+				name: 'customer[notes_override]', property: 'notes_override', maxlength: 290
+			}
+		]
+	});
+	
+	// Renewal form section
+
+  /*
+  // ----- original form
+	var addRenewalForm  = new CIForm({
+		title: 'Add Contract Renewal',
+		submitLabel: 'Add Renewal',
+		post: '/admin/renewals/async_create_for_customer/<%=@customer.id%>',
+		labelStyles: { CIFirmWidth: 160 },
+		fields: [
+			{ label: 'From:', name: 'renewal[starts_at]', noteAfterField: 'as MM/DD/YYYY', size: 10 },
+			{ label: 'To:', name: 'renewal[ends_at]', noteAfterField: 'as MM/DD/YYYY', size: 10 },
+			{ label: 'Years:', name: 'renewal[years]', type: 'select', options: {
+				'Specify Dates': 0, '1 Year': 1, '2 Years': 2, '3 Years': 3, '4 Years': 4, '5 Years': 5
+			}},
+			{ label: 'Amount:', name: 'renewal[amount]', noteBeforeField: '$', size: 4 }
+		],
+		PostedData: function() { this.clear(); renewalsTable.getData(); }
+	});
+  */
+	
+	var addRenewalForm  = new CIForm({
+		title: 'Input Renewal Date',
+		submitLabel: 'Add Renewal Date',
+		post: '/admin/renewals/async_create_for_customer/<%=@customer.id%>',
+		labelStyles: { CIFirmWidth: 160 },
+		fields: [
+			{ label: 'Renewal Ends At:', name: 'renewal[ends_at]', noteAfterField: 'as MM/DD/YYYY', size: 10, idval: 'renewal_ends_at', readonly: true },
+		],
+		PostedData: function() { this.clear(); renewalsTable.getData(); }
+	});
+
+	var removeLastRenewalForm  = new CIForm({
+		submitLabel: 'Remove renewal',
+		labelStyles: { CIFirmWidth: 160 },
+		post: '/admin/renewals/async_remove_for_customer/<%=@customer.id%>',
+		fields: [],
+		PostedData: function() { this.clear(); renewalsTable.getData(); }
+	});
+		
+	// renewalsTable is removed from navPanel
+	// between  [addRenewalForm, contractOverridesForm]
+	
+	/*
+	// original renewals table
+	var renewalsTable = new CITable({
+		title: new CITitle({
+			title: 'Contract Renewals',
+			style: CITitle.OnlyBottomBorderStyle,
+			content: new CIImageLink({
+				src: '/assets/icons/action/reload.png',
+				alt: 'Reload Renewals',
+				Clicked: function() { renewalsTable.getData(); }
+			})
+		}),
+		get: '/admin/renewals/async_get_for_customer/<%=@customer.id%>',
+		columns: [
+			new CIColumn({ header: 'Duration', property: 'formatted_duration'}),
+			new CIColumn({ header: 'From', property: 'starts', width: 100 }),
+			new CIColumn({ header: 'To', property: 'ends', width: 100 }),
+			new CIColumn({ header: 'Amount', property: 'formatted_amount', width:75 })
+		]
+	});
+	*/
+
+	var renewalsTable = new CITable({
+		title: new CITitle({
+			title: 'Contract Renewals',
+			style: CITitle.OnlyBottomBorderStyle,
+		}),
+		cssStyles: { 'margin-left': 157, CIFirmWidth: 220 },
+		hideHeader: true,
+		get: '/admin/renewals/async_get_for_customer/<%=@customer.id%>',
+		columns: [
+			new CIColumn({ property: 'ends', width: 100 }),
+		]
+	});
+	
+	// Renewal form section end.
+	
+	var transactionsTable = new CITable({
+		get: '/admin/transactions/async_get_for_customer/<%=@customer.id%>',
+		title: new CITitle({
+			title: 'Transactions',
+			alt: 'Reload Transactions',
+			style: CITitle.OnlyBottomBorderStyle,
+			content: new CIImageLink({
+				src: '/assets/icons/action/reload.png',
+				Clicked: function() { transactionsTable.getData(); }
+			})
+		}),
+		columns: [
+			new CIColumn({ header: 'Date',   property: 'date', width: 130 }),
+			new CIColumn({ header: 'Merchant Name', property: 'merchant_nickname', width: 75 }),
+			new CIColumn({ 
+			 	header: 'Result', property: 'result', width: 75,
+			 	renderer: function(id, transaction, data, td, tr, table) {
+			 		if (transaction.result == 'Approved') tr.addClass('activeSubscription');
+			 		if (transaction.result != 'Approved') tr.addClass('inactiveSubscription');
+			 		return transaction.result;
+			 	}
+			}),			
+			new CIColumn({ header: 'Amount', property: 'amount', width: 75 }),
+			// new CIColumn({ header: 'Payment Type', property: 'payment_type', width: 75 })
+			// new CIColumn({ header: 'Refund', property: 'refund', width: 75 }),
+			// new CIColumn({
+			// 	header: 'Refund', property: 'refund', width: 75,
+			// 	renderer: function(id, transaction) {
+			// 		if(transaction.result == 'Approved'){
+			// 			return "<a data-toggle='modal'  backdrop='static' data-keyboard='false' href='#refund_{id}'>Refund</a>".substitute(transaction);
+			// 		}
+			// 	}
+			// })			
+		]
+	});
+	
+	var subscriptionsTable = new CITable({
+		get: '/admin/subscriptions/async_get_for_customer/<%=@customer.id%>',
+		title: new CITitle({
+			title: 'Subscription',
+			alt: 'Reload Subscription',
+			style: CITitle.OnlyBottomBorderStyle,
+			content: new CIImageLink({
+				src: '/assets/icons/action/reload.png',
+				Clicked: function() { subscriptionsTable.getData(); }
+			})
+		}),
+		getAfterResourceChange: true,
+		columns: [
+			new CIColumn({ header: 'Credit Card',   property: 'credit_card', width: 60 }),
+			new CIColumn({ header: 'Start Date', property: 'start_date', width: 50 }),
+			new CIColumn({ header: 'End Date', property: 'end_date', width: 50 }),
+			new CIColumn({ header: 'Amount', property: 'amount', width: 50 }),
+			// new CIColumn({ header: 'Interval', property: 'my_interval', width: 50 })
+			// new CIColumn({ 
+			//  	header: 'Status', property: 'status', width: 50,
+			//  	renderer: function(id, subscription, data, td, tr, table) {
+			//  		if (subscription.isActiveSubscription == true) tr.addClass('activeSubscription');
+			//  		if (subscription.isCancelSubscription == true) tr.addClass('inactiveSubscription');
+			//  		return subscription.status;
+			//  	}
+			//  }),
+			// new CIColumn({
+			// 	header: 'Cancel Sub.', property: 'subscription_id', width: 60,
+			// 	renderer: function(id, subscription) {
+			// 		if(subscription.status == 'Approved' && subscription.is_cancel_subscription == false){
+			// 			return "<a href='/admin/subscriptions/del_subscription/{id}'>Cancel Sub.</a>".substitute(subscription)
+			// 		}else{ return '' }
+			// 	}
+			// }),
+		]
+	});
+
+	var notesTable = new CITable({
+		title: new CITitle({
+			title: 'Notes',
+			style: CITitle.OnlyBottomBorderStyle
+		}),
+		noDataText: "This customer has no notes.",
+		get: '/admin/notes/async_get_for_customer/<%=@customer.id%>',
+		post: {
+			url: '/admin/notes/async_update/',
+			paramsFn: function(record) { return { id: record.id } }
+		},
+		columns: [
+			new CIColumn({ header: 'Agent', property: 'agent_name', width: 100 }),
+			new CIColumn({ header: 'Date', property: 'date', width: 130 }),
+//			new CIColumn({ header: 'Type', property: 'ntype', width: 130 }),
+	//		new CIColumn({ header: 'REFERENCE', property: 'nref', width: 130 }),
+			new CIColumn({
+				header: 'Note', property: 'text',
+				editor: {
+					type: 'textarea',
+					name: 'note[note_text]'
+				},
+				dontEncodeEntityChars: true
+			})
+		],
+		PostedData: function() { notesTable.getData(); }
+	});
+	
+	var addNoteForm = new CIForm({
+		title: 'Add Note',
+		post: {
+			url: '/admin/notes/async_create',
+			paramsFn: { 'note[customer_id]': <%=@customer.id%> }
+		},
+		submitLabel: 'Add Note',
+		labelStyles: { 'vertical-align': 'top' },
+		fields: [
+			{ label: 'Note Text:', type: 'textarea', name: 'note[note_text]', rows: 6, cols: 40 },
+		/*	{
+				label: 'Type:', type: 'select', property: 'notable_type',
+				name: 'note[notable_type]', options: {
+					'Claim': 						'claim',
+					'Customer Service': 'customer_service',
+					'Billing':        	'billing'
+				}
+			},
+			{
+				label: 'Reference:', type: 'select', property: 'notable_id',
+				name: 'note[notable_id]', options: {<%= @customer.notes_claim_ids.collect { |s,x| "'#{s}':#{x}" }.join(',').html_safe%>}
+			} */
+		],
+		PostedData: function() { addNoteForm.clear(); notesTable.getData(); }
+	});
+	
+	var claimsTable = new CITable({
+		title: new CITitle({
+			title: 'Claims &amp; Repairs',
+			style: CITitle.OnlyBottomBorderStyle,
+			content: new CIImageLink({
+				src: '/assets/icons/action/reload.png',
+				alt: 'Reload Claims',
+				Clicked: function() { claimsTable.getData(); }
+			})
+		}),
+		noDataText: "This customer has no claims.",
+		get: '/admin/claims/async_get_for_customer/<%=@customer.id%>',
+		doNotSetDataAfterGet: true,
+		GotData: function(data, json) {
+			pageData.propertiesOptions = data.properties_options;
+			claimsTable.setCollection(data.claims);
+			addClaimForm.populate(); // Force the property field to re-render
+		},
+		post: {
+			url: '/admin/claims/async_update_claim_or_repair/',
+			paramsFn: function(claim) { return { id: claim.id }; }
+		},
+		getAfterResourceChange: true,
+		columns: [
+			new CIColumn({
+				header: 'Info', property: 'id', width: 130,
+				renderer: function(id, claim) {
+					return "<a href='/admin/claims/edit/{id}'><img src='/assets/edit.png' title='Edit Claim'></a><br><strong>{claim_number}</strong><br/>{date}<br/>{agent_name}".substitute(claim);
+				}
+			}),
+			new CIColumn({
+				property: 'status_code', width: 25,
+				renderer: function(code, claim) {
+					return new CIImageLink({
+						src: '/assets/admin/claim_statuses/' + code + '_active.png',
+						alt: claim.status
+					});
+				},
+				editor: {
+					useRecordProperty: true,
+					type: 'select',
+					name: 'status_code',
+					options: <%=Claim.statuses_json.html_safe%>
+				}
+			}),
+			new CIColumn({ header: 'Claim', property: 'text' }),
+			new CIColumn({ header: 'Property', property: 'property' }),
+			new CIColumn({
+				header: 'SC Charge', width: 65, property: 'repair',
+				cssStyles: { 'text-align': 'center' },
+				renderer: function(repair, claim) { 
+					return repair ? repair.formattedServiceCharge : '$60.00';
+				},
+				editor: { name: 'repair[service_charge]', size: 7 }
+			}),
+			new CIColumn({
+				header:'Authorized Amount', width: 120,
+				cssStyles: { 'text-align': 'center' }, property: 'repair',
+				renderer: function(repair, claim) { 
+					return repair ? repair.formattedAmount : '$0.00';
+				},
+				editor: { name: 'repair[amount]', size: 7 }
+			}),
+			new CIColumn({
+				header: 'Contractor', property: 'repair', width: 175,
+				renderer: function(repair, claim) {
+					var html = 'No Contractor Assigned';
+ 					if (repair && repair.contractor) {
+						html = '<strong>{company}</strong><br/>Contractor #: {contractor_id} <br/> Tel: {phone}<br/>Fax: {fax}<br/> {email}'.substitute({
+							company: repair.contractor.company,
+							contractor_id: repair.contractor.id,
+							phone: repair.contractor.phone,
+							fax: repair.contractor.fax,
+              email: repair.contractor.email
+						});
+					}
+					var contents = [
+						new CIText({
+							cssStyles: { 'font-size': '8pt', 'margin-bottom': 3 },
+							html: html
+						}),
+						new CILink({
+							label: 'Assign Contractor...',
+							cssClass: 'CIHudLink',
+							Clicked: function() {
+								addRepairSheet.claim = claim;
+								addRepairSheet.show();
+							}
+						}),
+					];
+					if (repair && repair.contractor) {
+						contents.push($E('br'));
+						contents.push(new CIElement('a', {
+							href: '/admin/repairs/work_order/' + repair.id,
+							html: 'Download Work Order'
+						}));
+					}
+					return new CIVPanel(contents);
+				}
+			}),
+			new CIColumn({
+				header:'Invoice Receive', property: 'id', width: 125,
+				renderer: function(id, claim) {
+					return '<a id="invoicereceive_' + id +'" data-toggle="modal" href="#InvoiceReceive_' + id + '">' + claim.invoice_receive_or_edit + '</a>'
+				}
+			}),
+			new CIColumn({
+				header:'Invoice Status', property: 'id', width: 125,
+				renderer: function(id, claim) {
+					return '<a id="invoicestatus_' + id +'" data-toggle="modal" href="#InvoiceStatus_' + id + '">' + claim.invoice_status_or_edit + '</a>'
+				}
+			})
+		]
+	});
+	
+	var addClaimForm = new CIForm({
+		title: 'Add Claim',
+		post: {
+			url: '/admin/claims/async_create',
+			paramsFn: { 'claim[customer_id]': <%=@customer.id%> }
+		},
+
+		submitLabel: 'Add Claim',
+		labelStyles: { 'vertical-align': 'top' },
+		<% if @customer.properties.present? && @customer.properties.count >= 1 %>
+		fields: [
+			{ label: 'Claim Description ', type: 'textarea', name: 'claim[claim_text]', rows: 6, cols: 40 },{ 
+				label: 'Claim Type:', property: 'claim_type', type: 'select', name: 'claim[claim_type]',
+				options: { <%= @customer.claim_type_dropdown.uniq.collect { |s| "'#{s}' : '#{s}'" }.join(',').html_safe %> }
+			}
+		],
+		<% else %>
+			fields: [
+				{ label: 'Claim Description ', type: 'textarea', name: 'claim[claim_text]', rows: 6, cols: 40 },
+				{ label: '', type: 'label', noteBeforeField: 'Unable to save claim because no proeprties present yet.'}
+			],
+		<% end %>
+		PostedData: function() {
+			addClaimForm.clear();
+			claimsTable.getData();
+		}
+	});
+	
+	var faxesTable = CIApplication.generateFaxesTable({
+		title: 'Faxes', 
+		cannotRetrieve: true,
+		forResource: 'customer', 
+		resourceId: <%=@customer.id%>
+	});
+	// add paginator
+	faxesTable.toolbar.addItemToLeft(faxesTable.paginator);
+	
+	var navPanel = new CITabPanel({
+		subviews: {
+			Customer: 	new CIHPanel([
+				new CIVPanel([
+					customerInfoForm,
+					webAccountCurtainPanel
+				]),
+				new CIVPanel([
+					renewalsTable, 
+					addRenewalForm,
+					removeLastRenewalForm,
+					contractOverridesForm
+				]),
+				new CIVPanel([
+					coverageInfoForm
+				]),
+			]),
+			Properties: new CIVPanel([
+				propertiesTable,
+				addPropertyForm
+			]),
+			Billing: 	new CIHPanel([
+				<% if current_account.can_crud_credit_cards %>creditCardsTable,<% end %>
+				new CIVPanel({
+					//cssStyles: { CIFirmWidth: 5}
+					//content: [billingInfoForm, billingAddressForm ]
+					content: [billingInfoForm ]
+
+				}),
+				//new CIVPanel([subscriptionsTable, transactionsTable])
+				new CIVPanel([transactionsTable])
+			]),
+			Notes: 		new CIVPanel([notesTable, addNoteForm]),
+			'Claims &amp; Repairs': 	new CIVPanel([claimsTable, addClaimForm]),
+			Faxes: 		faxesTable
+		}
+	});
+	navPanel.addEvent(CIEvent.Selected, function() {
+		switch(this.selectedIndex) {
+		case 0:
+			pageDataRequest.get(CIApplication.baseParams);
+			renewalsTable.getData();
+			contractOverridesForm.getData();
+		break;
+		
+		case 1:
+			propertiesTable.getData();
+		break;
+		
+		case 2:
+			billingAddressForm.getData();
+			billingInfoForm.getData();
+			transactionsTable.getData();
+			subscriptionsTable.getData();
+			renewalsTable.getData();
+			<% if current_account.can_crud_credit_cards %>creditCardsTable.getData();<% end %>
+			contractOverridesForm.getData();
+		break;
+		
+		case 3:
+			notesTable.getData();
+		break;
+		
+		case 4:
+			claimsTable.getData();
+		break;
+		
+		case 5:
+			faxesTable.paginator.selectPage(1);
+		break;
+		}
+	});
+	
+	navPanel.element($('layout_content'));
+	navPanel.selectTab(tabForWindowLocationHash());
+	
+	var quicklyEmailLink = new CIImageLink({
+		src: '/assets/icons/mail_write.png',
+		alt: "Quickly Email",
+		Clicked: CIApplication.quicklyEmail
+	});
+	quicklyEmailLink.element('quicklyEmailSpan');
+</script>
+<% end %>
+<% if current_account.role == "admin" %>
+	<% @customer.claims.each do |claim| %>
+		<div class="modal hide" id="InvoiceReceive_<%= claim.id %>">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>Date Invoice Received</h3>
+			</div>
+			<%= form_tag "/admin/claims/update/#{claim.id}", :method => 'post', :remote => true do %>
+				<%= hidden_field_tag "page_from", "claim" %>		
+				<%= hidden_field_tag "customer_id", @customer.id %>		
+				<div class="modal-body">
+					<p>Invoice Receive : <%= text_field_tag :invoice_receive, claim.invoice_receive.present? ? claim.invoice_receive.strftime("%m/%d/%Y") : '', :class => "datepicker invoice_receive", :id => "invoice_receive_#{claim.id}", :require => false %> </p>
+				</div>
+				<div class="modal-footer">
+					<%= submit_tag "Save Changes", :name => nil, :class => "btn btn-primary" %>
+				</div>
+			<% end %>
+		</div>
+
+		<div class="modal hide" id="InvoiceStatus_<%= claim.id %>">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>Invoice Status</h3>
+			</div>
+			<%= form_tag "/admin/claims/update/#{claim.id}", :method => 'post', :remote => true do %>
+				<%= hidden_field_tag "page_from", "claim" %>		
+				<%= hidden_field_tag "customer_id", @customer.id %>		
+				<div class="modal-body">
+					<p>Invoice Status : 
+						<%= select_tag 'invoice_status', options_for_select(Claim::INVOICE_STATUS.collect{ |u| [u, u] }, params[:state]), {prompt: 'SELECT STATUS', :style => "width: 100%;"} %>
+					</p>
+				</div>
+				<div class="modal-footer">
+					 <%= submit_tag "Save Changes", :name => nil, :class => "btn btn-primary" %>
+				</div>
+			<% end %>
+		</div>
+	<% end %>
+<% end %>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script>
+  jQuery(function() {
+    jQuery(".datepicker").datepicker({ dateFormat: "mm/dd/yy" });
+  });
+</script>
+
+<% if current_account.role == "admin" %>
+	<% last_id = Claim.last.id %>
+	<% (last_id.to_i..(last_id + 5)).to_a.each do |claim| %>
+		<div class="modal hide" id="InvoiceReceive_<%= claim %>">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>Date Invoice Received</h3>
+			</div>
+			<%= form_tag "/admin/claims/update/#{claim}", :method => 'post', :remote => true do %>
+				<%= hidden_field_tag "page_from", "claim" %>		
+				<%= hidden_field_tag "customer_id", @customer.id %>		
+				<div class="modal-body">
+					<p>Invoice Receive : <%= text_field_tag :invoice_receive, params[:invoice_receive], :class => "datepicker invoice_receive", :id => "invoice_receive_#{claim}", :require => true %> </p>
+				</div>
+				<div class="modal-footer">
+					<%= submit_tag "Save Changes", :name => nil, :class => "btn btn-primary" %>
+				</div>
+			<% end %>
+		</div>
+
+		<div class="modal hide" id="InvoiceStatus_<%= claim %>">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>Invoice Status</h3>
+			</div>
+			<%= form_tag "/admin/claims/update/#{claim}", :method => 'post', :remote => true do %>
+				<%= hidden_field_tag "page_from", "claim" %>		
+				<%= hidden_field_tag "customer_id", @customer.id %>		
+				<div class="modal-body">
+					<p>Invoice Status : 
+						<%= select_tag 'invoice_status', options_for_select(Claim::INVOICE_STATUS.collect{ |u| [u, u] }, params[:state]), {prompt: 'SELECT STATUS', :style => "width: 100%;"} %>
+					</p>
+				</div>
+				<div class="modal-footer">
+					 <%= submit_tag "Save Changes", :name => nil, :class => "btn btn-primary" %>
+				</div>
+			<% end %>
+		</div>
+	<% end %>
+<% end %>
+<% if @customer.transactions.present? %>
+	<% @customer.transactions.each do |t| %>
+		<div class="modal hide" id="refund_<%= t.id %>" data-keyboard="false" data-backdrop="static">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>Refund for Transaction # <%= t.id %></h3>
+			</div>
+			<div class="modal-body">
+				<%= form_tag admin_subscription_refund_path(t.id), :method => 'post', :class => 'form-horizontal', :id => 'manual_billing_form' do %>
+					<%= hidden_field_tag "nmi_type", 'subscription' %>
+					<div class="control-group">
+		    		<label class="control-label" for="amount">Amount</label>
+		    		<div class="controls">
+		      		<%= text_field_tag 'amount', '', :placeholder => 'Amount' %>
+		    		</div>		    	
+		  		</div>
+					<div class="modal-footer">
+						<%= submit_tag "Submit", class: 'btn btn-primary', id: 'add_submit_refund' %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	<% end %>
+<% end %>

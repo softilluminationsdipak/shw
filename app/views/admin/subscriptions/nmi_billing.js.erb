@@ -1,0 +1,32 @@
+<% if params[:subscription][:credit_card_id].present? && params[:subscription][:amount].present? && params[:subscription][:start_date].present?  %>
+	// Bill Customer Here
+	<% if params[:subscription][:amount].to_s.to_i == params[:subscription][:amount].to_i && params[:subscription][:amount].to_i > 0 %>
+		jQuery("#nmi_customer_subscription").html("<%= escape_javascript(render :partial => '/admin/customers/nmi_subscription', :locals => {:customer => @customer}) %>")
+		jQuery("#nmi_customer_transaction").html("<%= escape_javascript(render :partial => '/admin/customers/nmi_transaction', :locals => {:customer => @customer}) %>")
+		jQuery("#add_subscription").modal('hide');
+	<% else %>
+		jQuery("#subscription_amt").html("Must be a Numeric Value");
+	<% end %>
+	jQuery("#add_subscription_form span").html('');
+	jQuery("#add_subscription_form")[0].reset();
+<% else %>
+	<% if params[:subscription][:credit_card_id].present? %>
+		jQuery("#subscription_ccid").html('')
+	<% else %>
+		jQuery("#subscription_ccid").html("Can't be blank")
+	<% end %>
+
+	<% if params[:subscription][:amount].present? %>
+		jQuery("#subscription_amt").html('')
+	<% else %>
+		jQuery("#subscription_amt").html("Can't be blank")
+	<% end %>
+
+	<% if params[:subscription][:start_date].present? %>
+		jQuery("#subscription_sdate").html('')
+	<% else %>
+		jQuery("#subscription_sdate").html("Can't be blank")
+	<% end %>
+<% end %>
+jQuery("#add_subscription_btn").removeAttr('disabled')
+jQuery("#add_subscription_btn").val('Add Subscription');

@@ -1,0 +1,51 @@
+/*
+ *
+ *= require_self
+ *= require bootstrap2.min.css
+ */
+
+.btn-label {position: relative;left: -12px;display: inline-block;padding: 6px 12px;background: rgba(0,0,0,0.15);border-radius: 3px 0 0 3px;}
+.btn-labeled {padding-top: 0;padding-bottom: 0;}
+.input-group { margin-bottom:10px; }
+.separator { border-right: 1px solid #dfdfe0; }
+.facebook,.twitter { min-width:170px; }
+.facebook { background-color:#354E84;color:#fff; }
+.twitter { background-color:#00A5E3;color:#fff; }
+.facebook:hover,.twitter:hover { color:#fff; }
+#error_explanation{padding: 0px 0px 0px 10px;}
+#error_explanation ul{
+	padding: 0px !important;
+	}
+#error_explanation h4, #error_explanation ul li{
+	color: #d2322d; 
+	margin-bottom: 0px !important;
+} 
+.social_icon_btn{
+	color: white !important;
+	text-decoration: none !important;
+}
+.social_icon_btn:hover{
+	color: white !important;
+	text-decoration: underline !important; 
+}
+.hbgwhte{
+	padding: 8px;
+	background: white;
+	border-radius: 2px;
+}
+
+.hbggrn{
+	padding: 8px;
+	color: #fff;
+	background-color: #5cb85c;
+	border-color: #4cae4c;
+	border-radius: 2px;
+}
+.signintd{
+	background: #1E4E75;
+	color: white;
+}
+.signintd2{
+	background: white;
+	color: black;	
+}

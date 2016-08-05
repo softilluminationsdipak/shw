@@ -1,0 +1,92 @@
+<%= form_tag "/admin/reports/income_sources", :method => 'post' do %>
+  <p>
+    <%= select_tag "graph_period", options_for_select([ "", "Day", "Week", "Month" ]) %>
+    <span id="datpicker-1" style="display:none;">
+      <%= text_field_tag :day, params[:day], :placeholder => "Select Date" %>
+    </span>
+    <span id="datpicker-2" style="display:none;">
+      <%= text_field_tag :mweek_start, params[:mweek_start], :placeholder => "Select Date" %>
+      -
+      <%= text_field_tag :mweek_end, params[:mweek_end], :placeholder => "Select Date" %>
+    </span>
+    <%= submit_tag "View Reports", :name => nil, :class => "btn" %>
+  </p>
+<% end %>
+<hr>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<script type="text/javascript">
+  $(function () {
+    $('#container').highcharts({
+      chart: {
+        type: 'area'
+      },
+      title: {
+        text: 'Customer Chart'
+      },
+      xAxis: {
+          type: "datetime",
+          labels: {
+            formatter: function() {
+              var monthStr = Highcharts.dateFormat('%b-%e-%y', this.value);
+              return monthStr;
+            }
+          }
+        },
+      yAxis: {
+        title: {
+          text: '# of customers'
+        },
+        labels: {
+          formatter: function() {
+            return this.value;
+          }
+        }
+      },
+      tooltip: {
+        pointFormat: '# of Customer - <b>{point.y:,.0f}</b>'
+      },
+      series: [
+        {
+          name: 'API',
+          pointInterval: <%= 1.day * 1000 %>,
+          pointStart: <%= @mweek_start.to_i * 1000 %>,
+          data: <%= (@mweek_start.to_date..@mweek_end).map { |dt| Customer.gaq_api_customer.where("DATE(created_at) = ?",dt).count }%>
+        },{
+          name: 'Manual',
+          pointInterval: <%= 1.day * 1000 %>,
+          pointStart: <%= @mweek_start.to_i * 1000 %>,
+          data: <%= (@mweek_start.to_date..@mweek_end).map { |dt| Customer.manual_customer.where("DATE(created_at) = ?",dt).count }%>
+        },{
+          name: 'GAQ',
+          pointInterval: <%= 1.day * 1000 %>,
+          pointStart: <%= @mweek_start.to_i * 1000 %>,
+          data: <%= (@mweek_start.to_date..@mweek_end).map { |dt| Customer.gaq_with_cc_customer.where("DATE(created_at) = ?",dt).count }%>
+        }
+
+      ]
+    });
+  });
+    
+  $(function() {
+    $("#graph_period").change(function(){
+      var v = $("#graph_period").val()
+      if(v == 'Day'){
+        $("#datpicker-1").show();
+        $("#datpicker-2").hide();
+      }
+      if(v == 'Week' || v == 'Month'){
+        $("#datpicker-1").hide();
+        $("#datpicker-2").show();
+      }
+    });
+  });
+
+  $(function() {
+    $( "#day" ).datepicker({ dateFormat: "dd-mm-yy" });
+    $( "#mweek_start" ).datepicker({ dateFormat: "dd-mm-yy" });
+    $( "#mweek_end" ).datepicker({ dateFormat: "dd-mm-yy" });
+    $( "#mg_week_start" ).datepicker({ dateFormat: "dd-mm-yy" });
+    $( "#mg_week_end" ).datepicker({ dateFormat: "dd-mm-yy" });
+  });
+</script>

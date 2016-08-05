@@ -1,0 +1,8 @@
+# robots.txt
+User-Agent:*
+Disallow: /purchase*
+Disallow: /site/purchase*
+
+User-Agent: Adsbot-Google
+Disallow: /purchase*
+Disallow: /site/purchase*

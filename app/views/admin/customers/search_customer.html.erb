@@ -1,0 +1,60 @@
+<h2>Search Customer  
+	<small class='pull-right' style='font-size:13px;'>
+		<% if @customers.present? %>
+			<%= link_to 'Download as CSV', search_customer_path(format: "csv", first_name: params[:first_name], last_name: params[:last_name], email: params[:email], start_date: params[:start_date], end_date: params[:end_date]) %> | 
+			<%= link_to 'Download as XLS', search_customer_path(format: "xls", first_name: params[:first_name], last_name: params[:last_name], email: params[:email], start_date: params[:start_date], end_date: params[:end_date]) %>
+		<% end %>
+	</small>
+</h2>
+
+<%= form_tag "/admin/search_customer", :method => 'get' do %>
+  <p>
+    <%= text_field_tag :first_name, params[:first_name], placeholder: 'First Name' %>
+    <%= text_field_tag :last_name, params[:last_name], placeholder: 'Last Name' %>
+    <%= text_field_tag :email, params[:email], placeholder: 'Email' %>
+    <%= submit_tag "Search", :name => 'Search' %>
+  </p>
+-- OR -- 
+<% end %>
+<%= form_tag "/admin/search_customer", :method => 'get' do %>
+  <p>
+    <%= text_field_tag :start_date, params[:start_date], placeholder: 'Start Date', class: 'datepicker' %>
+    <%= text_field_tag :end_date, params[:end_date], placeholder: 'End Date', class: 'datepicker' %>
+    <%= submit_tag "Search", :name => 'search' %>
+  </p>
+<% end %>
+<hr>
+<% if @customers.present? %>
+	<%= will_paginate @customers %>
+	<table class="table table-condensed table-striped table-bordered sortable_table">
+		<thead>
+			<tr>
+				<th><strong>Contract #</strong></th>
+				<th><strong>Customer Status</strong></th>
+				<th><strong>Name</strong></th>
+				<th><strong>Main Phone Number</strong></th>
+				<th><strong>State</strong></th>
+				<th><strong>Email</strong></th>
+				<th><strong>Last Updated</strong></th>
+				<th><strong>Created At</strong></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @customers.each do |customer| %>
+				<tr>
+					<td><%= customer.try(:contract_number) %></td>
+					<td><%= customer.try(:c_status) %></td>
+					<td><%= customer.try(:name) %></td>
+					<td><%= "#{clean_phone_number(customer.customer_phone)}" %></td>
+					<td><%= customer.try(:state).upcase %></td>
+					<td><%= customer.try(:email) %></td>
+					<td><%= customer.try(:last_updated_info) %></td>
+					<td><%= customer.try(:created_at).strftime('%m/%d/%Y %H:%M %p') %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<%= will_paginate @leads %>
+<% else %>
+	No Search Results	
+<% end %>

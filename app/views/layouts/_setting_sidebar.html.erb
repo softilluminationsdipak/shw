@@ -1,0 +1,52 @@
+	<ul class="nav nav-list bs-docs-sidenav affix-top">
+		<% if current_account.admin? %>
+			<li class="<%= 'active' if controller.controller_name == 'agents' %>" href="/admin/agents">				
+				<a href="/admin/agents" sl-processed="1">	<i class="fa fa-chevron-right"></i> Agents 	</a>				
+			</li>
+			<li class="<%= 'active' if controller.controller_name == 'fax_sources' %>" href="/admin/fax_sources">				
+				<a href="/admin/fax_sources" sl-processed="1">	<i class="fa fa-chevron-right"></i> Fax/Email Sources </a>
+			</li>
+			<li class="<%= 'active' if controller.controller_name == "email_templates" %>" href="/admin/email_templates">
+				<a href="/admin/email_templates" sl-processed="1">	<i class="fa fa-chevron-right"></i> Email Templates </a>
+			</li>
+			<li class="<%= 'active' if controller.controller_name == 'customer_statuses' or controller.controller_name == 'claim_statuses' or controller.controller_name == 'lead_statuses' or controller.controller_name == 'result_statuses' or controller.controller_name == 'tag_statuses' or controller.controller_name == 'contract_statuses' or controller.controller_name == 'renewal_statuses' or controller.controller_name == 'cancellation_reasons' %>">	
+				<a href="/admin/customer_statuses" sl-processed="1">	<i class="fa fa-chevron-right"></i> Statuses </a>
+			</li>		
+			<li class="<%= 'active' if controller.controller_name == 'packages' %>" href="/admin/packages">
+				<a href="/admin/packages" sl-processed="1">	<i class="fa fa-chevron-right"></i> Packages </a>
+			</li>
+			<li class="<%= 'active' if controller.controller_name == 'discounts' %>" href="/admin/discounts">
+				<a href="/admin/discounts" sl-processed="1">	<i class="fa fa-chevron-right"></i> Discount Codes / Promotions </a>
+			</li>
+			<li class="<%= 'active' if controller.controller_name == 'content' %>" href="/admin/content">	
+				<a href="/admin/content" sl-processed="1">	<i class="fa fa-chevron-right"></i> Content Management </a>
+			</li>
+			<li class="<%= 'active' if controller.controller_name == 'partners' %>" href="/admin/partners">	
+				<a href="/admin/partners" sl-processed="1">	<i class="fa fa-chevron-right"></i> Affiliate </a>
+			</li>
+<!--			<li class="<%#= 'active' if controller.controller_name == 'reports' && controller.action_name == 'index' %>" href="/admin/reports">	
+				<a href="/admin/reports" sl-processed="1">	<i class="fa fa-chevron-right"></i> Reports </a>
+			</li> -->
+			<li class="<%= 'active' if controller.controller_name == 'states' && controller.action_name == 'index' %>" href="/admin/states">	
+				<a href="/admin/states" sl-processed="1">	<i class="fa fa-chevron-right"></i> States </a>
+			</li>
+
+<!--			<li class="<%#= 'active' if controller.controller_name == 'reports' && controller.action_name == 'customer_report' %>" href="/admin/reports/customer_report">	
+				<a href="/admin/reports/customer_report" sl-processed="1">	<i class="fa fa-chevron-right"></i> Reports 2 </a>
+			</li> -->
+			<li class="<%= 'active' if controller.controller_name == 'gateways' && controller.action_name == 'index' %>" href="/admin/gateways">	
+				<a href="/admin/gateways" sl-processed="1">	<i class="fa fa-chevron-right"></i> Gateways </a>
+			</li>
+
+			<li class="<%= 'active' if controller.controller_name == 'permissions' && controller.action_name == 'index' %>" href="/admin/permissions">	
+				<a href="/admin/permissions" sl-processed="1">	<i class="fa fa-chevron-right"></i> Permission </a>
+			</li>			
+			<li class="<%= 'active' if controller.controller_name == 'ipaddresses' && controller.action_name == 'index' %>" href="/admin/ipaddresses">	
+				<a href="/admin/ipaddresses" sl-processed="1">	<i class="fa fa-chevron-right"></i> IP Address </a>
+			</li>			
+
+<!-- 			<li class="<%#= 'active' if controller.controller_name == 'merchant_accounts' && controller.action_name == 'index' %>" href="/admin/merchant_accounts">	
+				<a href="/admin/merchant_accounts" sl-processed="1">	<i class="fa fa-chevron-right"></i> Merchant Account </a>
+			</li>
+ -->		<% end %>
+	</ul>

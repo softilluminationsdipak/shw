@@ -1,0 +1,56 @@
+<h2>Gateways</h2>
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+	<tr>
+		<th><strong>ID</strong></th>
+		<th><strong>Login ID</strong></th>
+		<th><strong>Transaction Key</strong></th>
+		<th><strong>Merchant Name</strong></th>
+		<th><strong>Is Default</strong></th>
+		<th><strong>ACTIONS</strong></th>
+	</tr>
+	</thead>
+	<% if @gateways.present? %>
+		<tbody>
+			<% @gateways.each_with_index do |gateway,index| %>
+				<tr>
+					<td><%= gateway.try(:id) %></td>
+					<td><%= gateway.try(:login_id) %></td>
+					<td><%= gateway.try(:transaction_key) %></td>
+					<td><%= gateway.try(:merchant_name) %></td>
+					<td><%= gateway.is_default? ? 'Yes' : 'No' %></td>
+					<td>
+						<a href="/admin/gateways/edit/<%= gateway.id %>">Edit&nbsp;&nbsp;</a>&nbsp;
+						<%= link_to 'Delete', "/admin/gateways/destroy/#{gateway.id}", :confirm => "Are you sure you want to permanently delete this Gateway? This operation cannot be undone." %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	<% end %>
+</table>
+<h4 class="breadcrumb">Add New Gateway</h4>
+<%= form_for @gateway, :url => { :action => "create" }, :method => 'post' do |gateway| %>
+	<table class="form_table">
+	 	<tbody>
+			<tr>
+				<td>Login ID:</td>
+				<td><%= gateway.text_field :login_id, :placeholder => 'Login ID' %></td>
+			</tr>
+			<tr>
+				<td>Transaction Key:</td>
+				<td><%= gateway.text_field :transaction_key, :placeholder => 'Transaction Key' %></td>
+			</tr>
+			<tr>
+				<td>Merchant Name:</td>
+				<td><%= gateway.text_field :merchant_name, :placeholder => 'Merchant Name' %></td>
+			</tr>
+			<tr>
+				<td>URL:</td>
+				<td><%= gateway.text_field :gateway_url, :placeholder => 'Enter URL' %></td>
+			</tr>
+			<tr>
+				<td colspan="4"><br><%= gateway.submit "Create Gateway", :class => "btn" %></td>
+			</tr>
+	 	</tbody>
+	</table>
+<% end %>

@@ -1,0 +1,8 @@
+		<% if contents.present? %>
+			<% contents.each_with_index do |content,index| %>
+				<div class="CISourceListCell " style="<%= (index+1)%2 == 0 ? 'background-color: rgb(255, 255, 255);' : 'background-color: rgb(240, 240, 240);' %>">
+					<%= link_to content.slug.humanize, reload_content_path(:id => content.slug), :method => "get", :remote => true %>
+				</div>
+			<% end %>
+		<% end %>
+

@@ -1,0 +1,15 @@
+<script type="text/javascript">
+  CampaignID='';
+  ChatLinkInfo='';
+function tsa_load() {
+  var tsascript = document.createElement('script');
+  tsascript.type = "text/javascript";
+  tsascript.src = "//chat.teamsalesagent.com/tsa/sd.aspx?siteid=1252";
+  document.getElementsByTagName('head')[0].appendChild(tsascript);
+}
+if (window.attachEvent && !window.WebSocket){
+  setTimeout(tsa_load, 1);
+} else if (window.addEventListener) {
+  window.addEventListener("load", tsa_load, false);
+}
+</script>

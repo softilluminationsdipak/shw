@@ -1,0 +1,449 @@
+--- 
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Plumbing Stoppage
+    id: "1"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Clothes Washer
+    id: "2"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Heating System
+    id: "3"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "119.95"
+    optional: "1"
+    coverage_name: Pool/Spa
+    id: "4"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "39.95"
+    optional: "1"
+    coverage_name: Central Vacuum
+    id: "5"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Water Heater
+    id: "6"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Garbage Disposal
+    id: "7"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Plumbing system
+    id: "8"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Refrigerator
+    id: "9"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "49.95"
+    optional: "1"
+    coverage_name: Second Refrigerator
+    id: "10"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "49.95"
+    optional: "1"
+    coverage_name: Sump Pump
+    id: "11"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "49.95"
+    optional: "1"
+    coverage_name: Well Pump
+    id: "12"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "99.95"
+    optional: "1"
+    coverage_name: Limited Roof Leak
+    id: "13"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Stove/Oven
+    id: "14"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Microwave Oven(Built In)
+    id: "15"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Cooktop
+    id: "16"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Dishwasher
+    id: "17"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Clothes Dryer
+    id: "18"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Ductwork
+    id: "19"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Garage Door Opener
+    id: "20"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Ceiling Fans
+    id: "21"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: A/C, Cooling
+    id: "22"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "49.95"
+    optional: "1"
+    coverage_name: Stand Alone Freezer
+    id: "23"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "99.95"
+    optional: "1"
+    coverage_name: Lawn Sprinkler System
+    id: "24"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "99.95"
+    optional: "1"
+    coverage_name: Septic System
+    id: "25"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "0"
+    optional: "0"
+    coverage_name: Electrical System
+    id: "27"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "24.95"
+    optional: "1"
+    coverage_name: Ice Maker
+    id: "28"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Coverage 
+  attributes: 
+    price: "94.95"
+    optional: "1"
+    coverage_name: Plumbing/Lighting Fixtures
+    id: "29"
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false

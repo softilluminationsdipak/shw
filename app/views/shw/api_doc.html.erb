@@ -1,0 +1,102 @@
+<div id="wrapper">
+	<div class="content">
+	 	<h1 id="overview"><a class="header-anchor" href="#overview"></a>SHW API Documentation</h1>
+		<ul id="markdown-toc">
+		  <li><a href="#post-data-on-get-a-quote-using-api">Posting Data on "Get a Quote" using API</a></li>
+		</ul>
+
+		<hr>
+		<h2 id="post-data-on-get-a-quote-using-api">Posting Data on "Get a Quote" using API </h2>
+		<p>
+			This api will create customer for ‘Get a Quote’ and you will get response ‘accepted’ or ‘rejected’.
+			You will get <b> auth_token </b> after login or signup with <b>partner</b>.  
+		</p>
+		<pre><code>POST https://<%= request.host %>/api/customers/create?auth_token=xxxx</code></pre>
+		<P> You must POST the following parameters: </p>
+		<div id="documentation">
+			<div id="md" class="docs  span9">
+				<table>
+					<thead>
+						<tr>
+  						<th align="left">Parameter</th>
+  						<th align="left">Type</th>
+  						<th align="left">Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+  						<td class="notranslate" align="left">customer[email]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left">Customer Email Address </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">customer[first_name]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left">Customer First Name </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">customer[last_name]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left">Customer Last Name </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">customer[customer_phone]<span class="compred">*</span></td>
+  						<td align="left">Number </td>
+  						<td align="left">Customer Phone Number </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">customer[leadid]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left">Customer LeadID and It's Unique </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">customer[ip]</td>
+  						<td align="left">String </td>
+  						<td align="left">Customer IP, For Example: 127.0.0.1 </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">customer[datetimestamp]<span class="compred">*</span></td>
+  						<td align="left">DateTime </td>
+  						<td align="left">Date Time Stamp : <br> Format : MM-DD-YY HH:MM:SS </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">customer[subID]<span class="compred"></span></td>
+  						<td align="left">String</td>
+  						<td align="left">Campaign subID tracking.</td>
+						</tr>
+
+						<tr>
+  						<td class="notranslate" align="left">property[address]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left">Property Address</td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">property[city]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left">Property City</td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">property[state]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left">Property State <br> The format should be the two-letter postal code.</td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">property[zip_code]<span class="compred">*</span></td>
+  						<td align="left">Number </td>
+  						<td align="left">Property Zipcode</td>
+						</tr>
+					</tbody>
+				</table>
+  		</div>
+		</div>
+		<p> Example </p>
+		<pre><code>customer[email]=john@yopmail.com&customer[first_name]=John&customer[last_name]=Write<br>&customer[customer_phone]=5049402514&customer[leadid]=lead1&property[address]=address<br>&property[city]=ny&property[state]=state&property[zip_code]=12345&<br>customer[ip]=192.168.1.23&customer[datetimestamp]=11-11-2013 14:12
+</code></pre> 
+		<p>Success Response </p>
+		<pre><code> {"message":"success message","status":200} </code></pre> 
+		<p>Failure Response </p>
+		<pre><code> {"errors":"error message","status":401} </code></pre> 
+  </div>
+</div>
+<hr>
+Date : 12 / 23 / 2013 : Version : v1 

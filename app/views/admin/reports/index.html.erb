@@ -1,0 +1,259 @@
+<%= stylesheet_link_tag "morris-0.4.3.min.css" %>
+<%= javascript_include_tag "jquery-1.8.3.min.js","raphael-min.js", "morris-0.4.3.min.js" %>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<!--
+<table>
+  <tr>
+    <td><b>Customers</b></td>
+    <td><b>GAQ Customers w/out CC </b></td>
+    <td><b>GAQ Customers w/CC</b></td>
+    <td><b>API Customers </b></td>
+    <td><b>Manual Customers </b></td>
+  </tr> 
+  <tr>
+    <td><%#= @total_customer %></td>
+    <td><%#= @total_customer_without_gaq_and_cc %></td>
+    <td><%#= @total_customer_with_gaq_and_cc %></td>
+    <td><%#= @gaq_api_customer %></td>
+    <td><%#= @manual_customer %></td>
+  </tr> 
+</table>
+<hr>
+-->
+
+<h1> Report 1 </h1>
+
+<%= form_tag "/admin/reports", :method => 'post' do %>
+  <p>
+    <%= select_tag "graph_period", options_for_select([ "", "Day", "Week", "Month" ]) %>
+    <span id="datpicker-1" style="display:none;">
+      <%= text_field_tag :day, params[:day], :placeholder => "Select Date" %>
+    </span>
+    <span id="datpicker-2" style="display:none;">
+      <%= text_field_tag :mweek_start, params[:mweek_start], :placeholder => "Select Date" %>
+      -
+      <%= text_field_tag :mweek_end, params[:mweek_end], :placeholder => "Select Date" %>
+    </span>
+    <%= submit_tag "View Reports", :name => nil, :class => "btn" %>
+  </p>
+<% end %>
+
+
+<hr>
+<%= javascript_include_tag "highcharts.js","raphael-min.js", "exporting.js" %>
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<script type="text/javascript">
+$(function () {
+  $('#container').highcharts({
+    chart: {
+      type: 'area'
+    },
+    title: {
+      text: 'Customer Chart'
+    },
+    xAxis: {
+        type: "datetime",
+        labels: {
+          formatter: function() {
+            var monthStr = Highcharts.dateFormat('%b-%e-%y', this.value);
+            return monthStr;
+          }
+        }
+      },
+    yAxis: {
+      title: {
+        text: '# of customers'
+      },
+      labels: {
+        formatter: function() {
+          return this.value;
+        }
+      }
+    },
+    tooltip: {
+      pointFormat: '# of Customer - <b>{point.y:,.0f}</b>'
+    },
+    series: [
+      {
+        name: 'API',
+        pointInterval: <%= 1.day * 1000 %>,
+        pointStart: <%= @mweek_start.to_i * 1000 %>,
+        data: <%= (@mweek_start.to_date..@mweek_end).map { |dt| Customer.gaq_api_customer.where("DATE(created_at) = ?",dt).count }%>
+      },{
+        name: 'Manual',
+        pointInterval: <%= 1.day * 1000 %>,
+        pointStart: <%= @mweek_start.to_i * 1000 %>,
+        data: <%= (@mweek_start.to_date..@mweek_end).map { |dt| Customer.manual_customer.where("DATE(created_at) = ?",dt).count }%>
+      },{
+        name: 'GAQ',
+        pointInterval: <%= 1.day * 1000 %>,
+        pointStart: <%= @mweek_start.to_i * 1000 %>,
+        data: <%= (@mweek_start.to_date..@mweek_end).map { |dt| Customer.gaq_with_cc_customer.where("DATE(created_at) = ?",dt).count }%>
+      }
+
+    ]
+  });
+});
+    
+</script>
+
+
+<script type="text/javascript">
+
+$(function() {
+  $("#graph_period").change(function(){
+    var v = $("#graph_period").val()
+    if(v == 'Day'){
+      $("#datpicker-1").show();
+      $("#datpicker-2").hide();
+    }
+    if(v == 'Week' || v == 'Month'){
+      $("#datpicker-1").hide();
+      $("#datpicker-2").show();
+    }
+  });
+});
+
+</script>
+
+<hr>
+<h1> Report 2 </h1>
+<h4>Leads by Agents </h4>
+
+<%= form_tag "/admin/reports", :method => 'post' do %>
+  <p>
+    <%= select_tag "my_agent_list[]", options_for_select(Agent.all.map(&:name)), :class => "select2", :multiple => "multiple", :id => "my_agent_list", :style => "width:400px;" %>
+      <span id="datpicker-2">
+      <%= text_field_tag :mg_week_start, params[:mg_week_start], :placeholder => "Select Start Date" %>
+      -
+      <%= text_field_tag :mg_week_end, params[:mg_week_end], :placeholder => "Select End Date" %>
+    </span>
+
+
+    <%= submit_tag "View Reports", :name => nil, :class => "btn" %>
+  </p>
+<% end %>
+
+<% if @lead_customer.present? %>
+  <div id="lbyagent" style="min-width: 310px; height: 700px; margin: 0 auto"></div>
+<% else %>
+  No Results Found!
+<% end %>
+
+<script type="text/javascript">
+  
+  var agent_name = []
+  <% agent_count = @customer_agent.keys %>
+    <% agent_count.each do |p| %>
+      agent_name.push('<%= p %>')
+    <% end %>
+    var series = []
+    function series_data(name, data){
+      this.name = name;
+      this.data = data;
+    }
+  <% Customer.statuses22.each do |s| %>
+    <% status_array = @agent_customer.count.select{|k,v| (Customer.statuses2.rassoc(k[0].to_i)[0] || "Unknown Status!") == s } %>
+    <% init_status = agent_count.size.times.map{|p| "0"} %>
+    <% status_array.each do |p, v| %>
+      <% init_status[agent_count.index(p[1])] = v %>
+    <% end %>
+    data = []
+    <% init_status.each do |p| %>
+      data.push(<%= p %>)
+    <% end %>
+    series.push(new series_data('<%= s %>', data));
+  <% end %>
+  $(function () {
+    $('#lbyagent').highcharts({
+      chart:  { type: 'column' },
+      title:  { text: 'Leads by Agents' },
+      xAxis:  { 
+              categories:  agent_name
+            },
+    yAxis:  { 
+              title: {
+                text: '# of customers'
+              },
+              labels: {
+                formatter: function() {
+                  return this.value;
+                }
+              }
+            },
+    tooltip: {
+              formatter: function() {
+                return '<b>'+ this.x +'</b><br/>'+
+                  this.series.name +': '+ this.y +'<br/>'+
+                  'Total: '+ this.point.stackTotal;
+              }
+            },
+    plotOptions: {
+          column: {
+              stacking: 'normal',
+              dataLabels: {
+                  enabled: true,
+                  color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+              }
+          }
+      },
+      series: series
+  });
+});
+
+
+
+</script>
+
+<script>
+  $(function() {
+    $( "#day" ).datepicker({ dateFormat: "dd-mm-yy" });
+    $( "#mweek_start" ).datepicker({ dateFormat: "dd-mm-yy" });
+    $( "#mweek_end" ).datepicker({ dateFormat: "dd-mm-yy" });
+    $( "#mg_week_start" ).datepicker({ dateFormat: "dd-mm-yy" });
+    $( "#mg_week_end" ).datepicker({ dateFormat: "dd-mm-yy" });
+  });
+ </script>
+
+<hr>
+<h1> Report 3 </h1>
+<h4>Affiliate and Leads </h4>
+<% if @api_customer_r.present? %>
+  <div id="api-example"></div>
+<% else %>
+  No Results Found!
+<% end %>
+
+<script type="text/javascript">
+  Morris.Bar({
+  element: 'api-example',
+  data: [
+    <% @api_customer_r.each_with_index do |ab,index| %>
+      <% if @api_customer_r.count == index+1 %>
+        { label: '<%= ab.first.to_s %>', value: <%= ab.last.to_i %>}
+      <% else %>
+        { label: '<%= ab.first.to_s %>', value: <%= ab.last.to_i %>},
+      <% end %>
+    <% end %>
+  ],
+  xkey: 'label',
+  ykeys: ['value'],
+  labels: ['Leads']
+});
+
+</script>
+
+
+
+<script src="/assets/select2.js"></script>
+<link rel="stylesheet" href="/assets/select2.css">
+<script type="text/javascript">
+ $(document).ready(function() { 
+    $("#my_agent_list").select2({
+      closeOnSelect:false
+    });
+  });
+</script>
+

@@ -1,0 +1,32 @@
+<h2>Contract Statues</h2>
+
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+	<tr>
+		<th><strong>STATUS ID</strong></th>
+		<th><strong>CONTRACT CODE</strong></th>
+		<th><strong>CONTRACT STATUS</strong></th>
+		<th><strong>IS ACTIVE</strong></th>
+		<th><strong>IS NAVIGATION</strong></th>
+		<th><strong>ACTIONS</strong></th>
+	</tr>
+	</thead>
+	
+	<tbody>
+		<% @contract_statuses.each do |cstatus| %>
+			<tr>
+				<td><%= cstatus.csid  %></td>
+				<td><%= cstatus.contract_code %></td>
+				<td><%= cstatus.contract_status %></td>
+				<td><%= cstatus.active == true ? "Yes" : "No" %></td>
+				<td><%= cstatus.navigation == true ? "Yes" : "No" %></td>
+				<td>
+					<a href="/admin/contract_statuses/edit/<%= cstatus.id %>">Edit&nbsp;&nbsp;</a>&nbsp;&nbsp;
+					<%= link_to 'Delete', "/admin/contract_statuses/destroy/#{cstatus.id}", :confirm => "Are you sure you want to permanently delete this Status? This operation cannot be undone." %>
+				</td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+<h4 class="breadcrumb">Add Contract Status</h4>
+<%= render :partial => "/admin/contract_statuses/new", :locals => {:contract_url => "create"} %>

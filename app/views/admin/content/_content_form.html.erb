@@ -1,0 +1,17 @@
+
+<%= form_tag async_save_content_path, :method => 'post', :remote => true do %>
+	
+	<%= submit_tag "Save Content", :name => nil, :class => "btn" %>
+	<% if content.present? %>
+		<%= link_to 'Delete', "/admin/content/destroy/#{content.id}", :confirm => "Are you sure you want to permanently delete this Content? This operation cannot be undone.", :class => "btn" %>
+	<% end %>		
+	<br><br>
+		
+  
+	<div id="update_content_div">
+  	<%= check_box_tag :is_tos, true, content.present? ? content.is_tos : false  %> Is Term of Service? <br><br>
+  	<%= text_area_tag :html, content.present? ? content.html.html_safe : '', :rows => "40", :cols => "75" %>
+  	<%= hidden_field_tag :id, content.present? ? content.slug : '' %>
+  </div>
+  	<%= submit_tag "Save Content", :name => nil %>
+<% end %>

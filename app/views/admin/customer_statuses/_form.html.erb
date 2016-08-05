@@ -1,0 +1,25 @@
+<%= form_for  @customer_status, :url => { :action => "#{customer_url}", :id => @customer_status.id }, :remote => true do |cstatus| %>
+	<table class="form_table">
+	 	<tbody>
+			<tr>
+				<td>Customer Code:</td>
+				<td><%= cstatus.text_field :customer_code %></td>
+			</tr>
+			<tr>
+				<td>Customer Status:</td>
+				<td><%= cstatus.text_field :customer_status %></td>
+			</tr>
+			<tr>
+				<td>Is Active:</td>
+				<td><%= cstatus.check_box :active %></td>
+			</tr>
+			<tr>
+				<td><br>Navigation:</td>
+				<td><%= cstatus.check_box :navigation %></td>
+			</tr>
+			<tr>
+				<td colspan="4"><br><%= submit_tag "#{customer_url.capitalize} Customer Status",:id => "save_customer_status", :class => "btn" %></td>
+			</tr>
+	 	</tbody>
+	</table>
+<% end %>

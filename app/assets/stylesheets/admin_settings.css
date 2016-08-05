@@ -1,0 +1,57 @@
+/*
+*= require admin/jquery-ui.css
+*= require bootstrap.css
+*= require navbar.css
+*= require bootstrap-responsive.css
+*= require docs.css
+*= require jquery.minicolors.css
+*= require font-awesome
+*= require new_admin
+*= require tablecloth.css
+*= require prettify.css
+*= require_self
+*/
+
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+.headerbtn2{
+	margin-left:5px;
+	padding: 5px 5px 5px 5px;
+	background: white;
+	width: 7%;
+	float: left;
+	text-align: center;
+}
+.headerbtn{
+	margin-left: 1%;
+	padding: 5px 5px 5px 5px;
+	background: white;
+	width: 15%;
+	float: left;
+	text-align: center;
+}
+.headerbtn3{
+	margin-left:5px;
+	padding: 5px 5px 5px 5px;
+	background: white;
+	float: left;
+	text-align: center;
+}
+.cstatus{
+	margin-left: 6px !important; 
+	background: white !important; 
+	padding: 4.5px !important;
+}
+.navbar .nav > li > a.cstatus:hover {
+	color: black;
+}
+.status_label{
+	border: 2px solid black;
+	padding: 0px 5px 0px 5px;
+	cursor: pointer;
+}
+div.layout_tab_container:hover{ 
+	height: 300px!important;  
+}

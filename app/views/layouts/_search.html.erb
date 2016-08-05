@@ -1,0 +1,23 @@
+<form id="contractorFinderForm" style="display: none;" method="get" action="/admin/contractors/find_by_location">
+	<input type="hidden" name="location" id="contractorFinderForm_location"/>
+  <input type="hidden" name="radius" id="contractorFinderForm_radius"/>
+</form>
+<div id="quickMail_hud">
+	<table class="form_table" style="width: auto;">
+		<tr>
+			<td class="label">Quickly Email:</td>
+			<td><span id="quickMail_hud_name">Customer</span></td>
+		</tr>
+		<tr>
+			<td class="label">Using Template:</td>
+			<td><select id="quickMail_hud_select"></select></td>
+		</tr>
+		<tr>
+			<td class="label"><input type="button" value="Close" onclick="$('quickMail_hud').fade('hide');"/></td>
+			<td>
+				<input id="quickMail_hud_sendButton" type="button" value="Send Email" onclick="sendQuickMail();" />
+				<p id="quickMail_hud_status" title="" class="hasToolTip" onclick="$('quickMail_hud').fade('hide');"></p>
+			</td>
+		</tr>
+	</table>
+</div>

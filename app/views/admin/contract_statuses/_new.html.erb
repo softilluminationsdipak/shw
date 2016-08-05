@@ -1,0 +1,25 @@
+<%= form_for  @contract_status, :url => { :action => "#{contract_url}", :id => @contract_status.id }, :remote => true do |cstatus| %>
+	<table class="form_table">
+	 	<tbody>
+			<tr>
+				<td>Contract Code:</td>
+				<td><%= cstatus.text_field :contract_code %></td>
+			</tr>
+			<tr>
+				<td>Contract Status:</td>
+				<td><%= cstatus.text_field :contract_status %></td>
+			</tr>
+			<tr>
+				<td>Is Active:</td>
+				<td><%= cstatus.check_box :active %></td>
+			</tr>
+			<tr>
+				<td><br>Navigation:</td>
+				<td><%= cstatus.check_box :navigation %></td>
+			</tr>
+			<tr>
+				<td colspan="4"><br><%= submit_tag "#{contract_url.capitalize} Contract Status",:id => "save_contract_status", :class => "btn" %></td>
+			</tr>
+	 	</tbody>
+	</table>
+<% end %>

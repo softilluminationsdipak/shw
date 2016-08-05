@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+	<head>
+		<title>Select Home Warranty.com</title>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		<link rel="shortcut icon" href="/assets/favicon.ico" />
+		<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600,700'/>
+		<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700'/>
+		<%= stylesheet_link_tag 'getquote' %>
+		<%#= javascript_include_tag 'mootools-1.2.3-core-yc', 'application' %>
+		<%= javascript_include_tag 'MooTools-Core-1.5.1.js', 'application' %>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div class="wrapper homepage">
+			<!-- Main -->
+			<div id="main">
+				<div class="container">
+					<div class="shell">
+						<div class="cols">
+							<div class="col left">
+								<div class="article">
+									<div id="logo"><a href="/"></a></div>
+									<p>As a homeowner, you never know when a heat or plumbing system, appliance, or garage door will break down. Repairing these systems requires time to look for a suitable repair technician and high repair costs. Let Select Home Warranty take the guess work out. We are available 24/7 to repair or even replace your covered claim. We have a network of over 10,000 contractors standing by.</p>
+									<p>Unfortunately, major home systems and appliances don’t wait until a convenient time to break down. Enroll Today!!</p>
+									<div class="lists">
+										<ul>
+											<li>Air Conditioning</li>
+											<li>Stove Top</li>
+											<li>Cook Top</li>
+											<li>Microwave</li>
+											<li>Ductwork</li>
+											<li>Garbage Disposal</li>
+											<li>Electrical System</li>
+											<li>Plumbing Stoppages</li>
+											<li>Oven </li>
+										</ul>
+										<ul>
+											<li>Clothes Wash</li>
+											<li>Clothes Dryer</li>
+											<li>Garage Door Open</li>
+											<li>Heating System</li>
+											<li>Plumbing System</li>
+											<li>Dishwasher</li>
+											<li>Water Heater</li>
+											<li>Refrigerator Ceiling Fans </li>
+										</ul>
+									</div>
+									<div class="img-holder"><img src="/assets/appliances.jpg" alt=""/></div>
+								</div>
+							</div>
+							<div class="col right">
+								<%= javascript_include_tag 'affilates.js' %>
+								<%= form_for :customer, :url => '/purchase', :html => { :method => 'post', :id => 'getaquoteintro_form2',:class => "form-quote" } do |customer| %>
+		              <%= hidden_field_tag :discountcode, params[:discountcode].present? ? params[:discountcode] : '' %>
+		              <%= hidden_field_tag :subid, params[:subid].present? ? params[:subid] : '' %>
+		              <%= fields_for :property do |property| %>
+									<h2>2 FREE MONTHS</h2>
+									<div class="form-section">
+										<h4>Customer Information</h4>
+										<%= customer.text_field :first_name, :id => 'intro_customer_first_name', :tabindex => 1,:class => "field",:placeholder => "First Name" %>
+										<%=customer.text_field :last_name, :id => 'intro_customer_last_name', :tabindex => 2,:class => "field",:placeholder => "Last Name" %>
+										<%=customer.text_field :email, :id => 'intro_customer_email', :tabindex => 3,:class => "field" ,:placeholder=>"Email" %>
+										<%=customer.text_field :customer_phone, :id => 'intro_customer_customer_phone', :tabindex => 4,:class => "field",:placeholder=>"Home Phone" %>
+										<%=customer.text_field :work_phone, :tabindex => 5,:class => "field",:placeholder=>"Work Phone"  %>
+									</div>
+									<div class="form-section">
+										<h4>Property Information</h4>
+										<%=property.text_field :address, :id => 'intro_property_address', :tabindex => 7 ,:class => "field" ,:placeholder=>"Address"%>
+										<%=property.text_field :city, :id => 'intro_property_city', :tabindex => 8 ,:class => "field" ,:placeholder=>"City"%>
+										<%=property.text_field :state, :id => 'intro_property_state', :tabindex => 9 ,:class => "field",:placeholder=>"State", :maxlength => 2 %>
+										<%=property.text_field :zip_code, :id => 'intro_property_zip_code', :tabindex => 10 ,:class => "field" ,:placeholder=>"Zip Code"%>
+									</div>
+									<div class="form-section">
+										<h4>Type of Home</h4> 
+										<%= select_tag(:type_of_home, options_for_select(Customer.home_occupancies.to_a.map(&:second)), :tabindex => 11,:class => "field") %>
+										<h5>Square Footage</h5>
+		                <div class="field">
+		  								<% i= 0; Customer.home_sizes.each do |code, size| %>
+							  				<label>
+							   					<%= customer.radio_button :home_size_code, code, :checked => (code == 0), :id => "customer_home_size_#{code}", :tabindex => (12+i) %>
+							   					<%= size %>
+		   					  			</label><br/>
+											<% i += 1; end %>
+		                </div>
+									</div>
+									<div class="form-button">
+									  <input type="hidden" value="2" name="step" />
+									  <input type="hidden" value="true" name="affiliate" />
+									  <%= button_to_function "Get a Free Quote Now", "validateAffiliatesIntroForm(); validateAffiliatesIntroForm2();", :class => "home-submit", :id => 'getaquoteintro_button2'%>
+		 							  <div class="button-shadow"></div>
+									</div>
+								<% end;end %>
+							</div>
+						</div>
+						<!--
+						<script type="text/javascript">
+						$("#getaquoteintro_form2").submit(function(){
+							  var state_name = $("#intro_property_state").val();
+							  var state_array =  ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "UT", "VT", "VA", "WV", "WI", "WY"]
+							  if(state_name.length >= 3){
+							    alert("A valid US State abbreviation (two characters) is required.");
+							    return false;
+							  }else if(state_array.indexOf(state_name) < 0){
+							    alert("Sorry, we currently don't coverage in "+ state_name +" - please stay tuned!");
+							    return false;
+							  }else{
+							    return true;
+							  }
+						 });
+						</script> -->
+						<div class="main-footer">
+			  			<!-- authrize new div -->
+							<div class="AuthorizeNetSeal">
+							  <script language="javascript" type="text/javascript">
+									var ANS_customer_id="402ec64f-9589-4dfc-a799-03ed94357642";
+							  </script>
+							  <script src="//verify.authorize.net/anetseal/seal.js" language="javascript" type="text/javascript"></script>
+							  <style type="text/css">
+									div.AuthorizeNetSeal
+									  {text-align:center;margin:0;padding:0;width:90px;font:normal 9px arial,helvetica,san-serif;line-height:10px;}
+									div.AuthorizeNetSeal a
+									  {text-decoration:none;color:black;}
+									div.AuthorizeNetSeal a:visited
+									  {color:black;}
+									div.AuthorizeNetSeal a:active
+									  {color:black;}
+									div.AuthorizeNetSeal a:hover
+									  {text-decoration:underline;color:black;}
+									div.AuthorizeNetSeal a img
+									  {border:0px;margin:0px;text-decoration:none;}
+								</style>
+							  <a target="_blank" id="AuthorizeNetText" href="http://www.authorize.net/">Payment Processing</a>
+							</div>
+							<!-- authorize net div end -->
+							<p><a href="/termsconditions" class="no-link">This offer applies to upfront payments only. Click here to read our terms and conditions.</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<iframe SRC="http://www.lc2trk.com/trkcpa_if.php?ID=10992&VR=175981a21c8626816b74cdb0cd5dffc1" style="display:none"></iframe>
+		<script type = "text/javascript" >
+		   function preventBack(){window.history.forward();}
+		    setTimeout("preventBack()", 0);
+		    window.onunload=function(){null};
+		</script>
+		<%# if Rails.env == 'staging' %>
+ 			<!-- <img src="https://affiliate.trk4.com/rd/ipx.php?aff_Id=<%#= @partner.id %>?subId=<%#= @subId %>" width="1" height = "1" /> -->
+<!-- 			<iframe width='1' height='1' frameborder='0' src='https://affiliate.trk4.com/rd/ipx.php?sid=<%#= @subId %>&affid=<%#= @partner.id %>'></iframe> -->
+
+
+
+		<%# elsif Rails.env == 'development' %>
+			<!-- <img src="<%#= "http://localhost:3000/" %>?aff_Id=<%#= @partner.id %>?subId=<%#= @subId %>" width="1" height = "1" /> -->
+		<%# end %>
+	</body>
+</html>

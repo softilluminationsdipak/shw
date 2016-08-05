@@ -1,0 +1,37 @@
+<h1>Permissions</h1>
+<% if @permissions.present? %>
+	<table class="table table-condensed table-bordered">
+		<thead>
+			<th>Method Name</th>
+			<th>Action Name</th>
+			<th>Is Admin Access</th>
+			<th>Is Sales Access</th>
+			<th>Is Claim Access</th>
+			<!-- <th>Is Affilate Access</th> -->
+			<th>Action Description</th>
+			<th>Actions</th>
+		</thead>
+		<tbody>
+			<% counter = 1 %>
+			<% @permissions.group_by{|t| t.module_name}.each do |method_name, action_name| %>
+				<tr><td colspan="7"><strong><%= "#{counter}  -   #{method_name}" %></strong></td></tr>
+				<% counter += 1 %>
+				<% action_name.each do |action| %>
+					<tr>
+						<td></td>
+						<td><%= action.try(:action_name) %></td>
+						<td><%= action.is_admin_access? ? 'Yes' : 'No' %></td>
+						<td><%= action.is_sales_access? ? 'Yes' : 'No' %></td>
+						<td><%= action.is_claim_access? ? 'Yes' : 'No' %></td>
+						<!-- <td><%#= action.is_affilate_access? ? 'Yes' : 'No' %></td> -->
+						<td><%= action.try(:action_description) %></td>
+						<td><a href="/admin/permissions/edit/<%= action.id %>">Edit</a></td>
+					</tr>
+				<% end %>					
+			<% end %>			
+		</tbody>
+	</table>
+<% else %>
+	No Permission Present
+<% end %>
+

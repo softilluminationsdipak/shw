@@ -1,0 +1,38 @@
+<h2>Edit Discount</h2>
+<%= form_for @discount, :url => { :action => 'update', :id => @discount.id } do |f| %>
+<table class="form_table">
+	<tr>
+		<td>Monthly?</td>
+		<td><%=f.check_box :is_monthly%></td>
+	</tr>
+	<tr>
+		<td>Starts:</td>
+		<td><%=f.text_field :starts_at, :size => 8, :value => @discount.starts_at.present? ? @discount.starts_at.strftime(strftime_date) : '' %></td>
+	</tr>
+	<tr>
+		<td>Ends:</td>
+<% unless @discount.ends_at.nil? %>
+		<td><%=f.text_field :ends_at, :size => 8, :value => @discount.ends_at.strftime(strftime_date) %></td>
+<% else %>
+		<td><%=f.text_field :ends_at, :size => 8, :value => '' %></td>
+<% end %>
+
+	</tr>
+	<tr>
+		<td>Amount:</td>
+		<td>
+			<% checked = 'checked="checked"' if @discount.is_percentage? %>
+			<% value = @discount.is_percentage? ? @discount.value * 100 : @discount.value %>
+			<%=f.text_field :value, :size => 8, :value => value%><input type="checkbox" name="is_percentage" <%=checked%>/>&nbsp;Is a percentage
+		</td>
+	</tr>
+	<tr>
+		<td>Code:</td>
+		<td><%=f.text_field :name, :size => 8%>&nbsp;<span class="gray">If this is a Monthly Discount, Code will be set automatically</span></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><%=submit_tag "Save Discount"%></td>
+	</tr>
+</table>
+<% end %>

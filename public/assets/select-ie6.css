@@ -1,0 +1,33 @@
+#content .billboard .info .top {
+    background: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='./public/images/bg/info-top.png', sizingMethod='crop');
+}
+
+#content .billboard .info .info-content {
+    background: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='./public/images/bg/info-center.png', sizingMethod='scale');
+}
+
+#content .billboard .info .bottom {
+    background: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='./public/images/bg/info-bottom.png', sizingMethod='crop');
+}
+
+#header UL.main-menu {
+    width: 100%;
+    padding-bottom: 15px;
+}
+
+#header UL.main-menu LI A {
+    padding: 11px 0 10px;
+}
+
+#header UL.main-menu LI.first A {
+    width: 153px;
+    _width: 155px;
+}
+
+#header UL.main-menu LI.last A {
+    width: 153px;
+    _width: 156px;
+}

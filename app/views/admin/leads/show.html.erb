@@ -1,0 +1,74 @@
+<table class="table">
+		<tr>
+			<td><strong>Lead ID</strong></td>
+			<td><%= @lead.try(:id) %></td>
+			<td><strong>First Name</strong></td>
+			<td><%= @lead.try(:first_name)%></td>
+		</tr>
+		<tr>
+			<td><strong>Last Name</strong></td>
+			<td><%= @lead.try(:last_name)%></td>
+			<td><strong>Email</strong></td>
+			<td><%= @lead.try(:email)%></td>
+		</tr>
+		<tr>
+			<td><strong>Work Phone</strong></td>
+			<td><%= clean_phone_number(@lead.try(:work_phone)) %></td>
+			<td><strong>Mobile Phone</strong></td>
+			<td><%= clean_phone_number(@lead.try(:mobile_phone)) %></td>
+		</tr>
+		<tr>
+			<td><strong>Home Phone</strong></td>
+			<td><%= clean_phone_number(@lead.try(:home_phone)) %></td>
+			<td><strong>Address</strong></td>
+			<td><%= @lead.try(:address) %></td>
+		</tr>
+		<tr>
+			<td><strong>City</strong></td>
+			<td><%= @lead.try(:city) %></td>
+			<td><strong>State</strong></td>
+			<td><%= @lead.try(:state).upcase %></td>
+		</tr>
+		<tr>
+			<td><strong>Zipcode</strong></td>
+			<td><%= @lead.try(:zipcode) %></td>
+			<td><strong>Type of Home</strong></td>
+			<td><%= @lead.try(:type_of_home) %></td>
+		</tr>
+		<tr>
+			<td><strong>Square Footage</strong></td>
+			<td><%= @lead.try(:square_footage) %></td>
+			<td><strong>Package</strong></td>
+			<td><%= @lead.try(:package).try(:package_name) %></td>
+		</tr>
+		<tr>
+			<td><strong>Optional Coverages</strong></td>
+			<td><%= @lead.try(:optional_coverages) %></td>
+			<td><strong>discount_code</strong></td>
+			<td><%= @lead.try(:discount_code) %></td>
+		</tr>
+		<tr>
+			<td><strong>Billing Name</strong></td>
+			<td><%= @lead.try(:billing_name) %></td>
+			<td><strong>Billing Address</strong></td>
+			<td><%= @lead.try(:billing_address) %></td>
+		</tr>
+		<tr>
+			<td><strong>Billing City</strong></td>
+			<td><%= @lead.try(:billing_city) %></td>
+			<td><strong>Billing State</strong></td>
+			<td><%= @lead.try(:billing_state) %></td>
+		</tr>
+		<tr>
+			<td><strong>Billing Zipocode</strong></td>
+			<td><%= @lead.try(:billing_zipcode) %></td>
+			<td><strong>Payment Method</strong></td>
+			<td><%= @lead.try(:payment_method) %></td>
+		</tr>
+		<tr>
+			<td><strong>Created At</strong></td>
+			<td><%= @lead.try(:created_at).strftime('%m/%d/%Y %H:%M %p') %></td>
+			<td><strong>Updated At</strong></td>
+			<td><%= @lead.try(:updated_at).strftime('%m/%d/%Y %H:%M %p') %></td>
+		</tr>
+</table>

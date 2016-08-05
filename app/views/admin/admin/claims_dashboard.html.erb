@@ -1,0 +1,87 @@
+<script type="text/javascript">
+	var table = new CITable({
+		title: new CITitle({ title: 'Claims Dashboard' }),
+		columns: [
+			//new CIColumn({ header: 'contract #', property: 'claim_number2', width: 100 }),
+			new CIColumn({
+				width: 25,
+				property: 'customer_id',
+				renderer: function(id) {
+					return '<a href="/admin/customers/edit/' + id + '#claims">Edit</a>'
+				}
+			}),
+
+			new CIColumn({
+				property: 'customer_email', width: 22,
+					renderer: function(email, claim) {
+						if (email && email != '') {
+							var link = new CIImageLink({
+								src: '/assets/icons/mail_write.png',
+								alt: 'Quick Email',
+								Clicked: CIApplication.quicklyEmail
+							});
+							link.customer = claim;
+							return link;
+						} else return '&nbsp;';
+					}
+				}),
+			new CIColumn({ header: 'Claim #', property: 'claim_id2'}),
+			new CIColumn({
+				header: 'Contract #',
+				property: 'customer_id2',
+				renderer: function(id, claim) {
+					return '<a href="/admin/customers/edit/' + claim.customer_id + '">'+claim.customer_id2 +'</a>'
+				}
+			}),
+			
+			new CIColumn({ property: 'status_code',
+				width: 130,
+				renderer: function(code, claim) {
+					return "<center><span class='claim_button claim_"+code+"'>"+ claim.status + "</span></center>"
+				}
+			}),
+			new CIColumn({ header: 'Summary', property: 'summary', width: 290 }),
+			new CIColumn({ header: 'Last Updated', property: 'updated', width: 135 }),
+			new CIColumn({ header: 'Cust. Name', property: 'customer_name' }),
+			new CIColumn({ header: 'Cust. Phone #', property: 'customer_phone' }),
+			new CIColumn({ header: 'State', property: 'customer_state' }),
+			new CIColumn({ header: 'Agent', property: 'agent_name', width: 100 })
+		],
+		get: '/admin/claims/async_claims',
+		paginator: {
+			itemsPerPage: 15,
+			filters: new CIFilterSet({
+				filters: [
+					<%= Claim.statuses.collect { |label, name|
+							"new CIFilter({name:'#{name}', label:'#{Claim.statuses_abbr[name]}',rollover_label: '#{label}', src:'/assets/admin/claim_statuses/none.png',prefix_class: 'claim_filter_button claim_#{name}', active:#{@active_statuses.include?(name)}})"
+						}.join(', ').html_safe
+					%>
+				],
+				cssStyles: {
+					position: 'relative', bottom: 3
+				}
+			})
+		}
+	});
+	table.toolbar.addItemToLeft(table.paginator);	
+	table.element('layout_content');
+	table.paginator.selectPage(<%= @page %>);
+
+	window.addEvent('domready',function(){
+</script>
+
+<% ClaimStatus.all.each do |claim2| %>
+	<style type="text/css">
+		.claim_<%= claim2.csid %> {
+    	background-color: <%= claim2.color_code%>;
+    	color:black;
+    	border: 1px solid #5e5b5b;
+		}
+
+		.claim_<%= claim2.csid %>_active {
+    	background-color:<%= claim2.color_code%>;
+    	color:black;
+    	border: 3px solid #666;
+		}
+	</style>
+<% end %>

@@ -1,0 +1,27 @@
+<%= render :partial => "partners/header" %>
+<h4 class="breadcrumb">&nbsp; List Sub Ids</h4>
+<div style="padding:2%;">
+	<h5>
+		<%= link_to "Generate API Key", generate_api_key_path, :method => :post, :class => "btn-link" %>
+	</h5>
+	<% if @current_partner.auth_tokens.present? %>
+		<table class="table">
+			<thead>
+				<th>Sr. #</th>
+				<th>Token</th>
+				<th>Code</th>
+				<th>Action</th>
+			</thead>
+			<tbody>
+				<% @current_partner.auth_tokens.each_with_index do |t,index| %>
+					<tr>
+						<td><%= index + 1 %></td>
+						<td><%= t.auth_token %></td>
+						<td><%= t.discount_code %></td>
+						<td><%= link_to "Delete Key", token_destroy_path(t.id)%></td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	<% end %>
+</div>

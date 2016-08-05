@@ -1,0 +1,1 @@
+jQuery("#notenotableid").html("<%= escape_javascript(render :partial => '/admin/notes/note', :locals => {:customer => @customer, :type => @type}) %>")

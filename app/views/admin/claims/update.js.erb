@@ -1,0 +1,19 @@
+<% if params[:page_from].to_s == "claim" %>
+	// window.location.href = "/admin/customers/edit/<%= params['customer_id'] %>";
+	<% if params[:invoice_receive].present? %>
+		jQuery('#InvoiceReceive_<%= @claim.id %>').modal('hide');
+		jQuery('#invoicereceive_<%= @claim.id %>').html('<%= @claim.invoice_receive_date %>')
+	<% else %>
+		jQuery('#InvoiceReceive_<%= @claim.id %>').modal('hide');
+		jQuery('#invoicereceive_<%= @claim.id %>').html('<%= @claim.invoice_receive_date %>')	
+	<% end %>
+	<% if params[:invoice_status].present? %>
+		jQuery('#InvoiceStatus_<%= @claim.id %>').modal('hide');
+		jQuery('#invoicestatus_<%= @claim.id %>').html('<%= @claim.invoice_status %>')	
+	<% elsif params[:invoice_status].to_s == "" %>
+		jQuery('#InvoiceStatus_<%= @claim.id %>').modal('hide');
+		jQuery('#invoicestatus_<%= @claim.id %>').html('Edit')	
+	<% end %>		
+<% else %>
+	window.location.href = "/admin/contractors/edit/<%= @claim.contractor.id %>";
+<% end %>

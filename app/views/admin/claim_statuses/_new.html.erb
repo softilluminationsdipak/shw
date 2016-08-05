@@ -1,0 +1,29 @@
+<%= form_for  @claim_status, :url => { :action => "#{claim_url}", :id => @claim_status.id }, :remote => true do |cstatus| %>
+  <table class="form_table">
+    <tbody>
+      <tr>
+        <td>Claim Code:</td>
+        <td><%= cstatus.text_field :claim_code %></td>
+      </tr>
+      <tr>
+        <td>Claim Status:</td>
+        <td><%= cstatus.text_field :claim_status %></td>
+      </tr>
+      <tr>
+        <td>Is Active:</td>
+        <td><%= cstatus.check_box :active %></td>
+      </tr>
+      <tr>
+        <td><br>Navigation:</td>
+        <td><%= cstatus.check_box :navigation %></td>
+      </tr>
+      <tr>
+        <td><br>Color:</td>
+        <td><%= cstatus.text_field :color_code, :class => "colorpicker" %></td>
+      </tr>
+      <tr>
+        <td colspan="4"><br><%= submit_tag "#{claim_url.capitalize} Claim Status",:id => "save_claim_status", :class => "btn" %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

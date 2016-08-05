@@ -1,0 +1,102 @@
+
+<% status_url = "/admin/customers/list/#{@status}" %>
+<%	cs = CustomerStatus.find_by_status_url(status_url) %>
+<% header = case @status 
+	when @status
+		cs.present? && cs.customer_status.present? ? cs.customer_status : 'new'
+	end
+%>
+
+<div class="CITitleContent">
+<!--
+	<%# if current_account.admin? && (@status =~ /leftmessage|deleted|followup/)%>
+ 		<%#= link_to "Revert this page to New", 'Javascript:void(0);', :onclick => "revert2new('#{@status}')", :class => "btn btn-default right revert2new", :style => "float:right;" %><br><br>
+	<%# end %> -->
+	<% if current_account.admin? %>
+		<%= select_tag 'status', options_for_select(CustomerStatus.active_status.collect{ |u| [u.customer_status, u.csid]}), class: 'CIFormField' %>
+		<%= link_to "Change Status", 'Javascript:void(0);', :onclick => "change_status('#{@status}')", :class => "btn btn-default right revert2new" %>
+		<br><br>
+	<% end %>
+</div>
+<% if current_account.admin? %>
+	<script type="text/javascript">
+		var itemsPerPage = 30;
+		var title = new CITitle({
+			title: "<%= header %>, <%= @count %> total"
+		});
+		var table = new CITable({
+			title: title,
+			cssClass: 'CIkCenterUsingMargin',
+			get: '/admin/customers/async_list/<%=@status%>',
+			columns: CIApplication.CustomerListColumns2,
+			paginator: { itemsPerPage: itemsPerPage }
+		});
+		table.toolbar.addItemToLeft(table.paginator);
+		table.element($('layout_content'));
+		table.paginator.selectPage(<%=@page%>);
+	</script>
+<% else %>
+	<script type="text/javascript">
+		var itemsPerPage = 30;
+		var title = new CITitle({
+			title: "<%= header %>, <%= @count %> total"
+		});
+		var table = new CITable({
+			title: title,
+			cssClass: 'CIkCenterUsingMargin',
+			get: '/admin/customers/async_list/<%=@status%>',
+			columns: CIApplication.CustomerListColumns,
+			paginator: { itemsPerPage: itemsPerPage }
+		});
+		table.toolbar.addItemToLeft(table.paginator);
+		table.element($('layout_content'));
+		table.paginator.selectPage(<%=@page%>);
+	</script>
+<% end %>
+<script type="text/javascript">
+
+function change_status(st2){
+	v1 = jQuery(".CIFormFieldCBx:checked").map(function() {return this.value;}).get().join(',')
+	v2 = jQuery("#status").val();
+	st1 = st2
+	if(v1 != ''){
+		jQuery.ajax({
+      type:'POST',
+      url:'/change_status',
+      data:{ids :v1, status: st1, new_status: v2},
+      dataType:"script"
+    });
+	}else{
+		alert('Please select value!')
+	}	
+}
+function revert2new(st2){
+	v1 = jQuery(".CIFormFieldCBx:checked").map(function() {return this.value;}).get().join(',')
+	st1 = st2
+	if(v1 != ''){
+		jQuery.ajax({
+      type:'POST',
+      url:'/revert_to_new_without_ci',
+      data:{ids :v1, status: st1},
+      dataType:"script"
+    });
+	}else{
+		alert('Please select value!')
+	}
+}
+
+
+jQuery(function() {
+    jQuery('[name="customer_id_cbox_all"]').on('change', function() {
+    			var t1 = jQuery(".CIFormFieldCBall").is(":checked")
+		if(t1 == true){
+			jQuery(".CIFormFieldCBx").prop('checked', true);
+		}else{
+			jQuery(".CIFormFieldCBx").prop('checked', false);
+		}
+
+    })
+});
+
+</script>
+

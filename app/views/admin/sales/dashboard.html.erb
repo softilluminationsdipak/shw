@@ -1,0 +1,57 @@
+
+<div class="CITitleContent" style="float: right;">
+	<% if current_account.admin? && (@status =~ /leftmessage|deleted|followup/)%>
+ 		<%= link_to "Revert this page to New", 'Javascript:void(0);', :onclick => "revert2new('#{@status}')", :class => "btn btn-default right revert2new", :style => "float:right;" %><br><br>
+	<% end %>
+</div>
+
+<script type="text/javascript">
+	var itemsPerPage = 30;
+	
+	var title = new CITitle({
+		title: "Customers"
+	});
+	var table = new CITable({
+		title: title,
+		cssClass: 'CIkCenterUsingMargin',
+		get: '/admin/customers/async_get_customers/today_yesterday',
+		columns: CIApplication.CustomerListColumns,
+		paginator: { itemsPerPage: itemsPerPage }
+	});
+	table.toolbar.addItemToLeft(table.paginator);
+
+	table.element($('layout_content'));
+	table.paginator.selectPage(<%=@page%>);
+</script>
+
+<script type="text/javascript">
+function revert2new(st2){
+	v1 = jQuery(".CIFormFieldCBx:checked").map(function() {return this.value;}).get().join(',')
+	st1 = st2
+	if(v1 != ''){
+		jQuery.ajax({
+      type:'POST',
+      url:'/revert_to_new_without_ci',
+      data:{ids :v1, status: st1},
+      dataType:"script"
+    });
+	}else{
+		alert('Please select value!')
+	}
+}
+
+
+jQuery(function() {
+    jQuery('[name="customer_id_cbox_all"]').on('change', function() {
+    			var t1 = jQuery(".CIFormFieldCBall").is(":checked")
+		if(t1 == true){
+			jQuery(".CIFormFieldCBx").prop('checked', true);
+		}else{
+			jQuery(".CIFormFieldCBx").prop('checked', false);
+		}
+
+    })
+});
+
+</script>
+

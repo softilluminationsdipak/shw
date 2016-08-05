@@ -1,0 +1,25 @@
+<table class="form_table">
+  <tbody>
+    <tr>
+      <td>Partner ID:</td>
+      <td><%= f.select("partner_id", Partner.all.collect {|p| [ "#{p.fullname}-(#{p.email})", p.id ] }, { include_blank: false }) %></td>
+    </tr>
+    <tr>
+    	<td>Add SubIDs</td>
+    	<td>
+        <% if f.object.new_record? %>
+          <%= f.text_field :sub_ids, :readonly => true, :value => f.object.secure_randon_string %>
+        <% else %>
+    		  <%= f.text_field :sub_ids, :readonly => true %>
+        <% end %>
+    	</td>
+    </tr>
+    <tr>
+      <td>SubID Label</td>
+      <td><%= f.text_field :subid_label %> </td>
+    </tr>
+    <tr>
+      <td colspan="4"><br><%= submit_tag "Submit",:id => "save_affilates", :class => "btn" %></td>
+    </tr>
+  </tbody>
+</table>

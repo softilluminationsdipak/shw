@@ -1,0 +1,6 @@
+<% if @claim_status.valid? %>
+	window.location.href = "/admin/claim_statuses"
+<% else %>
+	alert("<%= @claim_status.errors.full_messages.first.html_safe  %>")
+	return false;
+<% end %>	

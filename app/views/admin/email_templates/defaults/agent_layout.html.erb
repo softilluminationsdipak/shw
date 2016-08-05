@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<style>
+			body {
+				font-family: Helvetica, Arial, sans-serif;
+				line-height: 1.3em;
+			}
+			
+			table td.label {
+				vertical-align: top;
+				text-align: right;
+				width: 120px;
+			}
+			
+			span.gray { color: gray; }
+			
+			p.indent_30 { text-indent: 30px; }
+			
+			p.left_30 { margin-left: 30px; }
+		</style>
+	</head>
+	<body>
+		{image logo}
+		<%=yield%>
+		
+		<p class="left_30">
+			{installation name}<br />
+			Phone:  {installation phone}<br /> 
+			Fax:    {installation fax}<br />
+			http://{installation www_domain}
+		</p>
+
+		<p class="left_30">
+			Please don't print this email unless you really need to.<br />
+			<br />
+			Confidential – For {installation name} Internal Use Only: This transmission is intended for the use of the addressee and may contain information that is privileged, confidential and exempt from disclosure under applicable law.  If you are not the intended recipient, or the employee or agent responsible for delivering the message to the intended recipient, you are hereby notified that any dissemination, distribution, or copy of this communication is strictly prohibited.  If you received this communication in error, please notify the sender immediately.
+		</p>
+	</body>
+</html>

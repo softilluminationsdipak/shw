@@ -1,0 +1,35 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th>Method</th>
+			<th>Payment ID</th>
+			<th>Invoice #</th>
+			<th>Date</th>
+			<th>Amount</th>
+			<th>Result</th>
+			<th>Payment Type</th>
+			<th>Refund</th>
+			<th></th>
+		</tr>
+	</thead>
+	<% if customer.transactions.present? %>
+		<% customer.transactions.each do |transaction| %>
+			<tr>
+				<td>Credit Card</td>
+				<td><%= transaction.id %></td>
+				<td><%= transaction.id %></td>
+				<td><%= with_timezone(transaction.created_at).strftime("%m/%d/%y %I:%M %p") %></td>
+				<td><%= "$%5.2f" % transaction.amount %></td>
+				<td><%= transaction.result %></td>
+				<td><%= transaction.try(:payment_type) %></td>
+				<td><%= "$%5.2f" % transaction.refund %></td>
+				<td>
+					<% if transaction.result.to_s.downcase == 'approved' && transaction.amount != transaction.refund %>
+						<%= link_to "Refund", admin_subscription_refund_path(transaction.id) %>
+					<% end %>
+				</td>
+			</tr>
+		<% end %>
+	<% else %>
+	<% end %>
+</table>

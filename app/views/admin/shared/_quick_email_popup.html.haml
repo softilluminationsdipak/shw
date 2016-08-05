@@ -1,0 +1,24 @@
+=form_tag '/admin/email_templates/async_quickly_email',:remote => true, :id => "quick_email_popup", :class=>"hide modal fade",:style=> 'height: auto; width: 400px;' do
+  = hidden_field_tag :customer_id,"", :id => "email_destination_customer_id"
+  .modal-header
+    = button_tag '', :class=> 'close', 'data-dismiss' => 'modal', 'area-hidden' => true do
+      &times;
+    %h5#quick_email_title
+      Quickly Email
+      
+      
+  .modal-body#quick_email_popup_body
+    .row-fluid
+      .span3
+        To
+      .span9#email_destination
+       
+    .row-fluid
+      .span3
+        Template
+      .span9#email_template
+        = select_tag :template_id,nil, :id => "email_template_dropdown"
+        
+    .row-fluid
+      = link_to "Send","#", :id => "send_quick_email", :class => "btn btn-primary"
+      = link_to "Cancel","#close", :class => "btn close_modal_button", 'data-dismiss' => 'modal'

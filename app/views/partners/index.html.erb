@@ -1,0 +1,66 @@
+<div>
+  <h4>
+  <% if @start_date.present? && @end_date.present? %>
+    <p> Report between <%= @start_date.strftime("%B %d, %Y") %> to <%= @end_date.strftime("%B %d, %Y") %> </p>
+  <% end %> </h4>
+</div>
+
+<div>
+  <h4 class="breadcrumb">
+    &nbsp; Lead Count: <%= @customers.count %>
+    <span class="pull-right">
+      Download:
+      <%= link_to "CSV", "/affiliates?start_date=#{params[:start_date]}&end_date=#{params[:end_date]}&format=csv" %> |
+      <%= link_to "Excel", "/affiliates?start_date=#{params[:start_date]}&end_date=#{params[:end_date]}&format=xls" %> 
+    </span>
+  </h4>
+  <% if @customers.present? %>
+    <table class="table table-condensed table-striped table-bordered sortable_table">
+      <thead>
+        <tr>
+          <th><strong>SHWID</strong></th>
+          <th><strong>LeadID</strong></th>
+          <th><strong>SubID</strong></th>
+          <th><strong>First Name</strong></th>
+          <th><strong>Last Name</strong></th>
+          <th><strong>Phone</strong></th>
+          <th><strong>Email</strong></th>
+          <th><strong>Address</strong></th>
+          <th><strong>City</strong></th>
+          <th><strong>State</strong></th>
+          <th><strong>Zip</strong></th>
+          <th><strong>IP</strong></th>
+          <th><strong>TimeStamp</strong></th>
+          <th><strong>Created At</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @customers.each do |customer| %>
+          <% if customer.present? && customer.addresses.present? %>
+            <%# customer.addresses.each do |property| %>
+              <tr>
+                <td><%= customer.contract_number %></td>
+                <td><%= customer.leadid %></td>
+                <td><%= customer.subid if customer.subid.present? %></td>
+                <td><%= customer.first_name %></td>
+                <td><%= customer.last_name %></td>
+                <td><%= customer.customer_phone %></td>
+                <td><%= customer.email %></td>
+                <td><%= customer.addresses.last.address %></td>
+                <td><%= customer.addresses.last.city %></td>
+                <td><%= customer.addresses.last.state %></td>
+                <td><%= customer.addresses.last.zip_code %></td>
+                <td><%= customer.ip %></td>
+                <td><%= customer.datetimestamp.strftime("%m-%d-%y %M:%H:%S") if customer.datetimestamp.present? %></td>
+                <td><%= customer.created_at.strftime("%m-%d-%y %M:%H:%S") %></td>
+              </tr>
+            <%# end %>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+    <%= will_paginate @customers, :param_name => :partners_page %>
+  <% else %>
+    <h4 class="breadcrumb"><p>No Leads Present Yet!</p></h4>
+  <% end %>
+</div>

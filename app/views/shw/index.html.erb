@@ -1,0 +1,32 @@
+<% content_for(:head) { javascript_include_tag('testimonials') } %>
+
+<div class="fixed-width">
+  <div class="billboard homepage">
+    <div class="info">
+      <div class="top">&nbsp;</div>
+      <div class="info-content">
+        <h1>Shield your wallet from home repair expenses with a contract from <%= $installation.name %>.</h1>
+        <p>
+          <% content = Content.for(:home_content).html_safe %>
+          <% if content.present? %>
+            <%= content %>
+          <% else %>
+            Need to change wording on the home page that shows up on the image can we make that a slug in the content manager? new content: "As a homeowner, you never know when a heat or plumbing system, appliance, or garage door will break down. Repairing these systems requires time to look for a suitable repair technician and exorbitant repair costs. For a small service fee, you can have a local service technician repair your covered broken system or appliance on your schedule. Our network of contractors are ready to assist you.
+          <% end %>
+        </p>
+        <p>
+          <a href="<%= quote_path %>" class="button"><img src="<%= image_path 'buttons/get-free-quote.gif' %>" alt="Get Free Quote" /></a>
+        </p>
+
+      </div>
+      <div class="bottom">&nbsp;</div>
+    </div>
+    <div class="relax"></div>
+  </div>
+
+  <div class="testimonials" id="homepage-testimonials">
+    <%=Content.for(:testimonials).html_safe%>
+  </div>
+
+</div>
+<%= google_analytics_js %>

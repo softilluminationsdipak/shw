@@ -1,0 +1,2 @@
+<h1>Edit Permission for <%= @permission.try(:module_name) %></h1>
+<%= render :partial => '/admin/permissions/form', :locals => {:permission_url => 'update', :method_type => 'PUT'} %>

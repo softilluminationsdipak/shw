@@ -1,0 +1,101 @@
+<% if flash[:notice] %>
+    <div id="notice"><%= flash[:notice] %></div>
+<% end %>
+<h4 class="breadcrumb">Agents&nbsp;&nbsp;&nbsp;</h4>
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+	<tr>
+		<th><strong>Name</strong></th>
+		<th><strong>Email</strong></th>
+		<th><strong>Role</strong></th>
+		<th><strong>Action</strong></th>
+	</tr>
+	</thead>
+	<% @agents.each do |agent| %>
+	<% next if agent.empty? %>
+	<tr class="hoverable <%=cycle('stripe', '')%>">
+		<td><%= agent.name %></td>
+		<td><%= agent.account.email if agent.account.present? && agent.account.email.present?  %></td>
+		<td><%= agent.account.role.capitalize if agent.account.present? && agent.account.role.present?%></td>
+		<td>
+			<a href="/admin/agents/edit/<%=agent.id%>">Edit&nbsp;&nbsp;</a>&nbsp;&nbsp;
+			<%= link_to 'Delete', "/admin/agents/destroy/#{agent.id}", :confirm => "Are you sure you want to permanently delete this Agent? This operation cannot be undone." %>
+		</td>
+	</tr>
+	<% end %>
+</table>
+<hr>
+<h4 class="breadcrumb">Add Agent</h4>
+<form accept-charset="UTF-8" action="/admin/agents/create" data-remote="true" method="post">
+	<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>"/>
+	<table class="form_table">
+	 <tbody>
+		<tr>
+			<td>Name:</td>
+			<td><input type="text" name="agent[name]" id="agent_name" /></td>
+			<td>Email:</td>
+			<td><input type="text" name="account[email]" id="agent_email" /></td>
+		</tr>
+		
+		<tr>
+			<td>Password:</td>
+			<td><input type="password" name="account[password]" id="account_password"/>&nbsp;&nbsp;&nbsp;</td>
+			<td>Password Confirm:</td>
+			<td><input type="password" id="account_password_confirm" /></td>
+		</tr>
+		
+		<tr>
+			<td>Timezone:</td>
+			<td><%= render :partial => 'admin/accounts/timezone_select_tag' %></td>
+			<td>Role:</td>
+			<td>
+				<select name="account[role]"><% Account.roles.each do |role| %>
+					<option value="<%=role%>"><%=role.capitalize%></option><% end %>
+				</select>
+			</td>
+	  </tr>
+	  
+		<tr>
+			<td colspan="4"><input type="submit" value="Add New Agent" id="add_agent_button" class="btn" /></td>
+		</tr>
+   </tbody>
+   
+	</table>
+</form>
+
+<script type="text/javascript">
+  jQuery('#add_agent_button').click(function(e){
+    var agent_name, agent_email, account_password, account_password_confirm;
+    
+    agent_name = jQuery('#agent_name').val();
+    agent_email = jQuery('#agent_email').val();
+    account_password = jQuery('#account_password').val();
+    account_password_confirm = jQuery('#account_password_confirm').val();
+    
+    if (agent_name == "")
+    {
+      alert("Please input agent name!");
+      return false;
+    }
+
+    if (agent_email == "")
+    {
+      alert("Please input agent email!");
+      return false;
+    }
+
+    if (account_password == "")
+    {
+      alert("Please input password!");
+      return false;
+    }
+   
+    if (account_password !== account_password_confirm)
+    {
+      alert("Please input password correctly!");
+      jQuery('#account_password').val("");
+      jQuery('#account_password_confirm').val("");
+      return false;
+    }
+  });
+</script>

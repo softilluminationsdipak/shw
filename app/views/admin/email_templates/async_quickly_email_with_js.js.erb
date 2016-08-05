@@ -1,0 +1,11 @@
+<% if params[:clam_id].present? %>
+	jQuery('#myModal_<%= params[:clam_id] %>').modal('hide');
+	jQuery('#quick_email_<%= params[:clam_id] %>').modal('hide');
+	jQuery('#quick_email_customer_<%= params[:clam_id] %>').modal('hide');
+<% end %>
+<% if params[:contractor_id].present? %>
+	jQuery('#quick_email_<%= params[:contractor_id] %>').modal('hide');
+<% end %>
+<% if params[:customer_id].present? %>
+	jQuery('#quick_email_customer_<%= params[:customer_id] %>').modal('hide');
+<% end %>

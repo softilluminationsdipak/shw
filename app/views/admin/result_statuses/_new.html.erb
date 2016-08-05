@@ -1,0 +1,26 @@
+
+<%= form_for  @result_status, :url => { :action => "#{result_url}", :id => @result_status.id }, :remote => true do |cstatus| %>
+	<table class="form_table">
+	 	<tbody>
+			<tr>
+				<td>Result Code:</td>
+				<td><%= cstatus.text_field :result_code %></td>
+			</tr>
+			<tr>
+				<td>Result Status:</td>
+				<td><%= cstatus.text_field :result_status %></td>
+			</tr>
+			<tr>
+				<td>Is Active:</td>
+				<td><%= cstatus.check_box :active %></td>
+			</tr>
+			<tr>
+				<td><br>Navigation:</td>
+				<td><%= cstatus.check_box :navigation %></td>
+			</tr>
+			<tr>
+				<td colspan="4"><br><%= submit_tag "#{result_url.capitalize} Result Status",:id => "save_result_status", :class => "btn" %></td>
+			</tr>
+	 	</tbody>
+	</table>
+<% end %>

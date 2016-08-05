@@ -1,0 +1,39 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Credit Card ID</th>
+			<th>Start Date</th>
+			<th>Amount</th>
+			<th>Interval</th>
+			<!-- <th>Occurances</th> -->
+			<th>Status</th>
+			<th></th>
+		</tr>
+	</thead>
+	<% if customer.subscriptions.present? %>
+		<tbody>
+			<% customer.subscriptions.each do |subscription| %>
+				<tr>
+					<td><%= subscription.try(:id) %></td>
+					<td><%= subscription.try(:credit_card_id) %></td>
+					<td><%= subscription.try(:start_date).strftime('%m/%d/%Y %H:%M %p') if subscription.start_date.present? %></td>
+					<td><%= "$%5.2f" % subscription.amount %></td>
+					<td><%= subscription.try(:interval) %>&nbsp; <%= subscription.try(:period) %></td>
+					<!-- <td><%#= subscription.try(:occurances).to_i.abs %></td> -->
+					<td>
+						<%= subscription.try(:status) %>
+						<% if subscription.is_cancel_subscription == true %>
+							- (Cancelled Subscription)
+						<% end %>
+					</td>
+					<td>
+						<% if subscription.try(:status).to_s == 'Approved' && subscription.is_cancel_subscription == false && subscription.transaction.present? && subscription.transaction.subscriptionid.present? %>
+							<%= link_to 'Cancel Subscription', admin_subscription_delete_subscription_path(subscription.id), :title => 'Cancel Subscription' %>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	<% end %>
+</table>

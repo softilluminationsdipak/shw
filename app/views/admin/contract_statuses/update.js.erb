@@ -1,0 +1,6 @@
+<% if @msg == "success" %>
+	window.location.href = "/admin/contract_statuses"
+<% else %>
+	alert("<%= @contract_status.errors.full_messages.first.html_safe  %>")
+	return false;
+<% end %>	

@@ -1,0 +1,9 @@
+<% value ||= nil %>
+<% id ||= '' %>
+<% css_class = 'class="#{css_class}"' if defined? css_class %>
+<% selected = 'selected="selected"' %>
+<% tabindex = " tabindex=\"#{tabindex}\"" if defined? tabindex %>
+<% states =  State.all.map(&:name) %>
+<select name="<%=name%>" id="<%=id%>" <%=css_class%><%=tabindex%>><% states.each do |state| %>
+	<option <%=selected if state == value %> value="<%=state%>"><%=state%></option>
+<% end %></select>

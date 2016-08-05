@@ -1,0 +1,195 @@
+<%#= form_for @partner, :url => update_my_account_path, :method => 'PUT', :class => "form-horizontal" do |f| %>
+<%= form_for @company, :url => { :action => 'update', :id => @company.id } do |f| %>
+  <% @partner = @company %>
+  <% if @partner.errors.present? %>
+    <div id="error_explanation">
+      <ul>
+        <% @partner.errors.full_messages.each do |t| %>
+        <li><%= t %></li>
+        <% end %>
+      </ul>
+    </div>    
+  <% end %>
+  <div class="row-fluid">
+    <div class="span12">
+      <h4>My Account Info.</h4><br>
+      <div class="row-fluid">
+
+        <div class="span6">
+          <%= f.label :company_name, :class => 'control-label' %>
+          <%= f.text_field :company_name, :class => "form-control span12" %>
+          <div class="span12" style="margin:0px;">
+            <div class="row-fluid">
+              <div class="span6">
+                <%= f.label :firstname, :class => 'control-label' %>
+                <%= f.text_field :firstname, :class => "form-control span12" %>
+              </div>
+              <div class="span6">
+                <%= f.label :lastname, :class => 'control-label' %>
+                <%= f.text_field :lastname, :class => "form-control span12" %>
+              </div>
+            </div>
+          </div>
+          <div class="span12" style="margin:0px;">
+            <div class="row-fluid">
+              <div class="span6">
+                <%= f.label :email, :class => 'control-label' %>
+                <%= f.email_field :email, :class => "form-control span12" %>
+              </div>
+              <div class="span6">
+                <%= f.label :company_api_access, "Company API Access", :class => 'control-label' %>
+                <%= f.select :company_api_access, Partner::API_ACCESS %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="span6 verticalLine">
+          <div class="span12" style="margin:0px;">
+            <div class="row-fluid">
+              <div class="span6">
+                <%= f.label :phone, :class => 'control-label' %>
+                <%= f.text_field :phone, :class => "form-control span12" %>
+              </div>              
+              <div class="span6">
+                <%= f.label :address1, :class => 'control-label' %>
+                <%= f.text_field :address1, :class => "form-control span12" %>
+              </div>
+            </div>
+          </div>            
+          <div class="span12" style="margin:0px;">
+            <div class="row-fluid">
+              <div class="span6">
+                <%= f.label :address2, :class => 'control-label' %>
+                <%= f.text_field :address2, :class => "form-control span12" %>
+              </div>
+              <div class="span6">
+                <%= f.label :city, :class => 'control-label' %>
+                <%= f.text_field :city, :class => "form-control span12" %>
+              </div>
+            </div>
+          </div>            
+          <div class="span12" style="margin:0px;">
+            <div class="row-fluid">
+              <div class="span6">
+                <%= f.label :state, :class => 'control-label' %>
+                <%= f.text_field :state, :class => "form-control span12" %>
+              </div>
+              <div class="span6">
+                <%= f.label :zipcode, :class => 'control-label' %>
+                <%= f.text_field :zipcode, :class => "form-control span12" %>
+              </div>
+            </div>
+          </div>            
+        </div>
+      </div>
+
+    </div>
+    <%= f.submit "Save", :class => "btn btn-default" %>
+  </div>
+<% end %>
+
+
+<hr>
+<%= form_for @company, :url => { :action => 'change_password', :id => @company.id } do |f| %>
+  <% @partner = @company %>
+  <div class="row-fluid">
+    <div class="span12">
+      <h4>Change Password</h4>
+      <div class="row-fluid">
+        <div class="span3">
+          <%= f.password_field :password, :autocomplete => "off", :placeholder => "Password", :class => "form-control span12"  %>
+        </div>
+        <div class="span3">
+          <%= f.password_field :password_confirmation, :placeholder => "Password Confirmation" , :class => "form-control span12" %>            
+        </div>
+        <div class="span3">
+          <%= f.submit "Change", :class => "btn btn-default" %>
+        </div>
+      </div>
+    </div>
+  </div>  
+<% end %>
+<hr>
+
+  <div class="row-fluid">
+    <div class="span12">
+      <h4>Affiliate / API Info</h4><br>
+      <div class="row-fluid">
+        <div class="span6">
+          <label class="control-label">Affiliate Link :  
+            <% token = @company.auth_token.present? ? @company.auth_token[0..5] : '' %>
+            <textarea cols='50' id='fe_text2' rows='1' class="" style="width:68%;height:20px;"><%= "https://#{ENV['DOMAIN_CONFIG']}/affiliate/#{token}" %> </textarea>
+            <%= link_to image_tag("/assets/copy2.png", :size => "24x24"), 'javascript:void(0);', "data-clipboard-target" => "fe_text2", "data-clipboard-text" => "Default clipboard text from attribute", :id => "d_clip_button2", :title => "Click me to copy to clipboard" %>
+          </label>          
+        </div>
+        <div class="span6">
+          <label class="control-label">API Token :  
+            <textarea cols='50' id='fe_text' rows='1' class="" style="width:65%;height:20px;"><%= @company.auth_token %></textarea>
+            <%= link_to image_tag("/assets/copy2.png", :size => "24x24"), 'javascript:void(0);', "data-clipboard-target" => "fe_text", "data-clipboard-text" => "Default clipboard text from attribute", :id => "d_clip_button", :title => "Click me to copy to clipboard" %>
+          </label>          
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <div class="row-fluid">
+    <div class="span12">
+      <h4>Tracking Link</h4><br>
+      <div class="row-fluid">
+        <%= form_for @company, :url => { :action => 'update', :id => @company.id } do |f| %>
+          <% @partner = @company %>
+          <div class="span8">
+            <% if f.object.tracking_link.present? %>
+              <textarea rows="3" cols="300" id="partner_tracking_link" style="width: 90%;font-size: 15px;" name="partner[tracking_link]" ><%= f.object.tracking_link %></textarea>
+            <% else %>
+              <textarea rows="3" cols="300" id="partner_tracking_link" style="width: 90%;font-size: 15px;" name="partner[tracking_link]" ><iframe src='affiliate.trk4.com/rd/ipx.php?affid=@partnerid&sid=@partnersubi&leadid=@shwleadid'></iframe></textarea>
+            <% end %>              
+          </div>
+          <div class="span3"><%= f.submit "Save", :class => "btn btn-default" %></div>
+        <% end %>
+        <div class="span12">
+          <strong>Note:</strong> Use the following variables to pass information from our system via the pixel: <br>
+          <table class="notetable">
+            <tr>
+              <td style="width:10%;">@partnerid</td>
+              <td>= your affiliate id (e.g. b1s398) </td>
+            </tr>
+            <tr>
+              <td style="width:10%;">@partnersubid</td>
+              <td>= the subID being passed to us in the URL</td>
+            </tr>
+            <tr>
+              <td style="width:10%;">@shwleadid</td>
+              <td>= the lead ID assigned to the user upon submission of the affiliate form</td>
+            </tr>
+            <tr>
+              <td style="width:10%;">Example</td>
+              <td><textarea  style="height:19px;width:89%;resize: none;" readonly><iframe width='1' height='1' frameborder='0' src='https://domain.com/file.php?campaignid=1111&leadid=@shwleadid'></iframe></textarea></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br><br>
+  <hr>
+
+
+<style type="text/css">
+.verticalLine {  border-left: 1px solid black;padding: 0px 0px 0px 2.2% !important; }
+.my_clip_button{background-image:url("copy2.png");}
+</style>
+
+
+<script>
+  jQuery(document).ready(function() {
+    var clip = new ZeroClipboard(jQuery("#d_clip_button"))
+    var clip2 = new ZeroClipboard(jQuery("#d_clip_button2"))
+  });
+
+  jQuery("#clear-test").on("click", function(){
+    jQuery("#fe_text").val("Copy me!");
+    jQuery("#testarea").val("");
+  });
+</script>

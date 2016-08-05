@@ -1,0 +1,56 @@
+<%= tinymce_assets %>
+
+<%= form_for @email_template, :url => { :action => 'update', :id => @email_template.id } do |template| %>
+
+<h2>Edit Email Template: <strong><% if @email_template.locked %><%= @email_template.name %><% else %><%=template.text_field :name%><% end %></strong></h2>
+
+		<table class="form_table">
+			<tr>
+				<td> Subject:</td>
+				<td style="width:35%;"><%= template.text_field :subject, :size => 115 %></td>
+				<td>Reply to: </td>
+				<td><%= template.text_field :reply_to, :size => 115 %></td>
+			</tr>
+			<tr>
+				<td>Attachments:</td>
+				<td style="width:35%;">
+					<%#=template.text_field :attachments, :size => 115%>
+					<%= template.select :attachments, options_for_select(["","{attach contract_pdf}", "{attach workorder_pdf}", "{attach performa_invoice_pdf}", "{attach buyoutrelease_pdf}"], template.object.attachments) %>
+				</td>
+				<td>From:</td>
+				<td><%= template.text_field :from, :size => 115 %></td>
+			</tr>
+		</table>
+		<table class="form_table">
+			<tr>
+				<td valign="top">	Body:	</td>
+
+				<td valign="top" style="width:86.5%;">
+					<%= template.text_area :body, :class => "tinymce", :cols => 70, :rows => 40%><br>
+					<%=submit_tag 'Save Email Template', :class => "btn" %> or <a class="btn" href="/admin/email_templates">Cancel</a>
+				</td>
+			</tr>
+		</table>
+
+<% end %>
+
+<%= tinymce %>
+
+<hr>
+<h2>&nbsp;&nbsp;Placeholders</h2>
+<table>
+	<% EmailTemplate.placeholders.each_with_index do |placeholder,index| %>
+		
+		<% if (index+1)%2 != 0 %><tr><% end %>
+			<td>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;{<%=placeholder[0]%>}&nbsp;&nbsp;<span style="color: gray;"><%=placeholder[1]%></span></p>
+			</td>
+		<% if (index+1)%2 != 1 %></tr><% end %>
+		
+	<% end %>
+
+	<p>
+		&nbsp;&nbsp;&nbsp;&nbsp;{my name}&nbsp;&nbsp;<span style="color: gray;"><%=current_account.parent.name%></span>
+	</p>
+
+</table>

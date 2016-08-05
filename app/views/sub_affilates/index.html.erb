@@ -1,0 +1,34 @@
+<link href="/assets/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<h3>Listing SubIDs</h3>
+<% if @sub_affiliates.present? %>
+  <table class="table table-condensed table-striped table-bordered sortable_table">
+    <thead>
+      <tr>
+        <th><strong>#</strong></th>
+        <th><strong>SubId</strong></th>
+        <th><strong>SubId Label</strong></th>
+        <th><strong>No. Of Leads</strong></th>
+        <th><strong>Action</strong></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sub_affiliates.each_with_index do |sa,index| %>
+        <tr>
+          <td><%= index+1%></td>
+          <td><%= sa.sub_ids %></td>
+          <td><%= sa.subid_label %></td>
+          <td><%= sa.customers.count  %></td>
+          <td>
+            <%= link_to "Edit", edit_sub_affilate_path(sa) %> | 
+            <%= link_to 'Delete', sub_affilate_path(sa.id), :method => :delete, :confirm => "Are you sure you want to permanently delete this? This operation cannot be undone." %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<%= form_for @new_sub_affilate, :url => { :action => "create" }, :class => "form-horizontal", :remote => true do |f| %>
+  <%= render :partial => "/sub_affilates/form", :locals => {:f => f } %>
+<% end %>
+

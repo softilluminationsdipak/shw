@@ -1,0 +1,95 @@
+<h4 class="breadcrumb">Sub Affilates &nbsp;&nbsp;&nbsp;</h4>
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+	<tr>
+		<th><strong>Name</strong></th>
+		<th><strong>Email</strong></th>
+		<th><strong>SubIds </strong></th>
+		<th><strong>No. Of Leads </strong></th>
+		<th><strong>Action</strong></th>
+	</tr>
+	</thead>
+	<% @sub_affilates.each do |a| %>
+		<tr class="hoverable <%=cycle('stripe', '')%>">
+			<td><%= a.partner.fullname %></td>
+			<td><%= a.partner.email %></td>
+			<td><%= a.sub_ids %></td>
+			<td><%= a.customers.count %></td>
+		<td>
+			<%= link_to 'Link', "/affiliate/#{a.partner.discount_code}?subids=#{a.sub_ids}" %> |
+			<%= link_to "Edit", "/admin/sub-affiliates/edit/#{a.id}" %> |
+			<%= link_to 'Delete', "/admin/sub-affiliates/destroy/#{a.id}", :confirm => "Are you sure you want to permanently delete this? This operation cannot be undone." %> |
+			<%= link_to 'Console', "/admin/sub-affiliates/index?id=#{a.id}" %>
+		</td>
+	</tr>
+	<% end %>
+</table>
+<hr>
+<h4 class="breadcrumb">Add Sub-Affilates</h4>
+
+<%= form_for @new_sub_affilate, :url => { :action => "create" }, :remote => true do |f| %>
+	<%= render :partial => "/admin/affiliates/form", :locals => {:f => f } %>
+<% end %>
+
+<% if @customers.present? %>
+  <div style="padding:1%;">
+    <%= form_tag "/admin/sub-affiliates/index?id=#{@params_id}", :method => 'post' do %>
+    	<table>
+    		<tr>
+        	<td><label for="from">From</label></td>
+        	<td><%= text_field_tag :start_date, params[:start_date], :placeholder => "Start Date", :id => "start_date2" %></td>
+        	<td><label for="to">to</label></td>
+        	<td><%= text_field_tag :end_date, params[:end_date], :placeholder => "End Date", :id => "end_date2" %></td>
+        	<td><%= submit_tag "Search", :name => nil %></td>
+      	</tr>
+      </table>
+    <% end %>
+  </div>
+  <div>
+  	<p>
+			Download:
+			<%= link_to "CSV", "/admin/sub-affiliates/index?id=#{params[:id]}&start_date=#{params[:start_date]}&end_date=#{params[:end_date]}&format=csv" %> |
+			<%= link_to "Excel", "/admin/sub-affiliates/index?id=#{params[:id]}&start_date=#{params[:start_date]}&end_date=#{params[:end_date]}&format=xls" %> 
+		</p>
+		<h4>
+		<% if @start_date.present? && @end_date.present? %>
+			<p> Report between <%= @start_date.strftime("%B %d, %Y") %> to <%= @end_date.strftime("%B %d, %Y") %> </p>
+		<% end %> </h4>
+  </div>
+	<table class="table table-condensed table-striped table-bordered sortable_table">
+		<tr>
+			<th><strong>SHW#</strong></th>
+			<th><strong>LEADID</strong></th>
+			<th><strong>FULLNAME</strong></th>
+			<th><strong>ADDRESS</strong></th>
+			<th><strong>CITY</strong></th>
+			<th><strong>STATE</strong></th>
+			<th><strong>ZIP</strong></th>
+			<th><strong>PHOME</strong></th>
+			<th><strong>EMAIL</strong></th>
+			<th><strong>CREATED AT</strong></th>
+		</tr>
+		<% @customers.each do |customer| %>
+		<tr>
+			<td><%= link_to customer.id, "/admin/customers/edit/#{customer.id}" %></td>
+			<td><%= customer.leadid %></td>
+			<td><%= "#{customer.first_name} #{customer.last_name}" %></td>
+			<td><%= customer.customer_address.present? ? customer.customer_address : customer.properties.last.address %></td>
+			<td><%= customer.customer_city.present? ? customer.customer_city : customer.properties.last.city %></td>
+			<td><%= customer.customer_state.present? ? customer.customer_state.upcase : customer.properties.last.state.upcase %></td>
+			<td><%= customer.customer_zip %></td>
+			<td><%= customer.customer_phone %></td>
+			<td><%= customer.email %></td>
+			<td><%= customer.created_at.strftime("%m/%d/%Y") %></td>
+		</tr>
+		<% end %>
+	</table>	
+	<% if params[:start_date].present? && params[:end_date].present? %>
+		<%= will_paginate @customers, :param_name => 'sub_affiliate', :params => {:start_date => params[:start_date], :end_date => params[:end_date], :id => params[:id]} if @customers.present? %>
+	<% else %>
+		<%= will_paginate @customers, :param_name => 'sub_affiliate' if @customers.present? %>
+	<% end %>
+
+<% else %>
+	<h4 class="breadcrumb">Activate a Affiliate's console to show leads.</h4>
+<% end %>

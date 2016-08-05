@@ -1,0 +1,12 @@
+<div class="fixed-width">
+  <div class="main-area">
+    <%= h Content.for(:realestate) %> 
+    <% content_for :request_intro do %>
+			<p class="notes">
+				Please take a moment to request more information and join our realtor network:
+			</p>
+    <% end %>
+		<%=render :partial => 'request_form', :locals => { :template_name => "Join Our Team", :tname => 'realestate'}%>
+  </div>
+</div>
+<%= google_analytics_js %>

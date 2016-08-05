@@ -1,0 +1,122 @@
+<h4 class="breadcrumb">Affiliate &nbsp;&nbsp;&nbsp;</h4>
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+	<tr>
+		<th><strong>Company</strong></th>
+		<th><strong>Name</strong></th>
+		<th><strong>Email</strong></th>
+		<th><strong>Phone</strong></th>
+		<th><strong>Approval Status</strong></th>
+		<th><strong># of Leads </strong></th>
+		<th><strong>Actions</strong></th>
+	</tr>
+	</thead>
+	<% if @companies.present? %>
+		<% @companies.each do |company| %>
+		<tr class="hoverable <%=cycle('stripe', '')%>">
+			<td><%= company.company_name %></td>
+			<td><%= "#{company.firstname} #{company.lastname}" %></td>
+			<td><%= company.email %></td>
+			<td><%= "#{clean_phone_number(company.phone)}" %></td>
+			<td><%= company.company_api_access %></td>
+			<td><%= company.customers.not_sub_affiliate_id.count %></td>
+			<td>
+				<% if company.auth_token.present? && company.is_access_approved? %>
+					<%= link_to "Link", affiliate_path(company.auth_token[0..5]) %> &nbsp;| 
+				<% end %>
+				<a href="/admin/partners/edit/<%= company.id%>">Edit</a>&nbsp; |
+				<%= link_to 'Del', "/admin/partners/destroy/#{company.id}", :confirm => "Are you sure you want to delete this record?", :method => :delete %>
+				| &nbsp;<%= link_to "Console", "/admin/partners?id=#{company.id}" %>
+			</td>
+		</tr>
+		<% end %>
+		<%= will_paginate @companies, :param_name => 'companies' if @companies.present? %>
+	<% end %>
+</table>
+<hr>
+
+<% if @partner.present? && @customers.present? %>
+    <div style="padding:1%;">
+      <table>
+      	<tr>
+      		<td>
+			    	<p>
+			  			Download:
+			  			<%= link_to "CSV", "/admin/partners?id=#{params[:id]}&start_date=#{params[:start_date]}&end_date=#{params[:end_date]}&format=csv" %> |
+			  			<%= link_to "Excel", "/admin/partners?id=#{params[:id]}&start_date=#{params[:start_date]}&end_date=#{params[:end_date]}&format=xls" %> 
+						</p>
+      		</td>
+		      <%= form_tag "/admin/partners?id=#{@params_id}", :method => 'post' do %>
+          	<td><label for="from">From</label></td>
+          	<td><%= text_field_tag :start_date, params[:start_date], :placeholder => "Start Date" %></td>
+    	      <td><label for="to">to</label></td>
+      	    <td><%= text_field_tag :end_date, params[:end_date], :placeholder => "End Date" %></td>
+        	  <td><%= submit_tag "Search", :name => nil %></td>
+      		<% end %>
+        </tr>
+      </table>
+    </div>
+    <div>
+			<h4>
+			<% if @start_date.present? && @end_date.present? %>
+				<p> Report between <%= @start_date.strftime("%B %d, %Y") %> to <%= @end_date.strftime("%B %d, %Y") %> </p>
+			<% end %> </h4>
+    </div>
+		<table class="table table-condensed table-striped table-bordered sortable_table">
+			<tr>
+				<th><strong>SHW#</strong></th>
+				<th><strong>SUBID</strong></th>
+				<th><strong>LEADID</strong></th>
+				<th><strong>FULLNAME</strong></th>
+				<th><strong>ADDRESS</strong></th>
+				<th><strong>CITY</strong></th>
+				<th><strong>STATE</strong></th>
+				<th><strong>ZIP</strong></th>
+				<th><strong>PHONE</strong></th>
+				<th><strong>EMAIL</strong></th>
+				<th><strong>STATUS</strong></th>
+				<th><strong>CREATED AT</strong></th>
+			</tr>
+			<% @customers.each do |customer| %>
+			<tr>
+				<td><%= link_to customer.id, "/admin/customers/edit/#{customer.id}" %></td>
+				<td><%= customer.subid %></td>
+				<td><%= customer.leadid %></td>
+				<td><%= "#{customer.first_name} #{customer.last_name}" %></td>
+				<td><%= customer.customer_address.present? ? customer.customer_address : customer.properties.last.address %></td>
+				<td><%= customer.customer_city.present? ? customer.customer_city : customer.properties.last.city %></td>
+				<td><%= customer.customer_state.present? ? customer.customer_state.upcase : customer.properties.last.state.upcase %></td>
+				<td><%= customer.customer_zip.present? ? customer.customer_zip : customer.properties.last.zip_code %></td>
+				<td><%= customer.customer_phone %></td>
+				<td><%= customer.email %></td>
+				<td>
+					<%#= customer.status if customer.status.present? %>
+					<%= customer.c_status if customer.c_status.present? %>
+				</td>
+				<td><%= customer.created_at.strftime("%m/%d/%Y") %></td>
+			</tr>
+			<% end %>
+		</table>
+		<% if params[:start_date].present? && params[:end_date].present? %>
+			<%= will_paginate @customers, :param_name => 'customers', :params => {:start_date => params[:start_date], :end_date => params[:end_date], :id => params[:id]} if @customers.present? %>
+		<% else %>
+			<%= will_paginate @customers, :param_name => 'customers' if @customers.present? %>
+		<% end %>
+<% else %>
+	<h4 class="breadcrumb">Activate a Affiliate's console to show leads.</h4>
+<% end %>
+
+<script>
+  jQuery(function() {
+    jQuery( "#start_date" ).datepicker({
+      dateFormat: "mm/dd/yy",
+     maxDate: new Date('<%= Time.now.to_date.strftime("%m/%d/%Y") %>'),
+      changeMonth: true,changeYear: true
+    });
+    jQuery( "#end_date" ).datepicker({
+      dateFormat: "mm/dd/yy",
+      maxDate: new Date('<%= Time.now.to_date.strftime("%m/%d/%Y") %>'),
+      changeMonth: true,changeYear: true
+    });
+  });
+</script>

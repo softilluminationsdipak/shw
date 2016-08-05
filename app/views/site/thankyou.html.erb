@@ -1,0 +1,37 @@
+<% if flash[:result] == :success %>
+  <!-- Google Code for Sale conversion Conversion Page -->
+  <script type="text/javascript">
+  /* <![CDATA[ */
+    var google_conversion_id = 1005147797;
+    var google_conversion_language = "en";
+    var google_conversion_format = "3";
+    var google_conversion_color = "ffffff";
+    var google_conversion_label = "hwEPCPOFtwQQla2l3wM";
+    var google_conversion_value = <%= params[:customer][:pay_amount] || 0 %>;
+    /* ]]> */
+  </script>
+  <script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
+  </script>
+  <noscript>
+    <div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/1005147797/?value=0&amp;label=hwEPCPOFtwQQla2l3wM&amp;guid=ON&amp;script=0"/>
+    </div>
+  </noscript>
+	<h1>Thank You</h1>
+	<!-- <h3>Thank you for your order. Please call 855-267-3532 to activate your policy.</h3> -->
+  <h3>Thank you for your order. To activate your policy please call 855-267-3532 x1.</h3>
+	<p>Please use the navigation links at the top or bottom of the page; do not use your browser&rsquo;s back button to go back.</p>
+<% else %>
+<script>
+  function goBack()
+   {
+      history.back();
+      return false;
+   }
+  </script>
+	<h1>Oops!</h1>
+	<h3>There was a problem processing your account:</h3>
+	<p><strong><%= flash[:result].message if flash[:result].present? && flash[:result].message.present? %></strong></p>
+	<p><a href="#" onclick="goBack()">Please request your free quote again.</a></p>
+<% end %>
+<%= google_analytics_js %>

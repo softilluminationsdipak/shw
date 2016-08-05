@@ -1,0 +1,21 @@
+<h4 class="breadcrumb">Edit Cancellation Reason </h4>
+<%= form_for  @cancellation_reason, :url => { :action => 'update', :id => @cancellation_reason.id } do |f| %>
+	<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>"/>
+	<table class="form_table">
+	 <tbody>
+		<tr>
+			<td>Reason</td>
+			<td><input type="text" name="cancellation_reason[reason]" value='<%= @cancellation_reason.reason %>' id="cancellation_reason_reason" style="width: 90%;margin:0%;" /></td>
+			<td><input type="submit" value="Update" id="add_cancellation_reason_button" class="btn" /></td>
+		</tr>
+   </tbody>
+	</table>
+<% end %>
+
+<script type="text/javascript">
+  jQuery('#add_cancellation_reason_button').click(function(e){
+    var reason;
+    reason = jQuery('#cancellation_reason_reason').val();
+    if (reason == ""){ alert("Please enter cancellation reason!"); return false;  }
+  });
+</script>

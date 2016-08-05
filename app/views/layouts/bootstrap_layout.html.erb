@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title>Eripme</title>
+		<%= javascript_include_tag "bootstrap_layout" %>
+  	<%= stylesheet_link_tag "bootstrap_layout" %>
+		<%= csrf_meta_tag %>
+  	<%= google_analytics_js %>
+	</head>
+	<body>
+		<%= render :partial => "/shared/hubspot_analytics_code" %>
+		<%= render :partial => "partners/header" %>		
+		<%= render :partial => '/shared/team_sales_agent_chat' %>
+		<div class="container" style="width:100%;">
+		  <% flash.each do |key, value| %>
+		    <div class="<%= flash_class(key) %> fade in">
+		      <a href="#" data-dismiss="alert" class="close">×</a>
+		      <%= value %>
+		    </div>
+		  <% end %>
+			<%= yield %>
+		</div>
+	</body>
+</html>

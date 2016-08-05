@@ -1,0 +1,106 @@
+<h3>CreditCards</h3>
+<div id='nmi_customer_credit_card'>
+	<%= render :partial => '/admin/customers/nmi_credit_card', :locals => {:customer => @customer} %>
+</div>
+<h3>
+	Subscriptions 
+	<small class='pull-right'>	
+		<a data-toggle="modal"  backdrop='static' data-keyboard="false" href="#manual_billing" class="">Manual Billing</a> | 
+		<a data-toggle="modal"  backdrop='static' data-keyboard="false" href="#add_subscription" class="">Add Subscription</a>		
+	</small>
+</h3>
+<div id='nmi_customer_subscription'>
+	<%= render :partial => '/admin/customers/nmi_subscription', :locals => {:customer => @customer} %>
+</div>
+<h3>Transactions</h3>
+<div id='nmi_customer_transaction'>
+	<%= render :partial => '/admin/customers/nmi_transaction', :locals => {:customer => @customer} %>
+</div>
+
+<!-- POPUPS -->
+<div class="modal hide" id="manual_billing" data-keyboard="false" data-backdrop="static">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Manual Billing</h3>
+	</div>
+	<%= form_tag admin_subscription_manual_billing_path(@customer.id), :method => 'post', :remote => true, :class => 'form-horizontal', :id => 'manual_billing_form' do %>
+		<div class="modal-body">
+			<h5>If the charge does not succeed, the customer will be emailed the Billing template.</h5><br>
+		</div>
+		<div class="control-group">
+	    <label class="control-label" for="inputEmail">Credit Card</label>
+	    <div class="controls">
+	      <%= select_tag "manual[credit_card_id]", options_for_select(@customer.credit_cards.collect{|p| ["#{p.number} (#{p.id})", p.id]}),{prompt: 'SELECT CREDIT CARD'}  %>
+	    	<span id='manual_ccid' class="error"></span>
+	    </div>
+	  </div>
+ 		<div class="control-group">
+	    <label class="control-label" for="amount">Amount</label>
+	    <div class="controls">
+	      <%= text_field_tag 'manual[amount]', '', :placeholder => 'Amount' %>
+	      <span id='manual_amt' class="error"></span>
+	    </div>
+	  </div>
+		<div class="modal-footer">
+			<%= submit_tag "Manual Billing", class: 'btn btn-primary', id: 'manual_billing_btn' %>
+		</div>		  
+	<% end %>
+</div>
+
+
+<div class="modal hide" id="add_subscription" data-keyboard="false" data-backdrop="static">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Bill Customer</h3>
+	</div>
+	<%= form_tag admin_subscription_nmi_billing_path(@customer.id), :method => 'post', :remote => true, :class => 'form-horizontal', :id => 'add_subscription_form' do %>
+		<div class="modal-body">
+			<h5>If the charge does not succeed, the customer will be emailed the Billing template.</h5><br>
+			<%= hidden_field_tag "nmi_type", 'subscription' %>
+			<div class="control-group">
+		    <label class="control-label" for="inputEmail">Credit Card</label>
+		    <div class="controls">
+		      <%= select_tag "subscription[credit_card_id]", options_for_select(@customer.credit_cards.collect{|p| ["#{p.number} (#{p.id})", p.id]}),{prompt: 'SELECT CREDIT CARD'}  %>
+		    	<span id='subscription_ccid' class="error"></span>
+		    </div>
+		  </div>
+			<div class="control-group">
+		    <label class="control-label" for="amount">Amount</label>
+		    <div class="controls">
+		      <%= text_field_tag 'subscription[amount]', '', :placeholder => 'Amount' %>
+		      <span id='subscription_amt' class="error"></span>
+		    </div>
+		  </div>
+			<div class="control-group">
+		    <label class="control-label" for="amount">Start Date</label>
+		    <div class="controls">
+		      <%= text_field_tag 'subscription[start_date]', '', :placeholder => 'Start Date', :class => "datepicker" %>
+		      <span id='subscription_sdate' class="error"></span>
+		    </div>
+		  </div>		  
+		  <div class="control-group">
+		    <label class="control-label" for="amount">Inverval</label>
+		    <div class="controls">
+		      <%= number_field_tag 'subscription[interval]', '0', :placeholder => 'Interval', :class => "span1" %>
+		      <%= select_tag "subscription[period]", options_for_select(Subscription::PERIOD.collect{|p| [p, p]}), :class => 'span1'  %>
+		      <span id='subscription_interval' class="error"></span>
+		    </div>
+		  </div>
+		</div>
+		<div class="modal-footer">
+			<%= submit_tag "Add Subscription", class: 'btn btn-primary', id: 'add_subscription_btn' %>
+		</div>
+	<% end %>
+</div>
+<script>
+		jQuery("#add_subscription_btn").click(function(){
+			jQuery("#add_subscription_form").submit();
+			jQuery("#add_subscription_btn").attr('disabled', 'disabled')
+			jQuery("#add_subscription_btn").val('Sending…');
+		})
+		jQuery("#manual_billing_btn").click(function(){
+			jQuery("#manual_billing_form").submit();
+			jQuery("#manual_billing_btn").attr('disabled', 'disabled')
+			jQuery("#manual_billing_btn").val('Sending…');			
+		})
+</script>

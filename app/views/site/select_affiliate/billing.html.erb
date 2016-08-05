@@ -1,0 +1,171 @@
+<% content_for :head do %>
+	<%= javascript_include_tag 'getaquote' %>
+<% end %>
+
+<div class="step-info step-2">
+	<h2>Shield Your Wallet</h2>
+	<h3>From Expensive Home Repairs</h3>
+	<p>As a homeowner, you never know when a heat or plumbing system, appliance, or garage door will break down. Repairing these systems requires time to look for a suitable repair technician and high repair costs. Let Select Home Warranty take the guess work out. We are available 24/7 to repair or even replace your covered claim. We have a network of over 10,000 contractors standing by.</p>
+	<p>Unfortunately, major home systems and appliances don&rsquo;t wait until a convenient time to break down.</p>
+</div>
+
+<!-- Form Container -->
+<div class="form-container">
+	<div class="form-steps">
+		<ul>
+			<li>1. Property Information</li>
+			<li>2. Select Your Plan</li>
+			<li class="current-step">3. Sign Up Now</li>
+		</ul>
+	</div>
+
+	<div class="form-content">
+		<div class="promotion">
+			<p>
+				<%=@customer.package_name%>
+				<span>|</span>
+				Regular price
+				<span class="strike-line">
+					<span class="strike-color">
+						$<%=@customer.package_price + 100%>
+					</span>
+				</span>
+				<span>|</span>
+				Today $100 off -
+				<%="$%.2f" % @customer.package_price%>
+			</p>
+		</div>
+
+		<div class="plan-details">
+			<div class="col">
+				<p>Quote for <span><%=@customer.name%></span></p>
+				<p>Type of home <span><%=@customer.formatted_home_type%></span></p>
+				<p>Coverage details <span><%=@customer.package_name%></span></p>
+			</div>
+			<div class="col">
+				<p>Coverage Address <span><%=@customer.first_property.to_s%></p>
+				<!--<p class="plan-price"><%="$%.2f" % @customer.list_price%></p>-->
+			</div>
+			<div class="cl">&nbsp;</div>
+		</div>
+
+		<p class="service-list">Package covers: <%=@customer.package_covers%></p>
+
+		<div class="price-list">
+			<table border="0" cellspacing="0">
+			<% @customer.coverages.each do |coverage| %>
+				<tr>
+					<td><%=coverage.coverage_name%></td>
+					<td class="item-price"><%="$%.2f" % coverage.price%></td>
+				</tr>
+			<% end %>
+			</table>
+
+			<table class="payment-table" border="0" cellspacing="0">
+				<% if @customer.discount %>
+				<tr class="big-cells">
+					<td>Subtotal</td>
+					<td class="item-price"><%="$%.2f" % @customer.list_price%></td>
+				</tr>
+				<tr class="big-cells promotional-discount">
+					<td><span>Promotional Discount</span></td>
+					<td class="item-price">-<%=@customer.discount.amount%></td>
+				</tr>
+				<% end %>
+				<tr class="big-cells">
+					<td>Total Price</td>
+					<td class="item-price"><%="$%.2f" % @customer_total_price%></td>
+				</tr>
+			</table>
+
+			<div class="total-price">
+				<div class="left">
+					<h3>Your Price</h3>
+					<p><span><%="$%.2f" % @customer_total_price%></span> / <%=@customer.payment_schedule%> months</p>
+				</div>
+				<div class="cl">&nbsp;</div>
+			</div>
+		</div>
+
+		<%= form_for :customer, :url => 'billing', :html => { :id => "getaquote_form" } do |customer_form| %>
+      	<%= fields_for :billing_address do |billing_address| %>
+		<div class="billing-information">
+			<h4>Billing information</h4>
+			<p><%= link_to "Billing Info. is same as Contact Info.", h params.merge({:copy_billing_info=> true}), :style => 'text-decoration: underline;' %></p>
+			<p><strong>Pay Amount: <%=@customer.pay_amount%></strong></p>
+
+			<div class="billing-fields">
+				<div class="row">
+					<label for="credit_card_number">Credit Card:</label>
+					<input type="text" id="credit_card_number" style="width: 115px;" size="16" name="credit_card_number" class="field"/>
+					<%= image_tag('admin/creditcards.gif', :alt => 'Credit Card', :title => 'We accept VISA, MasterCard, Discover Card and American Express', :class => 'cards' ) %>
+				</div>
+
+				<div class="row">
+					<label>Exp. Date:</label>
+					<%= select_month(Date.today, :use_month_numbers => true) %>
+              		<%= select_year(Date.today, :start_year => Date.today.year, :end_year => Date.today.year + 10)%>
+				</div>
+
+				<div class="row row-billing-name">
+					<label for="customer_billing_first_name">Billing Name</label>
+					<%= customer_form.text_field :billing_first_name, :size => 12, :value => "#{@copy_address.present? ? @customer.try(:first_name) : ''}", :class => 'field' %>
+					<%= customer_form.text_field :billing_last_name, :size => 12, :value => "#{@copy_address.present? ? @customer.try(:last_name) : ''}", :class => 'field' %>
+				</div>
+
+				<div class="row">
+					<label for="billing_address_address">Address:</label>
+					<%= billing_address.text_field :address, :size => 26, :value => "#{@copy_address.present? ? @customer.addresses.try(:first).try(:address) : ''}", :class => 'field' %>
+				</div>
+
+				<div class="row">
+					<label for="billing_address_city">City:</label>
+					<%= billing_address.text_field :city, :size => 26, :value => "#{@copy_address.present? ? @customer.addresses.try(:first).try(:city) : ''}", :class => 'field' %>
+                	<%= customer_form.hidden_field :customer_id, :value => @customer.id %>
+				</div>
+
+				<div class="row row-state">
+					<label for="billing_address_state">State:</label>
+					<%= billing_address.text_field :state, :size => 2, :value => "#{@copy_address.present? ? @customer.addresses.try(:first).try(:state) : ''}", :class => 'field' %>
+
+					<label class="zip-label" for="billing_address_zip_code">Zip:</label>
+					<%= billing_address.text_field :zip_code, :size => 5, :value => "#{@copy_address.present? ? @customer.addresses.try(:first).try(:zip_code) : ''}", :class => 'field' %>
+				</div>
+
+				<label class="terms">
+					<label for="tc_checkbox"><strong>I agree to the <a href="/termsconditions" target="_blank">Terms &amp; Conditions</a> of the Home Warranty:</strong></label>
+					<input type="checkbox" id="tc_checkbox"/>
+				</label>
+
+				<div class="submit-button-wrap">
+					<input id="customer_id" type="hidden" name="id" value="<%=@customer.id%>">
+					<input type="hidden" name="property_id" value="<%=@property.id%>">
+					<!-- This is set by JS, so it incorporates the discount -->
+					<input type="hidden" id="customer_num_payments" name="customer[num_payments]" value="1">
+					<input type="hidden" id="customer_pay_amount" name="customer[pay_amount]" value=""/>
+					<input type="hidden" id="customer_disabled" name="customer[disabled]" value="0"/>
+
+					<%= customer_form.submit 'Enroll Now', :class => 'submit_button_class submit-button' %>
+				</div>
+				
+				<div class="cl">&nbsp;</div>
+			</div>
+		</div>
+		<% end; end %>
+
+		<div class="cl">&nbsp;</div>
+	</div>
+
+	<span class="form-shadow"></span>
+</div>
+
+<!-- Google Code for Lead Conversion Conversion Page -->
+<script type="text/javascript">
+gCoverages = new Hash({
+	<%=Coverage.find_all_by_optional(1).collect { |cvg| "#{cvg.id}: 0.0" }.join(', ') %>
+});
+
+jQuery('.price-list tr:not(.big-cells):even').addClass('blue-bg');
+</script>
+<img src="https://147.xg4ken.com/media/redir.php?track=1&token=30b2f042-03e2-4fe6-bff9-fb12f8855dfc&type=sale&val=0.0&orderId=&promoCode=&valueCurrency=USD&GCID=&kw=&product="
+width="1" height="1">

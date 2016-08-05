@@ -1,0 +1,26 @@
+<table style="width:100%;">
+	<tr>
+	  <%= form_tag "/admin/claims/dashboard", :method => 'get' do %>
+	  	<td style="width:10%;">
+	  		<%= text_field_tag :claim_id, params[:claim_id], :placeholder => "CLAIM #" %>
+	  	</td>	  
+	  	<td style="width:10%;">
+	  		<%= text_field_tag :contract_id, params[:contract_id], :placeholder => "CONTRACT #" %>
+	  	</td>	  	  	
+	  	<td style="width:12%;">
+				<%= select_tag 'state', options_for_select(State.all.map(&:name).collect{ |u| [u, u] }, params[:state]), {prompt: 'SELECT STATE', :style => "width: 100%;"} %>	  
+			</td>
+	  	<td style="width:12%;">
+	  		<%= select_tag 'new_claim_status', options_for_select(ClaimStatus.active_status.collect{|p| [p.claim_status, p.csid]}, params[:new_claim_status]), {prompt: 'CLAIM STATUS', :style => "width:100%;"} %>
+	  	</td>
+	  	<td style="width:12%;">
+	  		<%= select_tag 'invoice_status', options_for_select(Claim::INVOICE_STATUS.collect{ |u| [u, u] }, params[:invoice_status]), {prompt: 'INVOICE STATUS', :style => "width:100%;"} %>
+	  	</td>
+
+		  <td style="padding: 0px 0px 7px 10px;">
+		  	<%= submit_tag "Search", :name => nil, :class => "btn" %>
+		  </td>
+		<% end %>
+	</tr>
+</table>
+<br>

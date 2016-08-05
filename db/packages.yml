@@ -1,0 +1,58 @@
+--- 
+- !ruby/object:Package 
+  attributes: 
+    duplex_price: "659.99"
+    condo_price: "574.99"
+    id: "1"
+    triplex_price: "859.99"
+    fourplex_price: "959.99"
+    single_price: "394.99"
+    package_name: Platinum Care
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Package 
+  attributes: 
+    duplex_price: "589.99"
+    condo_price: "509.99"
+    id: "2"
+    triplex_price: "789.99"
+    fourplex_price: "889.99"
+    single_price: "329.99"
+    package_name: Gold Care
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:Package 
+  attributes: 
+    duplex_price: "474.99"
+    condo_price: "394.99"
+    id: "3"
+    triplex_price: "674.99"
+    fourplex_price: "774.99"
+    single_price: "214.95"
+    package_name: Bronze Care
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false

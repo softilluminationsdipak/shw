@@ -1,0 +1,31 @@
+<h4 class="breadcrumb">IP Tracks</h4>
+
+<div class="row-fluid">
+
+<table class="table table-condensed table-striped table-bordered">
+	<thead>
+			<th><strong>Time</strong></th>
+			<th><strong>Customer</strong></th>
+			
+			<th><strong>Remote IP</strong></th>
+			<th><strong>User Agent</strong></th>
+			
+	</thead>
+	
+	<tbody>
+    <% @ip_tracks.each do |iptrack| %>
+      <tr>
+        <td><%= iptrack.created_at %></td>
+        <td>
+          <% if iptrack.customer != nil %>
+            <%= link_to iptrack.customer.contract_number, "/admin/customers/edit/#{iptrack.customer.id}" %>
+          <% end %>
+        </td>
+        <td><%= iptrack.remote_ip %></td>
+        <td><%= iptrack.browser_title %></td>
+      </tr>
+    <% end %>
+	</tbody>
+</table>
+<%= will_paginate @ip_tracks, :param_name => 'ip_tracks' if @ip_tracks.present? %>
+</div>

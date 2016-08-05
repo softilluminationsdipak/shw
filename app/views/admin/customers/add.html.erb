@@ -1,0 +1,47 @@
+<%= form_for @customer, :url => { :action => 'create' }, :remote => true do |f| %>
+<%= fields_for :property, @property do |property| %>
+<%= fields_for :billing, @billing do |billing| %>
+
+<h4 class="breadcrumb" style="background-color: pink">Customer Information</h4>
+<table class="form_table">
+	<tr>
+		<td>First Name:</td><td><%= f.text_field :first_name %></td>
+		<td>Last Name:</td><td><%= f.text_field :last_name %></td>
+	</tr>
+	<tr>
+		<td>Email:</td><td><%= f.text_field :email %></td>
+		<td>Phone Number:</td><td><%= f.text_field :customer_phone%></td>
+	</tr>
+</table>
+<br>
+
+<h4 class="breadcrumb breadcrumb-inverse">Coverage Address</h4>
+<table class="form_table">
+	<tr>
+		<td>Address:</td><td><%= property.text_field :address %></td>
+		<td>City:</td><td><%= property.text_field :city %></td></tr>
+	<tr>
+		<td>State:</td><td><%= property.text_field :state, :size => 2 %></td>
+		<td>Zip Code:</td><td><%= property.text_field :zip_code %></td>
+	</tr>
+</table>
+<br>
+
+<h4 class="breadcrumb breadcrumb-inverse">Billing Address</h4>
+<a href="#" onclick="copyBillingAddressFromCoverage()">Coverage and Billing Addresses are same</a><br><br>
+
+<table class="form_table">
+	<tr>
+		<td>Address:</td><td><%= billing.text_field :address %></td>
+		<td>City:</td><td><%= billing.text_field :city %></td></tr>
+	<tr>
+		<td>State:</td><td><%= billing.text_field :state, :size => 2 %></td>
+		<td>Zip Code:</td><td><%= billing.text_field :zip_code %></td>
+	</tr>
+</table>
+<br>
+
+<input type="hidden" name="customer[status_id]" value="0">
+
+<%= submit_tag "Add New Customer" %>
+<% end %><% end %><% end %>

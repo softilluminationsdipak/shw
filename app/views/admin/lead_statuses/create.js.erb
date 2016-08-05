@@ -1,0 +1,6 @@
+<% if @lead_status.valid? %>
+	window.location.href = "/admin/lead_statuses"
+<% else %>
+	alert("<%= @lead_status.errors.full_messages.first.html_safe  %>")
+	return false;
+<% end %>	

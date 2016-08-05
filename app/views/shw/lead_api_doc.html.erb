@@ -1,0 +1,143 @@
+<div id="wrapper">
+	<div class="content">
+	 	<h1 id="overview"><a class="header-anchor" href="#overview"></a>SHW API Documentation</h1>
+		<ul id="markdown-toc">
+		  <li><a href="#post-data-on-get-a-quote-using-api">Generate Lead using API</a></li>
+		</ul>
+		<hr>
+		<p>
+			This api will create lead and you will get response ‘accepted’ or ‘rejected’.
+		</p>
+		<pre><code>POST https://<%= request.host %>/api/leads/create</code></pre>
+		<P> You must POST the following parameters: </p>
+		<div id="documentation">
+			<div id="md" class="docs  span9">
+				<table>
+					<thead>
+						<tr>
+  						<th align="left">Parameter</th>
+  						<th align="left">Type</th>
+  						<th align="left">Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+  						<td class="notranslate" align="left">lead[email]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left">Email Address </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[first_name]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left">First Name </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[last_name]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left">Last Name </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[work_phone]<span class="compred">*</span></td>
+  						<td align="left">Number </td>
+  						<td align="left">Phone Number </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[mobile_phone]</td>
+  						<td align="left">String </td>
+  						<td align="left">Mobile Phone </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[home_phone]</td>
+  						<td align="left">String </td>
+  						<td align="left">Home Phone </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[address]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left">Address</td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[city]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left">City</td>
+						</tr>
+						<tr>	
+  						<td class="notranslate" align="left">lead[state]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left"> State <br> The format should be the two-letter postal code.</td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[zipcode]<span class="compred">*</span></td>
+  						<td align="left">Number </td>
+  						<td align="left">Zipcode</td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[type_of_home]<span class="compred">*</span></td>
+  						<td align="left">String </td>
+  						<td align="left">Type Of Home. <br> Example - Single Family, 2 Family, 3 Family, 4 Family, Condominium </td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[square_footage]</td>
+  						<td align="left">String </td>
+  						<td align="left">Square Footage. <br> Example - Less Then 5,000 Sq. Ft., More then 5,000 sq. ft.</td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[package_id]<span class="compred">*</span></td>
+  						<td align="left">Integer </td>
+  						<td align="left">1 For Platinum Care <br> 2 For Gold Care <br> 3 For Bronze Care</td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[optional_coverages]</td>
+  						<td align="left">Text </td>
+  						<td align="left">Comma Seperated <br> For Example : "Pool, Central Vacuum, Second Refrigerator, Sump Pump, Well Pump, Roof Leak, Stand Alone Freezer, Lawn Sprinkler System, Septic System, Ice Maker (In Refrigerator), Lighting Fixtures/Plumbing Fixtures, Additional AC Unit(each), Additional Heat/Furnace(each), Additional Water Heater(each), Spa "</td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[discount_code]</td>
+  						<td align="left">String </td>
+  						<td align="left">125off</td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[billing_name]</td>
+  						<td align="left">String </td>
+  						<td align="left">Billing Name</td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[billing_address]</td>
+  						<td align="left">String </td>
+  						<td align="left">Billing Address</td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[billing_city]</td>
+  						<td align="left">String </td>
+  						<td align="left">Billing City</td>
+						</tr>
+						<tr>
+  						<td class="notranslate" align="left">lead[billing_state]</td>
+  						<td align="left">String </td>
+  						<td align="left">Billing State</td>
+						</tr>	
+						<tr>
+  						<td class="notranslate" align="left">lead[billing_zipcode]</td>
+  						<td align="left">String </td>
+  						<td align="left">Billing Zipcode.</td>
+						</tr>																		
+						<tr>
+  						<td class="notranslate" align="left">lead[payment_method]</td>
+  						<td align="left">Integer </td>
+  						<td align="left">Payment Method<br> For Example : 1 For Monthly & 12 For Yearly</td>
+						</tr>																		
+					</tbody>
+				</table>
+  		</div>
+		</div>
+		<p> Example </p>
+		<pre><code>lead[email]=john@yopmail.com&lead[first_name]=John&lead[last_name]=Write&<br>lead[work_phone]=5049402514&lead[home_phone]=5049402514&<br>lead[mobile_phone]=5049402514&lead[address]=address&lead[city]=ny&lead[state]=CA&<br>lead[zipcode]=12345&lead[type_of_home]=Single Family&<br>lead[square_footage]=Less then 5,000 sq. ft.&lead[package_id]=1&<br>lead[optional_coverages]=Pool, Central Vacuum&lead[discount_code]=125off&<br>lead[billing_name]=dipak panchal&lead[billing_address]=123 fake st.&<br>lead[billing_city]=New York City&lead[billing_state]=NY&lead[billing_zipcode]=12345&<br>lead[payment_method]=1
+</code></pre> 
+		<p>Success Response </p>
+		<pre><code> {"message":"success message","status":200} </code></pre> 
+		<p>Failure Response </p>
+		<pre><code> {"errors":"error message","status":401} </code></pre> 
+  </div>
+</div>
+<hr>
+Date : 6 / 11 / 2015 : Version : v1 

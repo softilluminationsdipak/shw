@@ -1,0 +1,320 @@
+<!-- get package price -->
+<% mapping = { 'Single-Family' => 'single_price', '2-Family' => 'duplex_price', '3-Family' => 'triplex_price', '4-Family' => 'fourplex_price', 'Condominium' => 'condo_price'} %>
+<!-- end get price -->
+<script type="text/javascript">
+  function checkLuhn(input)
+  {
+    var sum = 0;
+    var numdigits = input.length;
+    var parity = numdigits % 2;
+    for(var i=0; i < numdigits; i++) {
+      var digit = parseInt(input.charAt(i))
+      if(i % 2 == parity) digit *= 2;
+      if(digit > 9) digit -= 9;
+      sum += digit;
+    }
+    return (sum % 10) == 0;
+  }
+</script>
+<!-- Form Container -->
+<div class="form-container">
+	<%= form_for :customer, :url => 'billing', :html => { :id => "getaquote_form" } do |customer_form| -%>
+		<% fields_for :billing_address do |billing_address| -%>
+
+      <div class="form-steps">
+        <ul>
+          <li>1. Property Information</li>
+          <li>2. Select Your Plan</li>
+          <li class="current-step">3. Sign Up Now</li>
+        </ul>
+      </div>
+
+      <div class="form-content">
+
+        <div class="promotion">
+          <p><%= @customer.package_name%>&nbsp;Plan <span>|</span> Regular price <span class="strike-line"><span class="strike-color"><%= number_to_currency(@customer.package.send(mapping[@customer.formatted_home_type])+100) %></span></span> <span>|</span> Today &#36;100 off - <%= number_to_currency(@customer.package.send(mapping[@customer.formatted_home_type])) %></p>
+        </div>
+
+        <div class="plan-details">
+          <div class="col">
+            <p>Quote for <span><%=@customer.first_name %> <%=@customer.last_name %></span></p>
+            <p>Type of home <span><%= @customer.formatted_home_type%></span></p>
+            <p>Coverage details <span><%= @customer.package_name%></span></p>
+          </div>
+          <div class="col">
+            <% property_of_customer = @customer.properties.first rescue nil%>
+			      <% unless property_of_customer.nil? %>
+              <p>Coverage Address <span><%= property_of_customer.address %><br /><%= property_of_customer.city %>, <%= property_of_customer.state %> <%= property_of_customer.zip_code %></span></p>
+			      <% end %>
+            <p class="plan-price"><%= number_to_currency(@customer.package.send(mapping[@customer.formatted_home_type])+100) %></p>
+          </div>
+          <div class="cl">&nbsp;</div>
+        </div>
+
+        <p class="service-list"><%= @customer.package.covers %></p>
+
+        <div class="price-list">
+
+          <table border="0" cellspacing="0">
+            <% if @customer.coverage_addon.present? %>
+      				<% @customer.coverage_addon.split(",").each do |index_number| %>
+      	   		  	<% c=Coverage.find(index_number)%>
+      				    <% unless c.nil? %>
+                    <tr>
+                      <td><%= c.coverage_name %></td>
+                      <td class="item-price"><%= number_to_currency(c.price)%></td>
+                    </tr>
+      				    <% end %>
+      				  <% end %>
+              <% end %>
+            </table>
+
+            <% discount_amount= @customer.discount.nil? ? 100 : get_discount_amount(@customer.list_price,@customer.discount.value)	%>
+            <% total_amount= (@customer.list_price+100)-discount_amount %>
+
+            <% if total_amount < 0 then total_amount =0 end %>
+
+			      <div id="total_price_value" style="display:none;"><%= total_amount %></div>
+			      <div id="total_price_without_discount" style="display:none;"><%= @customer.list_price %></div>
+
+            <table class="payment-table" border="0" cellspacing="0">
+              <tr class="big-cells">
+                <td>Subtotal</td>
+                  <td class="item-price"><%= number_to_currency(@customer.list_price+100) %></td>
+              </tr>
+	       			<% if discount_amount == 100 %>
+                <tr class="big-cells promotional-discount">
+                  <td><span>Promotional Discount</span></td>
+                  <td class="item-price">-<%= number_to_currency(100) %></td>
+                </tr>
+              <% else %>
+                <tr class="big-cells promotional-discount">
+                  <td><span>Promotional Discount</span></td>
+                  <td class="item-price">-<%= number_to_currency(100) %></td>
+                </tr>
+                <tr class="big-cells promotional-discount">
+                  <td><span>Discount Code</span></td>
+                  <td class="item-price">-<%=  number_to_currency(discount_amount-100)%></td>
+                </tr>
+              <% end %>
+              <tr class="big-cells">
+                <td>Total Price</td>
+                <td class="item-price"><%= number_to_currency(total_amount) %></td>
+              </tr>
+            </table>
+
+            <div class="total-price">
+              <div class="left">
+                <h3>Your Price</h3>
+                <p id="payment_price_and_plan"><span><%= number_to_currency(total_amount) %></span> 12 months</p>
+              </div>
+              <div class="right">
+                <h3>Payment Method</h3>
+                <div class="payment-method">
+                  <label><input type="radio" id="single_payment_mode" name="payment" value="" checked="checked" /> Single Payment</label>
+                  <label><input type="radio" id="monthly_payment_mode" name="payment" value="" /> Monthly Payments</label>
+                </div>
+              </div>
+              <div class="cl">&nbsp;</div>
+            </div>
+          
+          </div>
+        </div>
+
+        <div class="billing-information">
+          <h4>Billing information</h4>
+            <a href="#billing" onclick="copyBillingInfo();" style="color: #6A85C3;"></a>
+            <%= link_to "Billing Info. is same as Contact Info.", {"action"=>"billing", "controller"=>"site"}.merge({:copy_billing_info=> true}) ,:class=>"note",:style=>"text-decoration:underline;" %>
+            <p id="billing_pay_amount">Pay Amount: <%= number_to_currency(total_amount) %></p>
+            <div class="billing-fields-parent" style="padding-bottom: 256px;">
+              <div class="billing-fields" style="float:left">
+                <div class="row">
+                  <label>Credit Card:</label>
+                  <input type="text" id="credit_card_number" class="field" value=""  name="credit_card_number" onBlur="
+                      cc_number_saved = $('#credit_card_number').val();
+                      this.value = this.value.replace(/[^\d]/g, '');
+                      if(!checkLuhn(this.value)) {
+                        alert('Sorry, that is not a valid number - please try again!');
+                        this.value = '';
+                      }
+                    " onFocus="
+                      if(this.value != cc_number_saved) this.value = cc_number_saved;
+                  "/>
+                  <img class="cards" alt ="Credit Card"  src="/assets/cards.png" alt="" />
+                </div>
+
+                <div class="row">
+                  <label>Exp. Date:</label>
+				          <%= select_month(Date.today, :use_month_numbers => true) %>
+				          <%= select_year(Date.today, :start_year => Date.today.year, :end_year => Date.today.year + 10)%>
+                </div>
+                <div class="row row-billing-name">
+                  <label>Billing Name</label>
+                  <%= customer_form.text_field :billing_first_name, :value => "#{@copy_address.present? ? @customer.try(:first_name) : ''}",:class =>"field"   %>
+                  <%= customer_form.text_field :billing_last_name, :value => "#{@copy_address.present? ? @customer.try(:last_name) : ''}",:class =>"field" %>
+                </div>
+                <div class="row">
+                  <label>Address:</label>
+                  <%= billing_address.text_field :address, :value => "#{@copy_address.present? ? @customer.addresses.try(:first).try(:address) : ''}",:class =>"field" %>
+                </div>
+                <div class="row">
+                  <label>City:</label>
+                  <%= billing_address.text_field :city, :value => "#{@copy_address.present? ? @customer.addresses.try(:first).try(:city) : ''}",:class =>"field" %>
+                </div>
+                <div class="row row-state">
+                  <label>State:</label>
+                  <%= billing_address.text_field :state,:value => "#{@copy_address.present? ? @customer.addresses.try(:first).try(:state) : ''}",:class =>"field", :maxlength => 2 %>
+                  <label class="zip-label">ZIP:</label>
+                  <%= billing_address.text_field :zip_code, :value => "#{@copy_address.present? ? @customer.addresses.try(:first).try(:zip_code) : ''}",:class =>"field" %>
+                </div>
+                <label class="terms">
+                  I agree to the <a href="/termsconditions" target="_blank">Terms &amp; Conditions</a> of the Home Warranty:
+                  <input type="checkbox" value=""  id="tc_checkbox"/>
+                </label>
+		  	        <input id="customer_id" type="hidden" name="id" value="<%=@customer.id%>">
+	  		        <input type="hidden" name="property_id" value="<%= @property.id%>">
+			          <!-- This is set by JS, so it incorporates the discount -->
+			          <input type="hidden" id="customer_num_payments" name="customer[num_payments]" value="1">
+      			    <input type="hidden" id="customer_pay_amount" name="customer[pay_amount]" value=""/>
+      			    <input type="hidden" id="customer_disabled" name="customer[disabled]" value="0"/>
+      			    <input type="hidden" id="contract_length_1" name="contract_length" value="1"/>
+                <div class="cl">&nbsp;</div>
+              </div>
+            <div class="seal_section" style="float:right;">
+            <!-- OBB logo -->
+<!--              <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="https://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="80" height="124" id="SealTracker" align="middle" style="padding-top:15px; display:inline; float:left;">
+                <param name="allowScriptAccess" value="sameDomain" />
+                <param name="movie" value="https://www.onlinebusinessbureau.com/SealTracker.swf?Company_ID=1843450" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><embed src="https://www.onlinebusinessbureau.com/SealTracker.swf?Company_ID=1843450" quality="high" bgcolor="#ffffff" width="80" height="124" name="SealTracker" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="https://www.macromedia.com/go/getflashplayer" />
+              </object> -->
+              <!-- OBB logo end -->
+					    <!-- authrize new div -->
+					    <div class="AuthorizeNetSeal" style="padding-top:50px;padding-right: 50%">
+					      <script language="javascript" type="text/javascript"> var ANS_customer_id="402ec64f-9589-4dfc-a799-03ed94357642"; </script>
+    					  <script src="//verify.authorize.net/anetseal/seal.js" language="javascript" type="text/javascript"></script>
+    					  <style type="text/css">
+		      				div.AuthorizeNetSeal
+					       	  {text-align:center;margin:0;padding:0;width:90px;font:normal 9px arial,helvetica,san-serif;line-height:10px;}
+						      div.AuthorizeNetSeal a
+						        {text-decoration:none;color:black;}
+						      div.AuthorizeNetSeal a:visited
+						        {color:black;}
+						      div.AuthorizeNetSeal a:active
+						        {color:black;}
+						      div.AuthorizeNetSeal a:hover
+						        {text-decoration:underline;color:black;}
+						      div.AuthorizeNetSeal a img
+						        {border:0px;margin:0px;text-decoration:none;}
+					      </style>
+					      <a target="_blank" id="AuthorizeNetText" href="http://www.authorize.net/">Payment Processing</a>
+					    </div>
+					    <!-- authorize net div end -->
+					    <!-- CA Shield logo-->
+					    <div style="float:right; margin-top:-114px;padding-right:25%">
+			          <img src="/assets/CA_sheild.jpg" width="95" />
+			        </div>
+					    <!-- CA Shield logo end-->
+              <div class="billing-fields">
+                <div class="submit-button-wrap">
+                  <%= customer_form.submit 'ENROLL NOW', :class => 'submit-button',:id=>'btn_enroll_now' %>
+                  <span class="submit-button-shadow"></span>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+		  <% end %>
+    <% end %>
+    <script type="text/javascript">
+	    gCoverages = new Hash({
+		    <%=Coverage.find_all_by_optional(1).collect { |cvg| "#{cvg.id}: 0.0" }.join(', ') %>
+	    });
+    </script>
+    <span class="form-shadow"></span>
+  </div>
+  <!-- End of Form Container -->
+<script>
+  function valid_credit_card(value) {
+    if (/[^0-9-\s]+/.test(value)) return false;
+    var nCheck = 0, nDigit = 0, bEven = false;
+    value = value.replace(/\D/g, "");
+    for (var n = value.length - 1; n >= 0; n--) {
+      var cDigit = value.charAt(n),
+      nDigit = parseInt(cDigit, 10);
+      if (bEven) {
+        if ((nDigit *= 2) > 9) nDigit -= 9;
+        nCheck += nDigit;
+        bEven = !bEven;
+      }
+    return (nCheck % 10) == 0;
+    } 
+  }
+  
+  $(document).ready(function(){
+   // default signle payment
+   $("#single_payment_mode").click();
+
+   if ($('#credit_card_number').val() != '' && valid_credit_card($('#credit_card_number').val()) == false){
+     alert('Please enter valid credit card number');
+     return false;
+   }
+  });
+
+  $('#btn_enroll_now').click(function(){
+
+     if ($('#credit_card_number').val() != '' && valid_credit_card($('#credit_card_number').val()) == false){
+       alert('Please enter valid credit card number');
+       return false;
+     }
+     if ( $('#credit_card_number').val()=='' )
+     {
+         alert('Please input credit card number.');
+         return false;
+     }
+     if ( $('#customer_billing_first_name').val()=='' )
+     {
+         alert('Please input first name.');
+         return false;
+     }
+     if ( $('#customer_billing_last_name').val()=='' )
+     {
+         alert('Please input last name.');
+         return false;
+     }
+     if ( $('#billing_address_city').val()=='' )
+     {
+         alert('Please input city name.');
+         return false;
+     }
+     if ( $('#billing_address_state').val()=='' )
+     {
+         alert('Please input state name.');
+         return false;
+     }
+     if ( $('#billing_address_zip_code').val()=='' )
+     {
+         alert('Please input zip code.');
+         return false;
+     }
+  });
+
+  $("#single_payment_mode").click(function(){
+     var total_payment_amount = $("#total_price_value").html().toFloat();
+     $("#payment_price_and_plan").html("<span>&#36;"+total_payment_amount.toFixed(2)+"</span> 12 months");
+     $("#billing_pay_amount").html("Pay Amount: &#36;"+total_payment_amount.toFixed(2));
+
+     $("#customer_num_payments").val(1);
+     $("#customer_pay_amount").val(total_payment_amount.round(2));
+  });
+
+  $("#monthly_payment_mode").click(function(){
+     // in monthly payment, ignore discount code
+     // so list price is divided by 12
+     var total_payment_amount = $("#total_price_without_discount").html().toFloat()/12;
+     $("#payment_price_and_plan").html("<span>&#36;"+total_payment_amount.toFixed(2)+"</span> 1 month");
+     $("#billing_pay_amount").html("Pay Amount: &#36;"+total_payment_amount.toFixed(2));
+
+     $("#customer_num_payments").val(12);
+     $("#customer_pay_amount").val(total_payment_amount.round(2));
+  });
+
+</script>

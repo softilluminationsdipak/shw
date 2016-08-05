@@ -1,0 +1,131 @@
+<%= stylesheet_link_tag "morris-0.4.3.min.css" %>
+<%= javascript_include_tag "jquery-1.8.3.min.js","raphael-min.js", "morris-0.4.3.min.js" %>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<%= javascript_include_tag "highcharts.js","raphael-min.js", "exporting.js" %>
+
+<script type="text/javascript">
+
+$(function() {
+  $("#graph_period").change(function(){
+    var v = $("#graph_period").val()
+    if(v == 'Day'){
+      $("#datpicker-1").show();
+      $("#datpicker-2").hide();
+    }
+    if(v == 'Week' || v == 'Month'){
+      $("#datpicker-1").hide();
+      $("#datpicker-2").show();
+    }
+  });
+});
+
+</script>
+
+<h4>Leads by Agents </h4>
+
+<%= form_tag "/admin/reports/lead_by_agent", :method => 'post' do %>
+  <p>
+  <%= select_tag "agent_type", options_for_select(["sales", "admin", "customer", "contractor", "agent", "claims"], params[:agent_type]), :class => "select2", :id => "my_agent_type", :style => "width:200px;" %>
+
+    <%= select_tag "my_agent_list[]", options_for_select(Agent.all.map(&:name), params[:my_agent_list]), :class => "select2", :multiple => "multiple", :id => "my_agent_list", :style => "width:400px;" %>
+      <span id="datpicker-2">
+      <%= text_field_tag :mg_week_start, params[:mg_week_start], :placeholder => "Select Start Date" %>
+      -
+      <%= text_field_tag :mg_week_end, params[:mg_week_end], :placeholder => "Select End Date" %>
+    </span>
+
+
+    <%= submit_tag "View Reports", :name => nil, :class => "btn" %>
+  </p>
+<% end %>
+
+<% if @lead_customer.present? %>
+  <div id="lbyagent" style="min-width: 310px; height: 700px; margin: 0 auto"></div>
+<% else %>
+  No Results Found!
+<% end %>
+
+    <script type="text/javascript">
+      var agent_name = []
+      <% agent_count = @customer_agent.keys %>
+        <% agent_count.each do |p| %>
+          agent_name.push('<%= p %>')
+        <% end %>
+        var series = []
+        function series_data(name, data){
+          this.name = name;
+          this.data = data;
+          if(name == "New"){
+            this.visible = true;
+          }else{ this.visible = false; }
+        }
+      <% Customer.statuses22.each do |s| %>
+        <% status_array = @agent_customer.count.select{|k,v| (Customer.statuses2.rassoc(k[0].to_i)[0] || "Unknown Status!") == s } %>
+        <% init_status = agent_count.size.times.map{|p| "0"} %>
+        <% status_array.each do |p, v| %>
+          <% init_status[agent_count.index(p[1])] = v %>
+        <% end %>
+        data = []
+        <% init_status.each do |p| %>
+          data.push(<%= p %>)
+        <% end %>
+        series.push(new series_data('<%= s %>', data));
+      <% end %>
+      $(function () {
+        $('#lbyagent').highcharts({
+          chart:  { type: 'column' },
+          title:  { text: 'Leads by Agents' },
+          xAxis:  { 
+                    categories:  agent_name
+                  },
+          yAxis:  { 
+                  title: {
+                    text: '# of customers'
+                  },
+                  labels: {
+                    formatter: function() {
+                      return this.value;
+                    }
+                  }
+                },
+          tooltip: {
+                  formatter: function() {
+                    return '<b>'+ this.x +'</b><br/>'+
+                      this.series.name +': '+ this.y +'<br/>'+
+                      'Total: '+ this.point.stackTotal;
+                  }
+                },
+          plotOptions: {
+              column: {
+                  stacking: 'normal',
+                  dataLabels: {
+                      enabled: true,
+                      color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                  }
+              }
+          },
+          series: series 
+      });
+    });
+
+    $(function() {
+      $( "#day" ).datepicker({ dateFormat: "dd-mm-yy" });
+      $( "#mweek_start" ).datepicker({ dateFormat: "dd-mm-yy" });
+      $( "#mweek_end" ).datepicker({ dateFormat: "dd-mm-yy" });
+      $( "#mg_week_start" ).datepicker({ dateFormat: "dd-mm-yy" });
+      $( "#mg_week_end" ).datepicker({ dateFormat: "dd-mm-yy" });
+    });
+  </script>
+
+  <script src="/assets/select2.js"></script>
+
+  <link rel="stylesheet" href="/assets/select2.css">
+
+  <script type="text/javascript">
+   $(document).ready(function() { 
+      $("#my_agent_list").select2({
+        closeOnSelect:false
+      });
+    });
+  </script>

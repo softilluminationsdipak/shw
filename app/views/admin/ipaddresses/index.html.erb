@@ -1,0 +1,26 @@
+<h2>IP Address</h2>
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+		<tr>
+			<th><strong>ID</strong></th>
+			<th><strong>IP Address</strong></th>
+			<th><strong>ACTIONS</strong></th>
+		</tr>
+	</thead>	
+	<tbody>
+		<% if @ip_addresses.present? %>
+			<% @ip_addresses.each do |ip| %>
+				<tr>
+					<td><%= ip.try(:id)  %></td>
+					<td><%= ip.try(:ip) %></td>
+					<td>
+						<a href="/admin/ipaddresses/edit/<%= ip.id %>">Edit&nbsp;&nbsp;</a>&nbsp;&nbsp;
+						<%= link_to 'Delete', "/admin/ipaddresses/destroy/#{ip.id}", :confirm => "Are you sure you want to permanently delete this IP address? This operation cannot be undone.", :method => 'delete' %>
+					</td>
+				</tr>
+			<% end %>
+		<% end %>
+	</tbody>
+</table>
+<h4 class="breadcrumb">Add IP Address</h4>
+<%= render :partial => "/admin/ipaddresses/form", :locals => {:ipaddress_url => "create"} %>

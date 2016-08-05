@@ -1,0 +1,42 @@
+<table class="plans-tbl" cellpadding="0" cellspacing="0">
+  <tr>
+    <th class="title">Covered Items</th>
+    <th>Platinum Care</th>
+    <th class="middle">Gold Care</th>
+    <th>Bronze Care</th>
+  </tr>
+  <% plans_data.each_with_index do |item,i| %>
+  <tr<% if i%2==1 %> class="stripe"<% end %>>
+    <td class="title"><%= item.first %></td>
+    <td>
+      <% if item[1] %><img alt="offered" src="<%= image_path 'icons/offered.png' %>" />
+      <% else %>&nbsp;<% end %>
+    </td>
+    <td class="middle">
+      <% if item[2] %><img alt="offered" src="<%= image_path 'icons/offered.png' %>" />
+      <% else %>&nbsp;<% end %>
+    </td>
+    <td>
+      <% if item[3] %><img alt="offered" src="<%= image_path 'icons/offered.png' %>" />
+      <% else %>&nbsp;<% end %>
+    </td>
+  </tr>  
+  <% end %>
+
+  <% if defined?(purchase) %>
+  <tr>
+    <td>&nbsp;</td>
+    <% mapping = { 'Single Family' => 'single_price', '2 Family' => 'duplex_price', '3 Family' => 'triplex_price', '4 Family' => 'fourplex_price', 'Condominium' => 'condo_price'} %>
+    <% house_type = params[:type_of_home] %>
+    <% Package.find(:all).each_with_index do |package,i| %>
+    <% value = package.send(mapping[house_type]) %>
+    <% label_text = "$#{value} or $#{(value/12).round(0)}/month"%>
+    <td>
+      <input type="radio" class="packageRadioButton" id="customer_coverage_type_<%=package.id%>" name="customer[coverage_type]" data-price="<%=value%>" value="<%=package.id%>" onclick="updatePlanTotal()"<% if i==0 %> checked="checked"<% end %>/>
+      <br/>
+      <label for="customer_coverage_type_<%=package.id%>" id="customer_coverage_type_<%=package.id%>_label"> <%= label_text %></label>
+    </td>
+    <% end %>
+  </tr>
+  <% end %>
+</table>

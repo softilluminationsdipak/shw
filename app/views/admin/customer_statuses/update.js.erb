@@ -1,0 +1,6 @@
+<% if @msg == "success" %>
+	window.location.href = "/admin/customer_statuses"
+<% else %>
+	alert("<%= @customer_status.errors.full_messages.first.html_safe  %>")
+	return false;
+<% end %>	

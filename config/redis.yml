@@ -1,0 +1,13 @@
+default:
+  host: 127.0.0.1
+  port: 6379
+development:
+  db: 0
+  host: 127.0.0.1
+  port: 6379
+production:
+  host: select-home-warranty.herokuapp.com
+  port: 6379
+test:
+  host: 127.0.0.1
+  port: 6379

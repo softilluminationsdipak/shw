@@ -1,0 +1,10 @@
+Fax Processing Readme
+
+The FaxFetchWorker is a background process that currently uses sidekiq. It runs every 15 minutes to fetch email and parse it into the fax queue.
+
+To start the FaxFetchWorker
+
+1. Make sure that the fax_source username/password/email are defined in settings for customers and contractors
+2. Run: bundle exec sidekiq
+
+Note: The fax system previously used the depreciated backgroundrb to fetch and parse faxes.

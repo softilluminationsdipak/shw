@@ -1,0 +1,79 @@
+<h2>States</h2>
+
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+	<tr>
+		<th><strong>ID</strong></th>
+		<th><strong>Name</strong></th>
+		<th><strong>TOS title</strong></th>
+
+		<th><strong>GAQ</strong></th>
+		<th><strong>AFFILIATE</strong></th>
+		<th><strong>API</strong></th>
+		<th><strong>GATEWAY</strong></th>
+		<th><strong>ACTIONS</strong></th>
+	</tr>
+	</thead>
+	
+	<tbody>
+		<% @states.each_with_index do |state,index| %>
+			<tr>
+				<td><%= index+1%></td>
+				<td><%= state.name %></td>
+				<td>
+					<% if state.present? && state.tos.present? %>
+					 	<% content = Content.active_content.find_by_id(state.tos) %>
+						<%= content.slug.strip if content.present? %>
+					<% end %>
+				</td>
+				<td style="<%= 'background: rgb(245, 245, 167);' if state.gaq == false %>"><%= state.gaq == true ? "Active" : "Inactive" %></td>
+				<td style="<%= 'background: rgb(245, 245, 167);' if state.affiliate == false %>"><%= state.affiliate == true ? "Active" : "Inactive" %></td>
+				<td style="<%= 'background: rgb(245, 245, 167);' if state.api == false %>"><%= state.api == true ? "Active" : "Inactive" %></td>
+				<td><%= state.gateway.login_id if state.gateway.present? %></td>
+				<td>
+					<a href="/admin/states/edit/<%= state.id %>">Edit&nbsp;&nbsp;</a>&nbsp;
+					<%= link_to 'Delete', "/admin/states/destroy/#{state.id}", :confirm => "Are you sure you want to permanently delete this State? This operation cannot be undone." %>
+				</td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+<h4 class="breadcrumb">Add New State</h4>
+<%= form_for @state, :url => { :action => "create" } do |state| %>
+	<table class="form_table">
+	 	<tbody>
+			<tr>
+				<td style="width:10%;">Name:</td>
+				<td><%= state.text_field :name, :maxlength => 2, :style => "width:30%;" %></td>
+			</tr>
+			<tr>
+				<td>GAQ:</td>
+				<td><%= state.check_box :gaq %></td>
+			</tr>
+			<tr>
+				<td>Affiliate:</td>
+				<td><%= state.check_box :affiliate %></td>
+			</tr>
+			<tr>
+				<td>API:</td>
+				<td><%= state.check_box :api %></td>
+			</tr>
+			<tr>
+				<td>TOS</td>
+				<td>
+					<%= select("state", "tos", Content.active_content.only_tos.collect {|p| [ p.slug.strip, p.id ] }, { include_blank: true }) %>
+					 </td>
+			</tr>
+			<tr>
+				<td>Merchant Account ID</td>
+				<td>
+					<%= select("state", "merchant_account_id", MerchantAccount.all.collect {|p| [ p.username, p.id ] }, { include_blank: true }) %>
+					 </td>
+			</tr>
+
+			<tr>
+				<td colspan="4"><br><%= submit_tag "Create State",:id => "save_state2", :class => "btn" %></td>
+			</tr>
+	 	</tbody>
+	</table>
+<% end %>

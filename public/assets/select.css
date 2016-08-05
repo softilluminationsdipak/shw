@@ -1,0 +1,951 @@
+BODY {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    background: white;
+    font-size: 12px;
+    color: #808080;
+}
+A {
+	text-decoration: none;
+	color: #808080;
+}
+A:HOVER {text-decoration: underline;}
+IMG {border: none;}
+LABEL {cursor: pointer;}
+
+.relax {
+	clear: both;
+	height: 0;
+	line-height: 0;
+	font-size: 0;
+}
+
+#page {
+    width: 100%;
+    border-top: 8px solid #003663;
+}
+
+#page .fixed-width {
+    margin: auto;
+    text-align: left;
+    width: 915px;
+}
+
+#header,
+#content,
+#footer {
+    float: left;
+    width: 100%;
+    clear: both;
+}
+
+#header #topbar {
+	float: left;
+	width: 100%;
+	clear: both;
+}
+
+#header #topbar .login-menu {
+	background: #003663 url("/assets/bg/topbar-button-left.gif") no-repeat left top;
+	float: right;
+	line-height: 100%;
+	color: white;
+	outline: none;
+	cursor: pointer;
+	color: white;
+}
+
+#header #topbar .login-menu .right-round {
+	float: left;
+	padding: 10px 55px 11px;
+	background: url("/assets/bg/topbar-button-right.gif") no-repeat right top;
+}
+
+#header #topbar .login-menu A {
+	color: white;
+}
+
+#header #topbar .login-menu SPAN {
+	margin: 0 5px;
+}
+
+#header .logo {
+	float: left;
+	margin: 9px 0;
+}
+
+#header .phone {
+	float: right;
+	padding: 30px 0;
+	line-height: 100%;
+	text-align: right;
+}
+
+#header .phone H3 {
+	display: block;
+	margin: 0;
+	padding: 0;
+	font-size: 32px;
+	font-weight: normal;
+	color: #616161;
+}
+
+#header .phone P {
+	display: block;
+	margin: 10px 0;
+	padding: 0;
+	font-size: 11px;
+	color: #003663;
+	text-transform: uppercase;
+}
+
+#header UL.main-menu {
+	float: left;
+	clear: both;
+	padding: 0;
+	margin: 0 0 15px;
+	list-style: none;
+	overflow: hidden;
+	background: url("/assets/bg/main-menu.gif") repeat-x left top;
+}
+
+#header UL.main-menu LI {
+	float: left;
+	margin: 0;
+	display: inline;
+}
+
+#header UL.main-menu LI A {
+	float: left;
+	width: 151px;
+	color: #E6EBF0;
+	line-height: 100%;
+	padding: 10px 0;
+	text-align: center;
+	border-right: 1px solid #1E4E75;
+	text-shadow: 0 -1px 0 #0D2940;
+	text-decoration: none;
+}
+
+#header UL.main-menu LI.first A {
+	width: 153px;
+	background: url("/assets/bg/main-menu-left.gif") no-repeat left top;
+}
+
+#header UL.main-menu LI.last A {
+	border-right: none;
+	width: 153px;
+	background: url("/assets/bg/main-menu-right.gif") no-repeat right top;
+}
+
+#header UL.main-menu LI A.active,
+#header UL.main-menu LI A:HOVER {
+    background: url("/assets/bg/main-menu-hover.gif") repeat-x left top;
+	text-decoration: none;
+}
+
+#header UL.main-menu LI.first A.active,
+#header UL.main-menu LI.first A:HOVER {
+	background: url("/assets/bg/main-menu-left-hover.gif") no-repeat left top;
+}
+
+#header UL.main-menu LI.last A.active,
+#header UL.main-menu LI.last A:HOVER {
+	background: url("/assets/bg/main-menu-right-hover.gif") no-repeat right top;
+}
+
+#content .billboard {
+    float: left;
+    width: 100%;
+    height: 376px;
+}
+
+#content .homepage {
+    background: #C7D7F0 url("/assets/billboards/homepage.jpg") no-repeat left top;
+}
+
+#content .billboard .info {
+    float: left;
+    width: 480px;
+    font-family: 'Myriad Pro', Arial, sans-serif;
+    display: inline;
+    margin: 25px 25px 15px;
+}
+
+#content .billboard .info .top,
+#content .billboard .info .bottom {
+    float: left;
+    width: 100%;
+    height: 10px;
+    font-size: 0;
+    line-height: 1%;
+    clear: both;
+}
+
+#content .billboard .info .top {
+    background: url("/assets/bg/info-top.png") no-repeat left top;
+}
+
+#content .billboard .info .info-content {
+    background: url("/assets/bg/info-center.png") repeat-y left top;
+    float: left;
+    width: 100%;
+}
+
+#content .billboard .info .bottom {
+    background: url("/assets/bg/info-bottom.png") no-repeat left top;
+}
+
+#content .billboard .info H1 {
+    display: block;
+    color: #3B3A22;
+    font-size: 30px;
+    font-weight: normal;
+    line-height: 115%;
+    margin: 0;
+    padding: 10px 15px;
+}
+
+#content .billboard .info P {
+    font-size: 13px;
+    color: #3B3A22;
+    line-height: 135%;
+    margin: 0;
+    padding: 5px 15px 10px;
+}
+
+#content .billboard .get-quoute-btn {
+    float: left;
+    clear: both;
+    text-align: right;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    line-height: 100%;
+}
+
+#content .billboard .get-quoute-btn A {
+    display: block;
+    width: 181px;
+    height: 44px;
+    float: right;
+    display: inline;
+    margin-right: 25px;
+    background: url("/assets/bg/get-quote-btn.jpg") no-repeat left top;
+    font-family: 'Myriad Pro', Arial, sans-serif;
+    font-size: 17px;
+    color: white;
+    text-align: center;
+    line-height: 220%;
+}
+
+#content .billboard .get-quoute-btn A STRONG {
+    font-weight: normal;
+}
+
+#content .testimonials .testimonial, #content .testimonials BLOCKQUOTE {
+    display: none;
+}
+
+#content BLOCKQUOTE,
+#content BLOCKQUOTE H2 {
+    display: block;
+    clear: both;
+    width: 100%;
+    padding: 2px;
+    margin: 20px 0 10px 0;
+    color: #B0B2A7;
+}
+
+#content BLOCKQUOTE H2 {
+    font-weight: normal;
+    font-size: 30px;
+    font-family: 'Myriad Pro', Arial, sans-serif;
+    line-height: 115%;
+}
+
+#content BLOCKQUOTE P {
+    display: block;
+    text-align: right;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+#content BLOCKQUOTE P A {
+    color: #B0B2A7;
+}
+
+#content .sidebar {
+    float: left;
+    width: 260px;
+    padding-top: 15px;
+}
+
+#content.internal-page .sidebar {
+    float: right;
+}
+
+#content .sidebar H2 {
+    font-size: 24px;
+    color: #3B3A22;
+    font-weight: normal;
+    margin: 10px 0 5px;
+    padding: 0;
+    line-height: 100%;
+}
+
+#content .sidebar H4 {
+    font-size: 14px;
+    color: #333;
+    font-weight: normal;
+    margin: 5px 0;
+    padding: 0;
+}
+
+#content .sidebar P {
+    line-height: 150%;
+}
+
+#content .sidebar .photo {
+    border: 1px solid #999999;
+}
+
+#content .sidebar .interested-info {
+    margin: 20px 0;
+}
+
+#content .sidebar .compare-tbl {
+    font-size: 12px;
+    empty-cells: show;
+}
+
+#content .sidebar .compare-tbl TH {
+	border-bottom: 1px solid #CCC;
+	font-size: 11px;
+	color: #666666;
+}
+
+#content .sidebar .compare-tbl TH.title {
+    width: 60%;
+}
+
+#content .sidebar .compare-tbl TH,
+#content .sidebar .compare-tbl TD {
+	padding: 5px;
+}
+
+#content .sidebar .compare-tbl .stripe TD {
+	background: #F4F7FB;
+}
+
+#content .main-area {
+    float: right;
+    width: 630px;
+    display: inline;
+    margin-left: 10px;
+    padding-top: 15px;
+}
+
+#content .right-area {
+  float: right;
+  width: 260px;
+  display: inline;
+  padding-top: 100px;
+}
+
+#content.internal-page .main-area {
+    float: left;
+    margin-left: 0px;
+}
+
+#content.get-quote-page .main-area {
+    float: left;
+    width: 100%;
+    margin: 0;
+}
+
+#content.homeowners-page .main-area {
+    width: 450px;
+    float: left;
+}
+
+#content.homeowners-page .sidebar {
+    width: auto;
+    float: right;
+}
+
+#content H2 {
+    display: block;
+    font-family: 'Myriad Pro', Arial, sans-serif;
+    color: #336699;
+    font-size: 30px;
+    font-weight: normal;
+    margin: 10px 0 15px;;
+    padding: 0;
+}
+
+#content H3 {
+    display: block;
+    font-family: 'Myriad Pro', Arial, sans-serif;
+    color: #336699;
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0 0 15px;;
+    padding: 0;
+}
+
+#content H4 {
+    display: block;
+    color: #333;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 20px 0 10px;
+    padding: 0;
+}
+
+#content P {
+    line-height: 150%;
+    color: #333;
+}
+
+#content UL {
+    color: #333;
+    line-height: 120%;
+    margin: 0;
+    padding: 10px 20px;
+    list-style-type: none;
+}
+
+#content UL LI {
+    margin-bottom: 10px;
+}
+
+#content UL.footnotes {
+    color: #AAA;
+    font-size: 11px;
+    list-style: none;
+    font-style: italic;
+    line-height: 120%;
+    margin: 0;
+    border-top: 1px solid #F0F0F0;
+}
+
+#content UL.footnotes LI {
+    margin-bottom: 3px;
+}
+
+#content A {
+    color: #336699;
+    text-decoration: underline;
+}
+
+#content A:HOVER {
+    text-decoration: none;
+}
+
+#content .main-area P STRONG {
+    color: #000;
+}
+
+#content .main-area .plans-tbl {
+	margin-bottom: 40px;
+	font-size: 12px;
+	width: 100%;
+	border-top: 1px solid #CFDBEC;
+	border-left: 1px solid #CFDBEC;
+}
+
+#content .main-area .plans-tbl TH {
+	padding: 10px;
+	text-align: center;
+	border-right: 1px solid #CFDBEC;
+	border-bottom: 1px solid #CFDBEC;
+}
+
+#content .main-area .plans-tbl TH.title {
+	text-align: left;
+	border-right: none;
+	width: 40%;
+	border-right: 1px solid #CFDBEC;
+}
+
+#content .main-area .plans-tbl TH.middle {
+	color: #333;
+}
+
+#content .main-area .plans-tbl TD {
+	padding: 5px 10px;
+	text-align: center;
+	border-bottom: 1px solid #CFDBEC;
+	border-right: 1px solid #CFDBEC;
+	color: #555;
+	empty-cells: show;
+}
+
+#content .main-area .plans-tbl TD.title {
+	text-align: left;
+	border-right: none;
+	border-right: 1px solid #CFDBEC;
+}
+
+#content .main-area .plans-tbl .stripe TD {
+	background: #F4F7FB;
+}
+
+#content .main-area .plans-tbl TD.middle {
+	border-right: 1px solid #CFDBEC;
+	width: 20%;
+}
+
+#content .main-area .plans-tbl .stripe TD.middle {
+	background: #E5ECF5;
+}
+
+#content .main-area #plans-coverages {
+	float: left;
+	clear: both;
+	width: 100%;
+	padding: 0 0 30px;
+}
+
+#content .main-area #plans-coverages UL {
+	float: left;
+	color: #555;
+	margin: 0 30px 0 0;
+	padding: 0 15px;
+	line-height: 150%;
+}
+
+#content .main-area #plans-coverages UL LI {
+	margin: 0;
+}
+
+#content .main-area .get-quote {
+	float: left;
+	clear: both;
+	padding: 10px 0;
+}
+
+#content .main-area .get-quote A {
+	width: 181px;
+	height: 44px;
+	background: url("/assets/bg/get-quote-btn.png") no-repeat left top;
+	text-align: center;
+	float: left;
+}
+
+#content .main-area .get-quote A:HOVER STRONG {
+	text-decoration: underline;
+}
+
+#content .main-area .get-quote A STRONG {
+	padding: 11px 0;
+	float: left;
+	width: 100%;
+	text-align: center;
+    color: white;
+    font-family: 'Myriad Pro', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+#content .main-area .get-quote A {
+    text-decoration: none;
+}
+
+#content .main-area .get-quote A:HOVER {
+    text-decoration: underline;
+}
+
+#content .sidebar .home-repair-steps {
+	background: url("/assets/bg/steps.jpg") no-repeat left top;
+	font-size: 12px;
+	width: 415px;
+	height: 400px;
+}
+
+#content .sidebar .home-repair-steps P {
+	line-height: 150%;
+	margin: 20px;
+	padding-left: 30px;
+	float: left;
+	background-position: left 5px;
+	background-repeat: no-repeat;
+	display: inline;
+    min-height: 85px;
+}
+
+#content .sidebar .home-repair-steps .step-1 {
+    background-image: url("/assets/icons/step-1.gif");
+    margin-left: 130px;
+}
+
+#content .sidebar .home-repair-steps .step-2 {
+    background-image: url("/assets/icons/step-2.gif");
+    margin-right: 130px;
+    margin-top: 30px;
+}
+
+#content .sidebar .home-repair-steps .step-3 {
+    background-image: url("/assets/icons/step-3.gif");
+    margin-left: 130px;
+    margin-top: 40px;
+}
+
+#content .sidebar .benefits {
+    padding: 20px 0;
+    background: url("/assets/bg/widget-gradient.jpg") repeat-x left top;
+    margin-top: 20px;
+
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+#content .sidebar .benefits H2 {
+    font-size: 16px;
+    line-height: 130%;
+    margin: 5px 15px;
+}
+
+#content .sidebar .benefits P {
+    margin: 10px 15px;
+    color: #666666;
+}
+
+#content .get-quote-tbl {
+    border-spacing: 5px;
+    width: 100%;
+}
+
+#content .get-quote-tbl TH {
+    color: #333;
+    padding: 10px 0;
+    font-size: 14px;
+    border-bottom: 1px solid #CCC;
+    width: 33%;
+    text-align: left;
+}
+
+#content .get-quote-tbl TH LABEL {
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 170%;
+    float: right;
+}
+
+#content .get-quote-tbl TH LABEL INPUT {
+    float: left;
+    display: inline;
+    margin-right: 5px;
+}
+
+#content .get-quote-tbl TD {
+    padding: 5px 0;
+}
+
+#content .get-quote-tbl TD.label {
+    font-size: 13px;
+}
+
+#content .get-quote-tbl TD.label B {
+    color: #7194B8;
+    font-size: 18px;
+}
+
+#content .get-quote-tbl TD.field {
+    width: 160px;
+}
+
+#content .get-quote-tbl TD INPUT {
+    border: 1px solid #CCC;
+    font-family: Arial, Tahoma, sans-serif;
+    font-size: 12px;
+    color: #666666;
+    padding: 3px;
+    width: 150px;
+}
+
+#content .get-quote-tbl TD.radio INPUT {
+    width: auto;
+    float: left;
+    border: none;
+}
+
+#content .get-quote-tbl TD.radio LABEL {
+    float: left;
+    margin-top: 2px;
+    margin-left: 5px;
+    font-size: 13px;
+}
+
+#content .get-quote-tbl TD.radio .relax {
+    height: 5px;
+}
+
+#content .get-quote-tbl TD SELECT {
+    border: 1px solid #CCC;
+    font-family: Arial, Tahoma, sans-serif;
+    font-size: 12px;
+    color: #666666;
+    padding: 3px;
+    cursor: pointer;
+}
+
+#content .get-quote-tbl .submit {
+    width: 181px;
+    background: url("/assets/bg/get-quote-btn.png") no-repeat left top;
+    border: none;
+    padding: 10px 0;
+    margin: 0;
+    text-align: center;
+    color: white;
+    font-family: 'Myriad Pro', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    vertical-align: top;
+    float: right;
+    cursor: pointer;
+}
+
+#content FORM.get-more-info {
+    float: left;
+    width: 100%;
+    clear: both;
+    margin: 10px 0;
+    padding: 20px 0;
+    border-top: 1px solid #F1F1F1;
+    background: url("/assets/bg/get-more-info-form-1.jpg") no-repeat right center;
+}
+
+#content FORM.get-more-info.contractors {
+    background-image: url("/assets/bg/get-more-info-form-2.jpg");
+}
+
+#content FORM.get-more-info .left-column,
+#content FORM.get-more-info .right-column {
+    float: left;
+    width: 280px;
+    margin: 10px 15px 10px 0;
+}
+
+#content FORM.get-more-info P {
+    float: left;
+    width: 100%;
+    margin: 0;
+    padding: 5px 0;
+    clear: both;
+    line-height: 100%;
+}
+
+#content FORM.get-more-info P LABEL {
+    float: left;
+    width: 105px;
+    margin: 4px 0;
+}
+
+#content FORM.get-more-info P INPUT,
+#content FORM.get-more-info P TEXTAREA {
+    float: left;
+    width: 150px;
+}
+
+#content FORM.get-more-info P LABEL.zip {
+    width: auto;
+    margin: 4px 5px;
+}
+
+#content FORM.get-more-info P INPUT#state {
+	width: 40px;
+}
+
+#content FORM.get-more-info P INPUT#zip {
+    width: 75px;
+}
+
+#content FORM.get-more-info P TEXTAREA {
+    height: 60px;
+    max-width: 150px;
+    min-width: 150px;
+    overflow: auto;
+}
+
+#content FORM.get-more-info P BUTTON {
+    margin-left: 105px;
+    display: inline;
+    float: left;
+}
+
+#footer {
+    border-top: 1px solid #F1F1F1;
+    padding: 20px 0 40px;
+    margin-top: 20px;
+}
+
+#footer UL {
+    display: block;
+    width: 100%;
+    text-align: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#footer UL LI {
+    display: inline;
+    margin: 0 12px;
+}
+
+
+#content .plan-table {
+    float: left;
+    width: 530px;
+    display: inline;
+    margin-left: 10px;
+    padding-top: 15px;
+}
+
+#content .plan-table .plans-tbl {
+	margin-bottom: 40px;
+	font-size: 12px;
+	width: 100%;
+	border-top: 1px solid #CFDBEC;
+	border-left: 1px solid #CFDBEC;
+}
+
+#content .plan-table .plans-tbl TH {
+	padding: 10px;
+	text-align: center;
+	border-right: 1px solid #CFDBEC;
+	border-bottom: 1px solid #CFDBEC;
+}
+
+#content .plan-table .plans-tbl TH.title {
+	text-align: left;
+	border-right: none;
+	width: 40%;
+	border-right: 1px solid #CFDBEC;
+}
+
+#content .plan-table .plans-tbl TH.middle {
+	color: #333;
+}
+
+#content .plan-table .plans-tbl TD {
+	padding: 5px 10px;
+	text-align: center;
+	border-bottom: 1px solid #CFDBEC;
+	border-right: 1px solid #CFDBEC;
+	color: #555;
+	empty-cells: show;
+}
+
+#content .plan-table .plans-tbl TD.title {
+	text-align: left;
+	border-right: none;
+	border-right: 1px solid #CFDBEC;
+}
+
+#content .plan-table .plans-tbl .stripe TD {
+	background: #F4F7FB;
+}
+
+#content .plan-table .plans-tbl TD.middle {
+	border-right: 1px solid #CFDBEC;
+	width: 20%;
+}
+
+#content .plan-table .plans-tbl .stripe TD.middle {
+	background: #E5ECF5;
+}
+
+#content .sidebar-right {
+    float: right;
+    width: 360px;
+}
+#content .sidebar-right .get-quote A {
+    width: 181px;
+    background: url("/assets/bg/get-quote-btn.png") no-repeat left top;
+    border: none;
+    padding: 10px 0;
+    margin: 0;
+    text-align: center;
+    color: white;
+    font-family: 'Myriad Pro', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    vertical-align: top;
+    float: right;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#content .center-form {
+  width: 500px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#content .submit_button_class {
+    width: 181px;
+    background: url("/assets/bg/get-quote-btn.png") no-repeat left top;
+    border: none;
+    padding: 10px 0;
+    margin: 0;
+    text-align: center;
+    color: white;
+    font-family: 'Myriad Pro', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    vertical-align: top;
+    float: right;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Navigation Wizard for Quote Workflow
+ * ------------------------------------*/
+
+.wizard-steps OL {
+  list-style-type:none;
+  margin:0;
+  padding:0;
+}
+.wizard-steps OL LI {
+    height: 28px;
+    margin: 1px;
+    background-color: #A3A6AB;
+    font-size: 12px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: normal;
+    color: white;
+    float:left;
+    display:inline;
+}
+
+.wizard-steps .left-corner {
+  width: 315px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  margin-top: 8px;
+}
+
+.wizard-steps .center {
+  width: 324px;
+  margin-top: 8px;
+}
+
+.wizard-steps .right-corner {
+  width: 270px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-top: 8px;
+}
+
+.wizard-steps #active-step {
+  color:#003663; 
+}

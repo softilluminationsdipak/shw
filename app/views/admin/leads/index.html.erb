@@ -1,0 +1,38 @@
+<%= will_paginate @leads %>
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+		<tr>
+			<th><strong>Lead ID</strong></th>
+			<th><strong>First Name</strong></th>
+			<th><strong>Last Name</strong></th>
+			<th><strong>Email</strong></th>
+			<th><strong>Work Phone</strong></th>
+			<th><strong>City</strong></th>
+			<th><strong>State</strong></th>
+			<th><strong>Zipcode</strong></th>
+			<th><strong>Type of Home</strong></th>
+			<th><strong>Created At</strong></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% if @leads.present? %>
+			<% @leads.each do |lead| %>
+				<tr>
+					<td><%= link_to lead.try(:id), admin_lead_path(lead) %></td>
+					<td><%= lead.try(:first_name) %></td>
+					<td><%= lead.try(:last_name) %></td>
+					<td><%= lead.try(:email) %></td>
+					<td><%= lead.try(:work_phone) %></td>
+					<td><%= lead.try(:city) %></td>
+					<td><%= lead.try(:state) %></td>
+					<td><%= lead.try(:zipcode) %></td>
+					<td><%= lead.try(:type_of_home) %></td>
+					<td><%= lead.try(:created_at).strftime('%m/%d/%Y %H:%M %p') %></td>
+				</tr>
+			<% end %>
+		<% else %>
+			<h3>No Leads Present!</h3>
+		<% end %>
+	</tbody>
+</table>
+<%= will_paginate @leads %>

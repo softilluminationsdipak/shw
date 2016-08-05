@@ -1,0 +1,25 @@
+<%= form_for  @lead_status, :url => { :action => "#{lead_url}", :id => @lead_status.id }, :remote => true do |cstatus| %>
+	<table class="form_table">
+	 	<tbody>
+			<tr>
+				<td>Lead Code:</td>
+				<td><%= cstatus.text_field :lead_code %></td>
+			</tr>
+			<tr>
+				<td>Lead Status:</td>
+				<td><%= cstatus.text_field :lead_status %></td>
+			</tr>
+			<tr>
+				<td>Is Active:</td>
+				<td><%= cstatus.check_box :active %></td>
+			</tr>
+			<tr>
+				<td><br>Navigation:</td>
+				<td><%= cstatus.check_box :navigation %></td>
+			</tr>
+			<tr>
+				<td colspan="4"><br><%= submit_tag "#{lead_url.capitalize} Lead Status",:id => "save_lead_status", :class => "btn" %></td>
+			</tr>
+	 	</tbody>
+	</table>
+<% end %>

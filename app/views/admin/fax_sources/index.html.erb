@@ -1,0 +1,23 @@
+<h4 class="breadcrumb">Fax Sources</h4>
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+		<tr>
+			<th><strong>Name</strong></th>
+			<th><strong>Number</strong></th>
+			<th><strong>Email</strong></th>
+			<th><strong>Key</strong></th>
+			<th><strong>Password</strong></th>
+			<th><strong>Action</strong></th>
+		</tr>
+	</thead>
+	<% @fax_sources.each do |fax| %>
+		<tr class="hoverable <%=cycle('stripe', '')%>">
+			<td><%= fax.name %></td>
+			<td><%= fax.number %></td>
+			<td><%= fax.address %></td>
+			<td><%= fax.key %></td>
+			<td><%= "*******" %></td>
+			<td><a href="/admin/fax_sources/edit/<%= fax.id %>">Edit</a></td>
+		</tr>
+	<% end %>
+</table>

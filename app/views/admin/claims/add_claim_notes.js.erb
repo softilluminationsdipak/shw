@@ -1,0 +1,4 @@
+jQuery("#claim_notes").val('')
+<% if @claim.present? %>
+	jQuery("#display_claim_notes").html("<%= escape_javascript(render :partial => '/admin/claims/claim_notes', :locals => {:claim => @claim}) %>")
+<% end %>

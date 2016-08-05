@@ -1,0 +1,6 @@
+<% if @renewal_status.valid? %>
+	window.location.href = "/admin/renewal_statuses"
+<% else %>
+	alert("<%= @renewal_status.errors.full_messages.first.html_safe  %>")
+	return false;
+<% end %>	

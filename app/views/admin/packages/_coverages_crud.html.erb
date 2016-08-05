@@ -1,0 +1,37 @@
+<div class="packages_coveragesCrudForm">
+	<h2><%= which %></h2>
+	<%= form_tag '/admin/packages/update_coverages', :class => 'updateForm' do %>
+		<%= hidden_field_tag :which_coverages, which%>
+		<table cellspacing="0" cellpadding="3">
+			<thead><tr>
+				<td>Coverage</td>
+				<td>Price</td>
+				<td>Delete</td>
+			</tr></thead>
+			<tbody>
+				<%= render :partial => 'coverage', :collection => coverages %>
+			</tbody>
+			<tfoot><tr><td colspan="3">
+				<%= submit_tag "Update #{which}" %>
+			</td></tr></tfoot>
+		</table>
+	<% end %>
+	<h2>Add <%=which.singularize%></h2>
+	<%= form_for Coverage.new, :url => { :action => 'create_coverage' } do |f| %>
+		<%= f.hidden_field :optional, :value => 1 if which == 'Optional Coverages' %>
+		<table class="form_table">
+			<tr>
+				<td class="label"><%= f.label :coverage_name, 'Name' %>:</td>
+				<td class="field"><%= f.text_field :coverage_name, :require => true %></td>
+			</tr>
+			<tr>
+				<td class="label"><%= f.label :price %>:</td>
+				<td class="field">$<%= f.text_field :price, :size => 6, :require => true %></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><%= submit_tag "Add #{which.singularize}" %></td>
+			</tr>
+		</table>
+	<% end %>
+</div>

@@ -1,0 +1,36 @@
+<div class="row-fluid">
+  <ul class="breadcrumb">
+    <%= render_breadcrumbs :separator => ' / ' %>
+    <li class="pull-right">
+      Download:
+      <%= link_to "CSV", "/admin/reports/missing_renewal_dates?format=csv" %> |
+      <%= link_to "Excel", "/admin/reports/missing_renewal_dates?&format=xls" %> 
+    </li>
+  </ul>
+</div>
+<div id="layout_content">
+  <table class="table table-condensed table-striped table-bordered sortable_table">
+    <h4>Customer Founds : <%= @find_customers.present? ? @find_customers.count : 0 %></h4>
+  	<thead>
+  		<th>CustomerID</th>
+  		<th>FullName</th>
+  		<th>Customer State</th>
+  		<th>NumOfTransactions</th>
+  		<th>Total</th>
+  		<th>CreatedDate</th>
+  	</thead>
+  	<tbody>
+  		<% @customers.each do |customer| %>
+  			<tr>
+  				<td><%= link_to customer.customer_id, "/admin/customers/edit/#{customer.customer_id}" %></td>
+  				<td><%= customer.fullname %></td>
+  				<td><%= customer.customer_state %></td>
+  				<td><%= customer.no_of_transaction %></td>
+  				<td><%= "$ #{customer.total}" %></td>
+  				<td><%= customer.cdate %></td>
+  			</tr>
+  		<% end %>
+  	</tbody>
+  </table>
+  <%= will_paginate @customers, :param_name => :customers %>
+</div>

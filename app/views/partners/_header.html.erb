@@ -1,0 +1,72 @@
+<div class="navbar navbar-inverse navbar-default">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">SHW</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <% if controller.controller_name == 'partners' && controller.action_name == 'my_account' %>
+      <div class="navbar-form navbar-left">
+        <div style="padding: 5px;"></div>
+        <!--<span class="hbgwhte"><b> API Token: </b> 
+          <%#= current_partner.auth_token %>
+        </span> -->
+        <span class="hbggrn"><b>Affiliate Status: <%= current_partner.company_api_access %></b></span>
+        <% if current_partner.auth_token.present? %>
+        <span class="hbgwhte"><b><%= link_to "Affiliate Link", affiliate_path(current_partner.auth_token[0..5]) %></b></span>
+        <% end %>
+      </div>
+    <% end %>
+    <div style="padding: 1%;width: 47%;float: left;height: 10px;">
+      <%= form_tag affiliates_path, :method => 'get' do %>
+        <table style="margin: -6px 0px 0px 0px;">
+          <tr>
+            <td><label for="from">From</label></td>
+            <td><%= text_field_tag :start_date, params[:start_date], :placeholder => "Start Date", :style => "height:25px;" %></td>
+            <td><label for="to">to</label></td>
+            <td><%= text_field_tag :end_date, params[:end_date], :placeholder => "End Date", :style => "height:25px;" %></td>
+            <td style="padding: 0px 0px 10px 0px;"><%= submit_tag "Search", :name => nil, :class => "btn btn-primary" %></td>
+          </tr>
+        </table>
+      <% end %>
+    </div>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          <%= "#{current_partner.firstname.capitalize} #{current_partner.lastname.capitalize}" %> <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="/affiliates">Home</a></li>
+          <li><a href="<%= my_account_path %>">My Account</a></li>
+          <li><%= link_to "API Documentation", '/api_doc', :class => "btn-link" %></li>
+          <li><%= link_to "Sign Out", destroy_partner_session_path, :method => :delete, :class => "btn-link" %></li>
+        </ul>
+      </li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</div>
+
+  <script src="//code.jquery.com/ui/1.7.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.7.1/themes/smoothness/jquery-ui.css">
+
+ <script>
+  $(function() {
+    $( "#start_date" ).datepicker({
+      dateFormat: "mm/dd/yy",
+      maxDate: new Date('<%= Time.now.to_date.strftime("%m/%d/%Y") %>'),
+      changeMonth: true,changeYear: true
+    });
+    $( "#end_date" ).datepicker({
+      dateFormat: "mm/dd/yy",
+      changeMonth: true,changeYear: true,
+      maxDate: new Date('<%= Time.now.to_date.strftime("%m/%d/%Y") %>')
+    });
+  });
+  </script>

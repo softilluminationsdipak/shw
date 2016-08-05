@@ -1,0 +1,377 @@
+[{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Plumbing Stoppage",
+        "premier": 0,
+        "pack_2": 1,
+        "sort_order": 9,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Clothes Washer",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 19,
+        "pack_3": 0,
+        "pack_4": 1
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Heating System",
+        "premier": 1,
+        "pack_2": 1,
+        "sort_order": 2,
+        "pack_3": 1,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 99.95,
+        "pack_1": 0,
+        "optional": 1,
+        "coverage_name": "Pool/Spa",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 21,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 19.95,
+        "pack_1": 0,
+        "optional": 1,
+        "coverage_name": "Central Vacuum",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 20,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Water Heater",
+        "premier": 0,
+        "pack_2": 1,
+        "sort_order": 3,
+        "pack_3": 1,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Garbage Disposal",
+        "premier": 0,
+        "pack_2": 1,
+        "sort_order": 18,
+        "pack_3": 0,
+        "pack_4": 1
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Plumbing system",
+        "premier": 0,
+        "pack_2": 1,
+        "sort_order": 0,
+        "pack_3": 1,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Refrigerator",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 16,
+        "pack_3": 0,
+        "pack_4": 1
+    }
+},
+{
+    "coverage": {
+        "price": 24.95,
+        "pack_1": 0,
+        "optional": 1,
+        "coverage_name": "Second Refrigerator",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 1,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 19.95,
+        "pack_1": 0,
+        "optional": 1,
+        "coverage_name": "Sump Pump",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 0,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 39.95,
+        "pack_1": 0,
+        "optional": 1,
+        "coverage_name": "Well Pump",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 14,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 39.95,
+        "pack_1": 0,
+        "optional": 1,
+        "coverage_name": "Limited Roof Leak",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 13,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Stove/Oven",
+        "premier": 0,
+        "pack_2": 1,
+        "sort_order": 8,
+        "pack_3": 0,
+        "pack_4": 1
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Microwave Oven(Built In)",
+        "premier": 0,
+        "pack_2": 1,
+        "sort_order": 7,
+        "pack_3": 0,
+        "pack_4": 1
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Cooktop",
+        "premier": 0,
+        "pack_2": 1,
+        "sort_order": 6,
+        "pack_3": 0,
+        "pack_4": 1
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Dishwasher",
+        "premier": 0,
+        "pack_2": 1,
+        "sort_order": 12,
+        "pack_3": 0,
+        "pack_4": 1
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Clothes Dryer",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 21,
+        "pack_3": 0,
+        "pack_4": 1
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Ductwork",
+        "premier": 0,
+        "pack_2": 1,
+        "sort_order": 4,
+        "pack_3": 1,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Garage Door Opener",
+        "premier": 0,
+        "pack_2": 1,
+        "sort_order": 10,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Ceiling Fans",
+        "premier": 0,
+        "pack_2": 1,
+        "sort_order": 15,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "A/C, Cooling",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 0,
+        "pack_3": 1,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 24.95,
+        "pack_1": 0,
+        "optional": 1,
+        "coverage_name": "Stand Alone Freezer",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 0,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 74.95,
+        "pack_1": 0,
+        "optional": 1,
+        "coverage_name": "Lawn Sprinkler System",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 0,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 79.99,
+        "pack_1": 0,
+        "optional": 1,
+        "coverage_name": "Septic System",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 0,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 99.99,
+        "pack_1": 0,
+        "optional": 1,
+        "coverage_name": "Home Office Package",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 0,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 0.0,
+        "pack_1": 1,
+        "optional": 0,
+        "coverage_name": "Electrical System",
+        "premier": 0,
+        "pack_2": 1,
+        "sort_order": 0,
+        "pack_3": 1,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 19.95,
+        "pack_1": 0,
+        "optional": 1,
+        "coverage_name": "Ice Maker",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 0,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+},
+{
+    "coverage": {
+        "price": 74.95,
+        "pack_1": 0,
+        "optional": 1,
+        "coverage_name": "Plumbing/Lighting Fixtures",
+        "premier": 0,
+        "pack_2": 0,
+        "sort_order": 0,
+        "pack_3": 0,
+        "pack_4": 0
+    }
+}]

@@ -1,0 +1,63 @@
+<div class="fixed-width">
+  <div class="main-area">
+  <% content_for :request_intro do %>
+	<p class="notes">For the quickest claim response time, please fill out the claim form below and a claims rep will contact you shortly.</p>
+    <% end %>
+    <form action="/request_thankyou" method="POST" class="get-more-info <%= css_class if defined?(css_class) %>" style="background:none;">
+      <%= yield :request_intro %>
+      
+      <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>"/>
+      <input type="hidden" name="template_name" value="submitclaim"/>
+      <input type="hidden" name="pname" value="submitclaim"/>
+      <div class="left-column">
+        <p>
+          <label for="name">Name:</label>
+          <input name="request[name]" type="text" value="" id="name" required="" />
+        </p>
+        <p>
+          <label for="Issue Type">Issue Type:</label>
+          <% type = Coverage.all.map(&:coverage_name) + Package.all.map(&:package_name)%>
+          <%= select("request", "issue_type", type.collect {|p| [ p, p ] }, {prompt: 'Select Issue Type'}, {style: 'width: 154px;'}) %>
+        </p>
+        <p>
+          <label for="phone">Phone #:</label>
+          <input name="request[phone]" type="text" value="" id="phone" />
+        </p>
+        <p>
+          <label for="address">Address Line 1:</label>
+          <input name="request[address]" type="text" value="" id="address" />
+        </p>
+        <p>
+          <label for="city">City:</label>
+          <input name="request[city]" type="text" value="" id="city"  />
+        </p>        
+        <div style="float:left;">
+        <%= recaptcha_tags %></div>
+      </div>
+      <div class="right-column">
+        <p>
+          <label for="company-name">Policy #:</label>
+          <input name="request[policy_number]" type="text" value="" id="policy_number" />
+        </p>
+        <p>
+          <label for="issue-description">Issue Description</label>
+          <textarea row0s="5" cols="5" name="request[description]" id="description"></textarea>
+        </p>
+        <p>
+          <label for="email">Email:</label>
+          <input name="request[email]" type="text" value="" id="email" />
+        </p>        
+        <p>
+          <label for="state">State:</label>
+          <input name="request[state]" type="text" maxlength="2" size="2" value="" id="state" required=""  onblur="checkcity()"  pattern="[A-Za-z]{2}" title="Please Enter valid two letter state code" />
+          <label for="zip" class="zip">Zip:</label>
+          <input name="request[zip]" type="text" value="" id="zip" />
+        </p>
+        <br>
+        <p style="margin-left: 105px;"><input type="submit" value="Submit Claim"/></p>
+      </div>
+    </form>
+
+  </div>
+</div>
+<%= google_analytics_js %>

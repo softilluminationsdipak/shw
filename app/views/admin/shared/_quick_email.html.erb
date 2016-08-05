@@ -1,0 +1,23 @@
+<div class="modal hide" id="quick_email_<%= @claim.id %>">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3 id="modal_title">Quick Email</h3>
+  </div>
+  <%= form_tag "/admin/email_templates/async_quickly_email_with_js", :method => 'POST', :remote => true do %>
+  	<div class="modal-body">
+    	<h4><p id="modal_text">Contractor Name : <%= claim.contractor.present? && claim.contractor.fullname.present? ? claim.contractor.fullname : 'Undefine' %></p></h4>
+      <% if claim.contractor.present? %>
+    	 <%= hidden_field_tag :contractor_id, claim.contractor.id %>
+      <% end %>
+    	<%= hidden_field_tag :clam_id, claim.id %>
+    	<p id="modal_text">
+    		<h4> Template : 
+	    		<%= select_tag "template_id", options_for_select(EmailTemplate.all.collect{|p| [p.name, p.id]}) %>
+	    	</h4>
+			</p>
+  	</div>
+ 	 <div class="modal-footer">
+    	<%= submit_tag "Send Email", :name => nil, :class => "btn btn-primary" %>
+  	</div>
+  <% end %>
+</div>

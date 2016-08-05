@@ -1,0 +1,4 @@
+<link href="/assets/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<%= form_for @new_sub_affilate, :url => { :action => "update" }, :class => "form-horizontal", :remote => true do |f| %>
+  <%= render :partial => "/sub_affilates/form", :locals => {:f => f } %>
+<% end %>

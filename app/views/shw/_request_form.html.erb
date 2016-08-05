@@ -1,0 +1,57 @@
+<form action="/request_thankyou" method="POST" class="get-more-info <%= css_class if defined?(css_class) %>">
+  <%= yield :request_intro %>
+  
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>"/>
+  <input type="hidden" name="template_name" value="<%= template_name %>"/>
+  <div class="left-column">
+    <p>
+      <label for="full-name">Full Name:</label>
+      <input name="request[name]" type="text" value="" id="full-name" required="" />
+    </p>
+    <p>
+      <label for="email">Email:</label>
+      <input name="request[email]" type="text" value="" id="email" />
+    </p>
+    <p>
+      <label for="mobile-phone">Mobile Phone:</label>
+      <input name="request[mobile]" type="text" value="" id="mobile-phone" />
+    </p>
+    <p>
+      <label for="address">Address:</label>
+      <input name="request[address]" type="text" value="" id="address" />
+    </p>
+    <p>
+      <label for="state">State:</label>
+      <input name="request[state]" type="text" maxlength="2" size="2" value="" id="state" required=""  onblur="checkcity()"  pattern="[A-Za-z]{2}" title="Please Enter valid two letter state code" />
+      <label for="zip" class="zip">Zip:</label>
+      <input name="request[zip]" type="text" value="" id="zip" />
+    </p>
+    <div style="float:left;">
+    <%= recaptcha_tags %></div>
+  </div>
+  <%= hidden_field_tag 'pname', request.url.split("/").last %>
+  <div class="right-column">
+    <p>
+      <label for="company-name">Company Name:</label>
+      <input name="request[company_name]" type="text" value="" id="company-name" />
+    </p>
+    <p>
+      <label for="main-phone">Main Phone:</label>
+      <input name="request[phone]" type="text" value="" id="main-phone" required="" />
+    </p>
+    <p>
+      <label for="fax">Fax:</label>
+      <input name="request[fax]" type="text" value="" id="fax" />
+    </p>
+    <p>
+      <label for="city">City:</label>
+      <input name="request[city]" type="text" value="" id="city"  />
+    </p>
+    <p>
+      <label for="comments">Comments:</label>
+      <textarea rows="5" cols="5" name="request[comments]" id="comments"></textarea>
+    </p>
+    <br>
+    <p style="margin-left: 105px;"><input type="submit" value="Join Us"/></p>
+  </div>
+</form>

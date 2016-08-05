@@ -1,0 +1,29 @@
+<h2>Unassigned Faxes</h2>
+
+<script type="text/javascript">
+
+	var newContractors = CIApplication.generateFaxesTable({
+		title: 'Customers',
+		key: 'customers'
+	});
+	var contractorBilling = CIApplication.generateFaxesTable({
+		title: 'Contractors',
+		key: 'contractors'
+	});
+	var columns = new CIHPanel([
+		newContractors, contractorBilling
+	]);
+
+
+	newContractors.toolbar.addItemToLeft(newContractors.paginator);
+	columns.element($('layout_content'));	
+    newContractors.paginator.selectPage(1);
+    
+/*	
+	columns.element($('layout_content'));
+	
+	newContractors.getData();
+	contractorBilling.getData();
+*/
+	contractorBilling.getData();
+</script>

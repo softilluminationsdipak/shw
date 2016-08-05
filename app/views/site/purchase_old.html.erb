@@ -1,0 +1,141 @@
+<% content_for :head do %>
+	<%= javascript_include_tag 'getaquote' %>
+<% end %>
+
+<div class="fixed-width">
+  <div class="wizard-steps">
+    <ol>
+      <li><div class="left-corner"><%= Content.for_navigation_step 1 %></div></li>
+      <li><div class="center" id="active-step"><%= Content.for_navigation_step 2 %></div></li>
+      <li><div class="right-corner"><%= Content.for_navigation_step 3 %></div></li>
+    </ol>
+  </div>
+  <div class="plan-table">
+    <%= form_for :customer, :url => 'purchase', :html => { :id => "getaquote_form", :style => 'color: black;' } do |customer_form| -%>
+    <%= render :partial => "plans_table", :locals => {:purchase => :purchase} %>
+  </div>
+    <div class="sidebar-right">
+    <div>
+		<h4>Choose Optional Add-ons</h4>
+		<% coverages = Coverage.all_optional %>
+		<% bucket_size = (coverages.length.to_f / 2.0).ceil %>
+		<% sets = [coverages[0..bucket_size-1], coverages[bucket_size..-1]]%>
+		<% sets.each do |set| %>
+			<ul class="coveragesList">
+			<% set.each do |coverage| %>
+				<li>
+					<input onclick="updatePlanTotal()" class="coverageCheckbox" type="checkbox" value="<%=coverage.price%>" name="coverages[<%=coverage.id%>]"/>
+					&nbsp;
+					<%=coverage.coverage_name%>&nbsp;<%="$#{coverage.price}"%>
+				</li>
+			<% end %>
+			</ul>
+    <% end %>
+  </div>
+		<table class="form_table" cellspacing="5">
+			<tr>
+				<td class="label">Years:</td>
+				<td>
+					<input id="contract_length_1" onclick="updatePlanTotal();" type="radio" name="contract_length" value="1" checked="checked" class="contractLengthRadioButton"/>&nbsp;<label for="contract_length_1">1 Year</label>
+					<!--&nbsp;&nbsp;
+					<input id="contract_length_2" onclick="updatePlanTotal();" type="radio" name="contract_length" value="2" class="contractLengthRadioButton"/>&nbsp;<label for="contract_length_2">2 Years</label>
+					&nbsp;&nbsp;
+					<input id="contract_length_3" onclick="updatePlanTotal();" type="radio" name="contract_length" value="3" class="contractLengthRadioButton"/>&nbsp;<label for="contract_length_3">3 Years</label>
+					-->
+				</td>
+			</tr>
+			<tr id="paymentPlan_tr">
+				<td class="label">Payment Plan:</td>
+				<td>
+					<select id="payment_plan_select" onchange="updatePlanTotal();">
+						<option value="1">Single Payment</option>
+						<option value="2">Semi-annual Payment</option>
+						<option value="4">Quarterly Payment</option>
+						<option value="12">Monthly Payment</option>
+					</select>
+				</td>
+			</tr>
+			<tr id="eachPayment_tr">
+				<td class="label" valign="top">Each Payment:</td>
+				<td><span id="eachPayment_td">$0.00</span>
+					<!--<p class="noindent red">
+						Best Value!! 3 and 5 year plans.<br/>Please call today for rates
+					</p>-->
+				</td>
+			</tr>
+			<tr id="price_tr">
+				<td class="label">Price:</td>
+				<td id="price">$0.00</td>
+			</tr>
+			<tr id="savings_tr">
+				<td class="label">Savings:</td>
+				<td id="savings">$0.00</td>
+			</tr>
+			<tr id="yourPrice_tr">
+				<td class="red label">Your Price:</td>
+				<td class="red" id="priceYearly">$0.00</td>
+			</tr>
+			<tr>
+				<td class="label" style="width: 100px; vertical-align: top;">Discount Code:</td>
+				<td id="discount_td">
+					<input type="text" id="discount_code" size="8"/>
+          <input type="hidden" name="customer[discount_id]" id="discount_id" value=""/>
+          <% mapped = {'Single Family' => 'single', '2 Family' => 'duplex', '3 Family' => 'triplex', '4 Family' => 'fourplex', 'Condominium' => 'condo'} %> 
+          <% customer_home_type = mapped[params[:type_of_home]] %>
+          <input type="hidden" id="customer_home_type" value=<%="#{customer_home_type}"%> >
+					<br>
+					<input type="button" id="applyDiscount_button" value="Apply Discount" onclick="applyDiscount()"/>&nbsp;&nbsp;
+					<br/>
+					<span id="discount_span" style="color: green;"></span>
+				</td>
+			</tr>
+    </table>
+    <div id="purchase_submit">
+	<input id="customer_id" type="hidden" name="id" value="<%=@customer.id%>">
+	<input type="hidden" name="property_id" value="<%=@property.id%>">
+	<!-- This is set by JS, so it incorporates the discount -->
+	<input type="hidden" id="customer_num_payments" name="customer[num_payments]" value="1">
+	<input type="hidden" id="customer_pay_amount" name="customer[pay_amount]" value=""/>
+	<input type="hidden" id="customer_disabled" name="customer[disabled]" value="0"/>
+	<input id="getaquote_button" type="hidden" onclick="validateGetAQuoteForm();" value="Start Coverage"/>
+</div>
+
+    <td colspan="4">
+      <div class="get-quote">
+  <table>
+    <tr>
+      <td>
+        <%= customer_form.submit 'Next Step', :class => 'submit_button_class'  %>
+      </td>
+  </tr>
+ </table>
+</div>
+      </td>
+</div>
+
+<% end %>
+
+</div>
+</div>
+</div>
+<!-- Google Code for Lead Conversion Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 1005147797;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "RaSNCLPxsgQQla2l3wM";
+var google_conversion_value = 0;
+/* ]]> */
+</script>
+<script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/1005147797/?value=0&amp;label=RaSNCLPxsgQQla2l3wM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+<%= google_analytics_js %>
+<img src="https://147.xg4ken.com/media/redir.php?track=1&token=30b2f042-03e2-4fe6-bff9-fb12f8855dfc&type=lead&val=0.0&orderId=&promoCode=&valueCurrency=USD&GCID=&kw=&product="
+width="1" height="1">

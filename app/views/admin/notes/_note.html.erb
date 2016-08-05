@@ -1,0 +1,21 @@
+	<% if @type == "claim" %>
+
+		<select name="note[notable_id]" id="notenotabletype" class="CIFormField">
+			<% @customer.notes_claim_ids.uniq.each do |k,v| %>
+				<option value='<%= k %>'><%= v %></option>
+			<% end %>
+		</select>
+
+	<% elsif @type == "billing" %>
+
+		<%= @type %>
+
+	<% elsif @type == "customer_service" %>
+
+		<select name='note[notable_id]' id='notenotabletype' class='CIFormField'>
+			<% @customer.notes.map(&:customer_id).uniq.each do |k| %>
+				<option value='<%= k %>'><%= k %></option>
+			<% end %>
+		</select>
+
+	<% end %>

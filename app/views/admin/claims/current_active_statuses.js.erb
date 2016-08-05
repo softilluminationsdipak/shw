@@ -1,0 +1,2 @@
+jQuery('#current_status_label').html("<%= escape_javascript(render :partial => '/admin/claims/claim_status') %>")
+jQuery('#current_status_update').html("<%= escape_javascript(render :partial => '/admin/claims/claim_dashboard', :locals => {:claims => @claims}) %>")

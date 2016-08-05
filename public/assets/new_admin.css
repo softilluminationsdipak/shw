@@ -1,0 +1,943 @@
+html {
+	height: 100%;
+}
+
+img { border: none; }
+
+body {
+	background: #EFEFEF;
+	margin: 0;
+	font-family: "Lucida Grande", Tahoma, Helvetica, sans-serif;
+	font-size: 10pt !important;
+}
+
+/* Browser Styles */
+body.gecko input.searchField { padding-top: 6px; }
+body.webkit input.searchField { padding-top: -3px; }
+/*body.webkit div.searchField_left { display: none; }
+body.webkit div.searchField_right { display: none; }
+body.webkit input.searchField {
+	-webkit-appearance: searchfield;
+	padding: 0 0 0 10px;
+}
+body.webkit div.searchField_lead {
+	background-image: none;
+	position: relative;
+	left: 10px;
+	vertical-align: middle;
+}*/
+/* End Browser Styles */
+
+a {
+	text-decoration: none;
+	color: #385198;
+	cursor: pointer;
+}
+a:hover {
+	text-decoration: underline;
+}
+a:visited {
+	color: purple;
+}
+
+h1 {
+	color: #566FB6;
+	font-size: 18pt;
+	font-weight: normal;
+	padding: 5px 0 10px 10px;
+	margin: 0;
+}
+
+h2 {
+	font-weight: normal;
+	font-size: 14pt;
+}
+
+div#layout_content {
+	padding: 10px 10px 20px 10px;
+	background-color: white;
+	border-bottom: 3px solid #A59838; /* CHANGEME */
+}
+
+div#layout_fixed_header {
+	position: fixed;
+	top: 0; left: 0;
+	width: 100%; min-width: 950px;
+}
+
+div#layout_footer {
+	font-size: 9pt;
+	margin-top: 20px;
+	padding: 10px;
+}
+
+div#layout_tabs {
+	padding-left: 10px;
+	margin-bottom: 5px;
+}
+
+div.layout_tab_container {
+	width: 120px;
+	height: 26px;	/* base height of 16 plus 5 padding, twice */
+	overflow: hidden;
+	margin: 0; padding: 0;
+	position: relative;
+	bottom: 5px;
+	float: left;
+}
+
+div#layout_tabs div.selectedContainer {
+	position: relative;
+	/* This means the tab will be exactly 1 pixel shorter than the rest, but it's unnoticeable */
+	bottom: 6px;
+}
+
+div#layout_tabs div.logout {
+	margin-left: 20px;
+}
+div#layout_tabs div.logout div.layout_tab {
+	background-color: #CEE8C8; /* CHANGEME */
+	color: #A33723;
+}
+div#layout_tabs div.logout div.layout_tab:hover {
+	background-color: #F2C8CB;
+	color: #A33723;
+}
+
+div.layout_tab {
+	color: #888;
+	background-color: #CDE6C8; /* CHANGEME */
+	padding: 5px 10px 5px 10px;
+	text-decoration: none;
+	width: 100px;
+	height: 15px; 
+	vertical-align: middle;
+	cursor: pointer;
+	border-bottom: 1px dotted white;
+	margin-left: 5px;
+}
+div#layout_tabs > div.hasNoSubtabs > div.layout_tab {
+	border-bottom: none;
+	height: 16px;
+}
+
+div.layout_tab:hover {
+	background-color: #A9D9A4; /* CHANGEME */
+	color: white;
+}
+div.layout_tab > a {
+	color: inherit;
+	text-decoration: none;
+	/*	These attributes will extend the <a> to the end of the
+		<div>, giving the illusion most of the div is clickable */
+	display: block;
+	width: 100%;
+}
+
+div.layout_tab_container div.selected {
+	color: white;
+	background-color: #6ECC3B; /* CHANGEME */
+	font-weight: bold;
+	border-bottom: 1px solid #3D8321; /* CHANGEME */
+	height: 15px;
+}
+
+div#layout_toolbar {
+	background-color: #6ECC3B; /* CHANGEME - Must be same as above */
+	vertical-align: middle;
+	margin-bottom: 5px;
+	padding-left: 12px;
+	padding-top: 3px;
+	height: 30px;
+	font-size: 13px;
+	color: white;
+	border-bottom: 1px solid #3D8321; /* CHANGEME - Must be same as above */
+}
+
+div.searchField_container { display: inline; }
+div.searchField_left {
+	margin: 0;
+	float: left;
+	width: 11px;
+	height: 24px;
+	background-image: url(/assets/admin/searchfield_left.png);
+	background-repeat: no-repeat;
+}
+div.searchField_lead {
+	height: 24px;
+	float: left;
+	font-weight: bold;
+	background-image: url(/assets/admin/searchfield_mid.png);
+	background-repeat: repeat-x;
+}
+.searchMenuLabel {
+	cursor: pointer;
+	width: 15px;
+	font-size: 18px;
+	color: #888;
+	margin-right: 5px;
+}
+.CISelected .searchMenuLabel { color: white; font-weight: bold;}
+
+div.searchField_mid { margin: 0; float: left; height: 24px; }
+div.searchField_mid input.searchField {
+	vertical-align: middle;
+	margin: 0;
+	height: 24px;
+	background: transparent url(/assets/admin/searchfield_mid.png) repeat-x scroll 0 0;
+	border: medium none;
+}
+div.searchField_right {
+	margin: 0;
+	float: left;
+	width: 11px;
+	height: 24px;
+	background-image: url(/assets/admin/searchfield_right.png);
+	background-repeat: no-repeat;
+}
+div#advancedSearchDiv { display: none; }
+div#advancedSearchDiv table tr.CIOddSkin {
+	background-color: #545C64;
+}
+
+table {
+	font-size: 10pt;
+	width: 100%;
+	border: none;
+}
+
+table > thead > tr > td {
+	background-color: #DDD;
+	padding: 3px;
+}
+
+table > thead > tr > th {
+	background-color: #DDD;
+	padding: 3px;
+}
+
+
+table > tfoot > tr > td {
+	border-top: 1px solid #CCC;
+}
+
+fieldset {
+	border: 1px solid #AAA;
+}
+
+fieldset > legend {
+	color: #385198;
+}
+
+table > tbody > tr > td.label {
+	vertical-align: top;
+	text-align: right;
+	width: 100px;
+}
+
+table > tbody > tr > td.wide {
+	width: 150px;
+}
+
+table > tbody > tr > td.wider {
+	width: 200px;
+}
+
+table > tbody > tr > td.widest {
+	width: 250px;
+}
+
+hr {
+	width: 100%;
+	border-bottom: 1px solid white;
+	border-top: 1px dashed #AAA;
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+}
+
+.stripe {
+	background-color: #F3F3F3;
+}
+.webOrder {
+	background-color: #D1F8AD !important;
+}
+.inactiveSubscription{
+    background-color: #C36C6C;
+}
+.activeSubscription{
+    background-color: #A5DF91;
+}
+.emailDuplicate{
+    background-color: #CCD1C8 !important;
+}
+.emailDuplicate24hr{
+    background-color: #f0bfc0 !important;
+}
+.emailDuplicate24hr span a{
+    color: #f70015 !important;
+}
+
+.webOrderCompleted {
+    background-color: #8AECFF !important;
+}
+.thisCustomer {
+	background-color: #F66 !important;
+}
+
+tr.hoverable:hover {
+	background-color: #C9E4FF !important;
+}
+
+div#quickMail_hud {
+	z-index: 50;
+	border: 1px solid #AAA;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	padding: 10px;
+	background-color: #EEE;
+	display: none;
+}
+
+div#quickMail_hud span#quickMail_hud_name {
+	font-weight: bold;
+}
+
+div#quickMail_hud table {
+	font-size: 9pt;
+}
+
+img.inlineIcon {
+	position: relative;
+	top: 3px;
+}
+
+.hasToolTip:hover {
+	cursor: pointer;
+}
+
+.tooltip {
+	background-color: #FFFEDE;
+	z-index: 99;
+	padding: 3px;
+}
+
+
+#contractorFinder {
+	width: 24px; height: 24px;
+	background-image: url(/assets/admin/contractor_finder.png);
+	float: right;
+	margin-left: 7px;
+	margin-top: 4px;
+	cursor: pointer;
+}
+#scopeToolbar {
+	float: left;
+	padding: 4px 100px 0 20px;
+}
+#scopeToolbar > a {
+	font-size: 12px;
+	background-color: #568B33; /* CHANGEME */
+	padding: 2px 3px 2px 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	color: #EEE;
+	margin-left: 3px;
+	text-decoration: none;
+}
+#scopeToolbar > a:hover {
+	background-color: #A3D784; /* CHANGEME */
+	color: white;
+}
+
+tr.notification td {
+	text-align: left;
+	vertical-align: middle;
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+	font-size: 12px;
+}
+tr.notification td.bell {
+	width: 30px;
+	border-left: 1px solid #CCC;
+}
+tr.notification td.text {
+	border-right: 1px solid #CCC;
+}
+.notification_resource {
+	background-color: #EEE;
+}
+.notification_info {
+	background-color: #E4ECFF;
+}
+.notification_problem {
+	background-color: #FFE5D1;
+}
+.small {
+	font-size: 12px;
+}
+
+.gray { color: gray; }
+
+.transaction_approved {
+	color: black;
+}
+
+.transaction_declined {
+	color: #A60101;
+	font-weight: bold;
+}
+
+.transaction_invalidcard {
+	color: #999;
+	font-weight: bold;
+}
+.transaction_expiredcard {
+	color: #A67621;
+	font-weight: bold;
+}
+
+.transaction_avsmismatch {
+	color: #142465;
+	font-weight: bold;
+}
+
+.transaction_duplicate {
+	color: #999;
+}
+
+.strikethrough {
+	text-decoration: line-through;
+}
+
+a.CCReplace {
+	background-color: #DDD;
+}
+a.CCReplace:hover {
+	background-color: #FFF7D8;
+	text-decoration: none;
+}
+div.fieldWithErrors {
+	display: inline;
+}
+
+/*** Specific pages ***/
+#packagesTable > thead > tr > td:first-child {
+	text-align: right;
+}
+#packagesTable > tbody > tr > td:first-child {
+	width: 100px;
+	text-align: right;
+}
+#packagesTable > tbody > tr:nth-child(odd) > td {
+	border-bottom: 1px dotted #CCC;
+}
+#packagesTable > tfoot td {
+	text-align: center;
+	background-color: #FFF7CD;
+}
+ul.packages_coveragesList {
+	list-style-type: none;
+	margin: 0;
+	margin-bottom: 5px;
+	padding: 0;
+	display: block;
+	height: 22px;
+	clear: both;
+}
+ul.packages_coveragesList > li {
+	margin: 0;
+	float: left;
+	width: 180px;
+}
+table#packages_coverages > tbody > tr > td {
+	vertical-align: top;
+	border-top: 3px solid #CCC;
+}
+.packages_coveragesCrudForm {
+	width: 350px;
+}
+.packages_coveragesCrudForm:first-child {
+	margin-right: 65px;
+}
+.packages_coveragesCrudForm > form.updateForm > table > tbody > tr > td:last-child {
+	text-align: center;
+}
+.packages_coveragesCrudForm > form.updateForm > table > tfoot td {
+	text-align: center;
+	background-color: #FFF7CD;
+}
+.packages_coveragesCrudForm > h2:nth-child(2) {
+	margin-top: 10px;
+}
+
+/* Newly updated part for Bootstrap */
+td label{
+  display: inline;
+}
+
+td.label{
+  color: black;
+  background-color: #FFF;
+}
+
+.CISheet {
+  top: 50px!important;
+}
+
+.pagination em, .pagination span{
+  float: left;
+  padding: 0 14px;
+  line-height: 34px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-left-width: 0;
+}
+
+.pagination .current{
+  text-decoration: bold;
+  color: red;
+}
+
+
+input[size="2"] {
+  width: 16px;
+}
+
+input[size="3"] {
+  width: 22px;
+}
+
+input[size="6"] {
+  width: 44px;
+}
+
+input[size="15"] {
+  width: 90px;
+  height: 14px;
+}
+
+textarea[cols="75"]{
+  width: 600px;
+}
+
+textarea[rows="40"]{
+  height: 500px;
+}
+
+#advancedSearchForm select{
+  width: 70px;
+  height: 22px;
+}
+
+
+.table-bordered th{
+  border: 1px solid #bbb;
+}
+
+/* Newly added status CSS button */
+/* ----------------------------------------------------- */
+.credit_button {
+    height:auto;
+    width:auto;
+    font-family: sans-serif;
+    font-size:12px;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    border: 1px solid #5e5b5b;
+}
+
+.credit_approved {
+    background-color:#c7eecf;
+    color:#09600b;
+    border: 1px solid #5e5b5b;
+
+}
+
+.credit_credit {
+    background-color:#c7eecf;
+    color:#09600b;
+    border: 1px solid #5e5b5b;
+}
+
+.credit_declined {
+    background-color:#fec7ce;
+    color:#9a0511;
+    border: 1px solid #5e5b5b;
+}
+
+.credit_expiredcard {
+    background-color:#fec7ce;
+    color:#9a0511;
+    border: 1px solid #5e5b5b;
+}
+
+.credit_void {
+    background-color:#feeaa0;
+    color:#9b6415;
+    border: 1px solid #5e5b5b;
+}
+
+.credit_avsmismatch {
+    background-color:#feeaa0;
+    color:#9b6415;
+    border: 1px solid #5e5b5b;
+}
+
+/* claim status button */
+
+/*
+   app/models/claim.rb : refer
+
+    ['Not Set', 0]
+    ['Placed by Agent', 1]
+    ['Placed by Customer', 2]
+    ['Waiting for Contract', 3],
+    ['Contractor Dispatched', 4]
+    ['Re-Dispatched', 13]
+    ['Contractor Reported', 5]
+    ['Approved', 6], 
+    ['Denied', 7]
+    ['Paid', 12]
+    ['Need More Info.', 8]
+    ['Customer Contacted', 9]
+    ['Sent Release', 10],
+    ['Received Release', 11]
+    ['Waiting for pics', 14]
+    ['Not Effective', 15]
+
+*/
+
+.claim_filter_button {
+    height:auto;
+    width:auto;
+    font-family: sans-serif;
+    font-size:10px;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    border: 1px solid #5e5b5b;
+    margin-left: 4px!important;
+}
+.claim_button {
+    height:auto;
+    width:auto;
+    font-family: sans-serif;
+    font-size:10px;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_0 {
+    background-color:#808080;
+    color:#fff;
+    border: 1px solid #5e5b5b;
+}
+
+
+.claim_0_active {
+    background-color:#808080;
+    color:#fff;
+    border: 3px solid #666;
+}
+
+.claim_1 {
+    background-color:#fce9da;
+    color:#000;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_1_active {
+    background-color:#fce9da;
+    color:#000;
+    border: 3px solid #666;
+}
+
+.claim_2 {
+    background-color:#fce9da;
+    color:#000;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_2_active {
+    background-color:#fce9da;
+    color:#000;
+    border: 3px solid #666;
+}
+
+.claim_3 {
+    background-color:#808080;
+    color:#fff;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_3_active {
+    background-color:#808080;
+    color:#fff;
+    border: 3px solid #666;
+}
+
+.claim_4 {
+    background-color:#808080;
+    color:#fff;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_4_active {
+    background-color:#808080;
+    color:#fff;
+    border: 3px solid #666;
+}
+
+.claim_5 {
+    background-color:#e4dfec;
+    color:#000;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_5_active {
+    background-color:#e4dfec;
+    color:#000;
+    border: 3px solid #666;
+}
+
+.claim_6 {
+    background-color:#c7eecf;
+    color:#060;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_6_active {
+    background-color:#c7eecf;
+    color:#060;
+    border: 3px solid #666;
+}
+
+.claim_7 {
+    background-color:#fec7ce;
+    color:#600;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_7_active {
+    background-color:#fec7ce;
+    color:#600;
+    border: 3px solid #666;
+}
+
+.claim_8 {
+    background-color:#fffece;
+    color:#000;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_8_active {
+    background-color:#fffece;
+    color:#000;
+    border: 3px solid #666;
+}
+
+.claim_9 {
+    background-color:#ebf1df;
+    color:#000;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_9_active {
+    background-color:#ebf1df;
+    color:#000;
+    border: 3px solid #666;
+}
+
+.claim_10 {
+    background-color:#e4dfec;
+    color:#000;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_10_active {
+    background-color:#e4dfec;
+    color:#000;
+    border: 3px solid #666;
+}
+
+.claim_11 {
+    background-color:#808080;
+    color:#fff;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_11_active {
+    background-color:#808080;
+    color:#fff;
+    border: 3px solid #666;
+}
+
+.claim_12 {
+    background-color:#c7eecf;
+    color:#060;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_12_active {
+    background-color:#c7eecf;
+    color:#060;
+    border: 3px solid #666;
+}
+
+.claim_13 {
+    background-color:#dce6f1;
+    color:#000;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_13_active {
+    background-color:#dce6f1;
+    color:#000;
+    border: 3px solid #666;
+}
+
+.claim_14 {
+    background-color:#808080;
+    color:#fff;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_14_active {
+    background-color:#808080;
+    color:#fff;
+    border: 3px solid #666;
+}
+
+.claim_15 {
+    background-color:#fec7ce;
+    color:#600;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_15_active {
+    background-color:#fec7ce;
+    color:#600;
+    border: 3px solid #666;
+}
+
+.claim_16 {
+    background-color:#fffece;
+    color:#000;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_16_active {
+    background-color:#fffece;
+    color:#000;
+    border: 3px solid #666;
+}
+
+.claim_17 {
+    background-color:#fffece;
+    color:#000;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_17_active {
+    background-color:#fffece;
+    color:#000;
+    border: 3px solid #666;
+}
+
+.claim_18 {
+    background-color:#ffdece;
+    color:#000;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_18_active {
+    background-color:#ffdece;
+    color:#000;
+    border: 3px solid #666;
+}
+
+.claim_19 {
+    background-color:#effece;
+    color:#000;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_19_active {
+    background-color:#effece;
+    color:#000;
+    border: 3px solid #666;
+}
+
+.claim_20 {
+    background-color:#fffece;
+    color:#000;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_20_active {
+    background-color:#fffece;
+    color:#000;
+    border: 3px solid #666;
+}
+
+.claim_21 {
+    background-color:#fec6ce;
+    color:#600;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_21_active {
+    background-color:#fec6ce;
+    color:#600;
+    border: 3px solid #666;
+}
+.claim_22 {
+    background-color:#808080;
+    color:#fff;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_22_active {
+    background-color:#808080;
+    color:#fff;
+    border: 3px solid #666;
+}
+.claim_23 {
+    background-color:#808080;
+    color:#fff;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_23_active {
+    background-color:#808080;
+    color:#fff;
+    border: 3px solid #666;
+}
+.claim_24 {
+    background-color:#808080;
+    color:#fff;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_24_active {
+    background-color:#808080;
+    color:#fff;
+    border: 3px solid #666;
+}
+.claim_25 {
+    background-color:#808080;
+    color:#fff;
+    border: 1px solid #5e5b5b;
+}
+
+.claim_25_active {
+    background-color:#808080;
+    color:#fff;
+    border: 3px solid #666;
+}
+.error{color:red;}

@@ -1,0 +1,23 @@
+<%= form_for @merchant_account, :url => { :action => "update", :id => @merchant_account.id } do |merchant_account| %>
+	<table class="form_table">
+	 	<tbody>
+			<tr>
+				<td>Type:</td>
+				<td>
+					<%= select("merchant_account", "merchant_type", [['NMI', 'NMI'], ['Auth.net', 'Auth.net']], { include_blank: true }) %>
+				</td>
+			</tr>
+			<tr>
+				<td>Provider ID:</td>
+				<td><%= merchant_account.text_field :merchant_name, :placeholder => 'Provider ID' %></td>
+			</tr>
+			<tr>
+				<td>Is Default</td>
+				<td><%= merchant_account.check_box :is_default %></td>
+			</tr>
+			<tr>
+				<td colspan="4"><br><%= merchant_account.submit "Update Merchants",:id => "save_merchant_account", :class => "btn" %></td>
+			</tr>
+	 	</tbody>
+	</table>
+<% end %>

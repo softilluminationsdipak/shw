@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+		<title><%="#{@page_title}"%> - <%=$installation.name%></title>
+		<%= yield :gmap_script %>
+		<%= javascript_include_tag 'cip/cip.src' %>
+		<%= javascript_include_tag 'application','admin' %>
+		<%= yield :cip_scripts %>
+		<%= yield :js_date_picker %>
+    
+    <%= stylesheet_link_tag "admin_settings" %>
+    <script src="/assets/bootstrap/jquery.js"></script>
+    <%= javascript_include_tag 'jquery-ui.js','jquery_ujs.js' %>
+    <%= javascript_include_tag 'jquery.minicolors.js' %>
+    <%= javascript_include_tag 'admin_settings' %>
+  	<script type="text/javascript">
+      jQuery.noConflict();
+ 			jQuery(document).ready(function(){
+  			jQuery(".colorpicker").minicolors();
+  		});
+    </script>
+		
+		<%#= javascript_include_tag 'admin_settings' %>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  	<%= stylesheet_link_tag 'cip/cip' %>
+		<script type="text/javascript">
+			CIApplication.baseParams = { authenticity_token: "<%=form_authenticity_token%>" };
+			var advancedSearchHud = null;
+			window.addEvent('domready', function() {
+				var advancedSearchHudContainer = new CIElement('div');
+				$('contractorFinder').addEvent('click', ContractorFinder.hud.show.bind(ContractorFinder.hud));
+				advancedSearchButton = new CIButton({
+					label: 'Search',
+					cssStyles: { display: 'block', CIFirmWidth: 278 },
+					Clicked: function() {
+						advancedSearchButton.setLabel('Searching...').disable();
+						new Request.JSON({
+							url: '/admin/customers/async_advanced_search_check',
+							data: $('advancedSearchForm').toQueryString(),
+							onSuccess: function(o, json) {
+								var count = o.count.toInt();
+								if (count > 100) {
+									CISheet.prompt(
+										"Over 100 results",
+										"Your search has yielded <strong>" + count + "</strong> results, " +
+										"which may cause the system to become unresponsive. Do you want to continue?",
+										{
+											label: 'Continue',
+											Clicked: function() {
+												$('advancedSearchForm').submit();
+											}
+										}
+									);
+									advancedSearchButton.setLabel('Search').enable();
+								} else if (count == 0) {
+									CISheet.alert(
+										'No results',
+										'Your search did not yield any results.'
+									);
+									advancedSearchButton.setLabel('Search').enable();
+								} else {
+									$('advancedSearchForm').submit();
+								}
+							}
+						}).post();
+					}
+				});
+				advancedSearchHud = new CIHud({
+					title: 'Advanced Search',
+					offset: { dx: 20, dy: 50 },
+					cssStyles: { CIFirmWidth: 305, position: 'fixed' },
+					content: [
+						advancedSearchHudContainer,
+						advancedSearchButton
+					],
+					Shown: function() {
+						var div = $('advancedSearchDiv');
+						advancedSearchHudContainer.element().adopt(div);
+						div.setStyle('display', 'block');
+					},
+					RemovingFromDom: function() {
+						var div = $('advancedSearchDiv');
+						div.setStyle('display', 'none');
+						$('layout_fixed_header').adopt(div);
+					}
+				});
+				$$('div.layout_tab_container').each(function(container) {
+					if (container.hasClass('hasNoSubtabs')) return;
+					container.set('tween', { duration: 300, property: 'height' });
+					container.addEvent('mouseenter', function() { container.tween(150); 	});
+					container.addEvent('mouseleave', function() { container.tween(26); 		});
+				});
+				var searchMenu = new CIMenu({
+					offset: { from: 'searchMenuButton', dy: 40 },
+					cssStyles: { CIFirmWidth: 180 },
+					items: [
+						{ html: '<span class="searchMenuLabel">#</span>Customer ID', value: 'id', symbol: '#' },
+						{ html: '<span class="searchMenuLabel">F</span>First Name', value: 'first_name', symbol: 'F' },
+						{ html: '<span class="searchMenuLabel">L</span>Last Name', value: 'last_name', symbol: 'L' },
+						{ html: '<span class="searchMenuLabel">E</span>Email', value: 'email', symbol: 'E' },
+						{ html: '<span class="searchMenuLabel">S</span>Street', value: 'street', symbol: 'S' },
+						{ html: '<span class="searchMenuLabel">P</span>Phone Number', value: 'phone', symbol: 'P' }
+						<% if current_account.admin? %>
+						,{ html: '<span class="searchMenuLabel">+</span>Advanced Search...', value: 'advanced', symbol: '+' }
+						<% end %>
+					],
+					Changed: function(value) {
+						if (this.selected.symbol == '+') {
+							this.select(0);
+							advancedSearchHud.show();
+						}
+						$('searchMenuButton').set('html', this.selected.symbol);
+						$('searchFieldHidden').set('value', value);
+					},
+					Clicked: function() { $('searchField').focus(); }
+				});
+				searchMenu.select(0);
+				$('searchMenuButton').addEvent('click', function() { searchMenu.toggle('layout_fixed_header'); });
+			});
+			window.addEvent('keypress', function(event) {
+				if (event.control) {
+					event.stop();
+					if (event.key == 'enter') {
+						$('searchField').focus();
+					}else if (event.key == 's') {
+						advancedSearchHud.show();
+					}
+				}
+			});
+		</script>
+		<%= google_analytics_js %>
+  	<%= csrf_meta_tags %>
+  </head>
+  <body>
+  	<%= render :partial => "/shared/hubspot_analytics_code" %>
+  	<%= render :partial => "/layouts/admin_setting_header" %>
+  	<%= render :partial => '/shared/team_sales_agent_chat' %>
+    <div class="container-fluid">
+    	<% unless current_account.sales? %>
+    		<div class="span3"><%= render :partial => "/layouts/setting_sidebar" %></div>
+    	<% end %>
+	    <div class="span10" style="<%= 'width:100%;' if current_account.sales? %>">
+      	<div class="row-fluid">
+				  <% flash.each do |key, value| %>
+				    <div class="<%= flash_class(key) %> fade in">
+				      <a href="#" data-dismiss="alert" class="close">×</a>
+				      <%= value %>
+				    </div>
+				  <% end %>
+
+        	<ul class="breadcrumb">
+          	<%= render_breadcrumbs :separator => ' / ' %>
+          </ul>
+      	</div>
+      	<% if controller.controller_name == 'customer_statuses' or controller.controller_name == 'claim_statuses' or controller.controller_name == 'lead_statuses' or controller.controller_name == 'result_statuses' or controller.controller_name == 'tag_statuses' or controller.controller_name == 'contract_statuses' or controller.controller_name == 'renewal_statuses' or controller.controller_name == 'cancellation_reasons' %>
+					<%= render :partial => "/layouts/sub_header" %>
+					<br><br>
+				<% end %>
+      	<%= render :partial => "/layouts/search" %>
+      	<%= render :partial => "/shared/layout_fixed_header" %>
+				<div id="layout_content">
+					<%= yield %>
+				</div>
+				<div id="layout_footer"></div>
+  		</div>
+  	</div>
+  	<%= render :partial => "/layouts/feedback" %>
+  </body>
+</html>

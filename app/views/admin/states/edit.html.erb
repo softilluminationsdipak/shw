@@ -1,0 +1,37 @@
+<%= form_for @state, :url => { :action => "update", :id => @state.id } do |state| %>
+	<table class="form_table">
+	 	<tbody>
+			<tr>
+				<td>Name:</td>
+				<td><%= state.text_field :name, :readonly => true %></td>
+			</tr>
+			<tr>
+				<td>GAQ:</td>
+				<td><%= state.check_box :gaq %></td>
+			</tr>
+			<tr>
+				<td>Affiliate:</td>
+				<td><%= state.check_box :affiliate %></td>
+			</tr>
+			<tr>
+				<td>API:</td>
+				<td><%= state.check_box :api %></td>
+			</tr>
+			<tr>
+				<td>TOS</td>
+				<td>
+					<%= select("state", "tos", Content.active_content.only_tos.collect {|p| [ p.slug.strip, p.id ] }, { include_blank: true }) %>
+					 </td>
+			</tr>
+			<tr>
+				<td>Gateway ID</td>
+				<td>
+					<%= select("state", "gateway_id", Gateway.all.collect {|p| [ p.login_id, p.id ] }, { include_blank: true }) %>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4"><br><%= submit_tag "Update State",:id => "save_state", :class => "btn" %></td>
+			</tr>
+	 	</tbody>
+	</table>
+<% end %>

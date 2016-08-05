@@ -1,0 +1,25 @@
+<h2>Packages</h2>
+<form action="/admin/packages/update" method="POST">
+	<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+	<table cellspacing="0" cellpadding="5" id="packagesTable">
+		<thead><tr>
+			<td>Package</td>
+			<% Package::HOME_TYPES.each do |type|%>
+				<td><%=type.capitalize%></td>
+			<% end %>
+		</tr></thead>
+		<tbody>
+			<%= render :partial => 'package', :collection => @packages %>
+		</tbody>
+		<tfoot><tr><td colspan="<%=Package::HOME_TYPES.length + 1%>">
+			<input type="submit" value="Save Packages"/>
+		</td></tr>
+	</table>
+</form>
+
+<br/><br/>
+
+<table id="packages_coverages" border="0" cellpadding="0" cellspacing="0"><tr>
+	<td><%= render :partial => 'coverages_crud', :locals => { :coverages => @package_coverages,  :which => 'Package Coverages' }%></td>
+	<td><%= render :partial => 'coverages_crud', :locals => { :coverages => @optional_coverages, :which => 'Optional Coverages' }%></td>
+</tr></table>

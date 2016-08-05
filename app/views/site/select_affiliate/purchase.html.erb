@@ -1,0 +1,140 @@
+<% content_for :head do %>
+	<%= javascript_include_tag 'getaquote' %>
+<% end %>
+
+<div class="step-info step-2">
+	<h2>Shield Your Wallet</h2>
+	<h3>From Expensive Home Repairs</h3>
+	<p>As a homeowner, you never know when a heat or plumbing system, appliance, or garage door will break down. Repairing these systems requires time to look for a suitable repair technician and high repair costs. Let Select Home Warranty take the guess work out. We are available 24/7 to repair or even replace your covered claim. We have a network of over 10,000 contractors standing by.</p>
+	<p>Unfortunately, major home systems and appliances don&rsquo;t wait until a convenient time to break down.</p>
+</div>
+
+<!-- Form Container -->
+<div class="form-container">
+	<div class="form-steps">
+		<ul>
+			<li>1. Property Information</li>
+			<li class="current-step">2. Select Your Plan</li>
+			<li>3. Sign Up Now</li>
+		</ul>
+	</div>
+
+	<%= form_for :customer, :url => 'purchase', :html => { :id => "getaquote_form", :style => 'color: black;' } do |customer_form| -%>
+	<div class="form-content">
+		<div class="plan-table">
+			<%= render :partial => "plans_table", :locals => {:purchase => :purchase} %>
+		</div>
+		<div class="addons-list">
+			<h4>Choose Optional Add-ons</h4>
+			<% coverages = Coverage.all_optional %>
+			<% bucket_size = (coverages.length.to_f / 2.0).ceil %>
+			<% sets = [coverages[0..bucket_size-1], coverages[bucket_size..-1]]%>
+			<% sets.each do |set| %>
+				<div class="checkbox-list"><% set.each do |coverage| %>
+					<label for="coverage_<%=coverage.id%>">
+						<input onclick="updatePlanTotal()" class="coverageCheckbox field" type="checkbox" value="<%=coverage.price%>" name="coverages[<%=coverage.id%>]" id="coverage_<%=coverage.id%>"/>
+						&nbsp;
+						<%=coverage.coverage_name%>&nbsp;<%="$#{coverage.price}"%>
+					</label>
+				<% end %></div>
+			<% end %>
+
+			<div class="discount">
+				<div class="row">
+					<label>Years:</label>
+					<div class="right">
+						<input id="contract_length_1" onclick="updatePlanTotal();" type="radio" name="contract_length" value="1" checked="checked" class="contractLengthRadioButton"/>
+						<span>1 Year</span>
+					</div>
+				</div>
+				<div class="row" id="paymentPlan_tr">
+					<label>Payment Plan:</label>
+					<div class="right">
+						<select id="payment_plan_select" onchange="updatePlanTotal();">
+							<option value="1">Single Payment</option>
+							<option value="2">Semi-annual Payment</option>
+							<option value="4">Quarterly Payment</option>
+							<option value="12">Monthly Payment</option>
+						</select>
+					</div>
+				</div>
+				<div class="row" id="eachPayment_tr">
+					<label>Each Payment:</label>
+					<div class="right">
+						<span id="eachPayment_td">$0.00</span>
+					</div>
+				</div>
+				<div class="row" id="price_tr" style="display: none;">
+					<label>Price:</label>
+					<div class="right"><span id="price">$0.00</span></div>
+				</div>
+				<div class="row" id="savings_tr" style="display: none;">
+					<label>Savings:</label>
+					<div class="right"><span id="savings">$0.00</span></div>
+				</div>
+				<div class="row" id="yourPrice_tr" style="display: none;">
+					<label>Your Price:</label>
+					<div class="right"><span class="red" id="priceYearly">$0.00</span></div>
+				</div>
+
+				<div class="row">
+					<label>Discount Code:</label>
+					<div class="right">
+						<input type="text" id="discount_code" class="field" />
+			        	<input type="hidden" name="customer[discount_id]" id="discount_id" value=""/>
+						<% mapped = {'Single Family' => 'single', '2 Family' => 'duplex', '3 Family' => 'triplex', '4 Family' => 'fourplex', 'Condominium' => 'condo'} %> 
+						<% customer_home_type = mapped[params[:type_of_home]] %>
+						<input type="hidden" id="customer_home_type" value=<%="#{customer_home_type}"%> />
+						<br>
+						<input type="button" id="applyDiscount_button" value="Apply Discount" onclick="applyDiscount()" class="discount-button"/>&nbsp;&nbsp;
+						<br/>
+						<span id="discount_span" style="color: green;"></span>
+					</div>
+				</div>
+
+				<div class="submit-button-wrap">
+					<input id="customer_id" type="hidden" name="id" value="<%=@customer.id%>">
+					<input type="hidden" name="property_id" value="<%=@property.id%>">
+					<!-- This is set by JS, so it incorporates the discount -->
+					<input type="hidden" id="customer_num_payments" name="customer[num_payments]" value="1">
+					<input type="hidden" id="customer_pay_amount" name="customer[pay_amount]" value=""/>
+					<input type="hidden" id="customer_disabled" name="customer[disabled]" value="0"/>
+					<input id="getaquote_button" type="hidden" onclick="validateGetAQuoteForm();" value="Start Coverage"/>
+
+					<input type="submit" class="submit-button" value="Next Step" />
+				</div>
+			</div>
+		</div>
+
+		<div class="cl">&nbsp;</div>
+	</div>
+	<% end %>
+
+	<span class="form-shadow"></span>
+</div>
+
+<!-- Google Code for Lead Conversion Conversion Page -->
+<script type="text/javascript">
+
+jQuery('.plan-table tr:not(:last):even').each(function() {
+	jQuery(this).addClass('even').find('td').eq(2).addClass('darkblue-bg');
+});
+
+/* <![CDATA[ */
+var google_conversion_id = 1005147797;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "RaSNCLPxsgQQla2l3wM";
+var google_conversion_value = 0;
+/* ]]> */
+</script>
+<script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/1005147797/?value=0&amp;label=RaSNCLPxsgQQla2l3wM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+<img src="https://147.xg4ken.com/media/redir.php?track=1&token=30b2f042-03e2-4fe6-bff9-fb12f8855dfc&type=lead&val=0.0&orderId=&promoCode=&valueCurrency=USD&GCID=&kw=&product="
+width="1" height="1">

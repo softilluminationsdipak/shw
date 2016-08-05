@@ -1,0 +1,103 @@
+<% content_for :head do %>
+	<%= javascript_include_tag 'getaquote' %>
+<% end %>
+
+<div class="step-info step-1">
+	<h2>Shield Your Wallet</h2>
+	<h3>From Expensive Home Repairs</h3>
+	<p>As a homeowner, you never know when a heat or plumbing system, appliance, or garage door will break down. Repairing these systems requires time to look for a suitable repair technician and high repair costs. Let Select Home Warranty take the guess work out. We are available 24/7 to repair or even replace your covered claim. We have a network of over 10,000 contractors standing by.</p>
+	<p>Unfortunately, major home systems and appliances don&rsquo;t wait until a convenient time to break down.</p>
+</div>
+
+<!-- Form Container -->
+<div class="form-container">
+	<div class="form-steps">
+		<ul>
+			<li class="current-step">1. Property Information</li>
+			<li>2. Select Your Plan</li>
+			<li>3. Sign Up Now</li>
+		</ul>
+	</div>
+
+	<div class="form-content">
+		<h4>Please fill out the following form to receive your free quote.</h4>
+
+		<%= form_for :customer, :url => purchase_path, :method => 'get', :html => { :id => 'getaquoteintro_form' } do |customer| %>
+		<%= fields_for :property do |property| %>
+		<div class="information-columns">
+			<div class="col left">
+				<h3>Your Information:</h3>
+				<div class="row">
+					<label for="intro_customer_first_name">First Name *</label>
+					<%=customer.text_field :first_name, :id => 'intro_customer_first_name', :size => 20, :tabindex => 1, :class => 'field'%>
+				</div>
+				<div class="row">
+					<label for="intro_customer_last_name">Last Name *</label>
+					<%=customer.text_field :last_name, :id => 'intro_customer_last_name', :size => 20, :tabindex => 2, :class => 'field'%>
+				</div>
+				<div class="row">
+					<label for="intro_customer_email">Email *</label>
+					<%=customer.text_field :email, :id => 'intro_customer_email', :size => 20, :tabindex => 3, :class => 'field'%>
+				</div>
+				<div class="row">
+					<label for="intro_customer_customer_phone">Home Phone *</label>
+					<%=customer.text_field :customer_phone, :id => 'intro_customer_customer_phone', :size => 15, :tabindex => 4, :class => 'field'%>
+				</div>
+				<div class="row">
+					<label for="customer_work_phone">Work Phone</label>
+					<%=customer.text_field :work_phone, :size => 15, :tabindex => 5, :class => 'field'%>
+				</div>
+				<div class="row">
+					<label for="customer_mobile_phone">Cell Phone</label>
+					<%=customer.text_field :mobile_phone, :size => 15, :tabindex => 6, :class => 'field'%>
+				</div>
+			</div>
+
+			<div class="col right">
+				<h3>Property Information:</h3>
+				<div class="row">
+					<label for="intro_property_address">Address</label>
+					<div class="input-wrap">
+						<%=property.text_field :address, :id => 'intro_property_address', :size => 20, :tabindex => 7, :class => 'field'%>
+						<%=property.text_field :address2, :size => 20, :tabindex => 8, :class => 'field'%>
+					</div>
+				</div>
+				<div class="row">
+					<label for="intro_property_city">City</label>
+					<%=property.text_field :city, :id => 'intro_property_city', :size => 15, :tabindex => 8, :class => 'field'%>
+				</div>
+				<div class="row">
+					<label for="intro_property_state">State *</label>
+					<%= property.text_field :state, :id => 'intro_property_state', :size => 2, :tabindex => 9, :class => 'field'%>
+				</div>
+				<div class="row">
+					<label for="intro_property_zip_code">Zip Code *</label>
+					<%=property.text_field :zip_code, :size => 5, :id => 'intro_property_zip_code', :tabindex => 10, :class => 'field'%>
+				</div>
+				<div class="row">
+					<label for="property_type_of_home">Type of Home</label>
+					<%= select_tag(:type_of_home, options_for_select(Customer.home_occupancies.to_a.map(&:second))) %>
+				</div>
+				<div class="row">
+					<label>Square Footage</label>
+					<div class="radio-wrap">
+						<% i = 0; Customer.home_sizes.each do |code, size| %>
+							<% radio = customer.radio_button :home_size_code, code, :id => "customer_home_size_#{code}", :checked => (code == 0), :tabindex => (12+i) %>
+							<%= customer.label		  "home_size_#{code}".to_sym, radio.html_safe + '&nbsp;'.html_safe + size.html_safe %>
+						<% i += 1; end %>
+					</div>
+				</div>
+				<div class="row">
+					<div class="submit-button-wrap" style="text-align: right;">
+						<input type="hidden" value="2" name="step" />
+    					<%= button_to_function "Get a Free Quote Now", "validateGetAQuoteIntroForm();", :class => "submit-button", :id => 'getaquoteintro_button'%>
+					</div>
+				</div>
+			</div>
+
+			<div class="cl">&nbsp;</div>
+		</div>
+		<% end; end %>
+	</div>
+	<span class="form-shadow"></span>
+</div>

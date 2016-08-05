@@ -1,0 +1,6 @@
+<% if @ip_address.valid? %>
+	window.location.href = "/admin/ipaddresses"
+<% else %>
+	alert("<%= @ip_address.errors.full_messages.first.html_safe  %>")
+	
+<% end %>	

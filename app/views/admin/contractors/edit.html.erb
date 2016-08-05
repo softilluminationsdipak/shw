@@ -1,0 +1,169 @@
+<h3>
+	<%= @contractor.id %>
+	<small><i>Last Updated <%= @contractor.updated_at.strftime("%m/%d/%Y %H:%M %p") %>(<%= @contractor.last_update_by %>)</i></small>
+</h3>
+
+<table cellpadding="15" cellspacing="0">
+  <tr>
+    <%= form_for @contractor, :url => { :action => 'update', :id => @contractor } do |f| %>
+      <%= f.error_messages %>
+      <%= hidden_field_tag "authenticity_token", form_authenticity_token %>
+      <%= render :partial => "contractor_form", :locals => { :f => f, :address => @contractor.address, :submit_label => "Update Contractor" } %>
+    <% end %>
+
+		<div class="modal hide" id="quick_email_<%= @contractor.id %>">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal">×</button>
+		    <h3 id="modal_title">Quick Email</h3>
+		  </div>
+		  <%= form_tag "/admin/email_templates/async_quickly_email_with_js", :method => 'POST', :remote => true do %>
+		  	<div class="modal-body">
+		    	<h4><p id="modal_text">Contractor Name : <%= @contractor.name %></p></h4>    	
+		    	<%= hidden_field_tag :contractor_id, @contractor.id %>
+		    	<p id="modal_text">
+		    		<h4> Template : <%= select_tag "template_id", options_for_select(EmailTemplate.all.collect{|p| [p.name, p.id]}) %> </h4>
+					</p>
+		  	</div>
+		 	  <div class="modal-footer">
+		    	<%= submit_tag "Send Email", :name => nil, :class => "btn btn-primary" %>
+		  	</div>
+		  <% end %>
+		</div>
+
+    <td style="width:600px; vertical-align: top;" id="faxesColumn1">
+    	<table class="table table-condensed table-striped table-bordered sortable_table">
+  			<span style="background-color:blue;">
+  				<center style="background: #DDD;color: black;border-bottom: 1px solid white;">
+  					<b>ATTACHMENTS</b>
+  				</center>
+  			</span>
+    		<thead>
+    			<th>RECEVIED</th>
+    			<th>FROM</th>
+    			<th>PREVIEW</th>
+    			<th>TYPE</th>
+    			<th>SOURCE</th>
+    		</thead>
+    		<tbody>
+    			<% if @faxes.present? %>
+    				<% @faxes.each do |fax| %>
+	    				<tr>
+	    					<td><%= fax.received_at.strftime("%m/%d/%Y %I:%M %p") if fax.received_at.present? %></td>
+	    					<td><%= fax.formatted_sender_fax_number %></td>
+	    					<td><%= link_to "Open", "/admin/faxes/download/#{fax.id}", :target => "_blank" %></td>
+	    					<td></td>
+	    					<td>Contractor</td>
+	    				</tr>
+    				<% end %>
+    			<% else %>
+	    			<tr><td colspan="4">No data to display</td></tr>
+					<% end %>
+    		</tbody>
+    	</table>
+    </td>
+  </tr>
+</table>
+
+<br>
+
+<h4 class="breadcrumb">
+	Claims &nbsp;&nbsp;&nbsp;
+	<span style="float:right;"># of Claims : <%= @contractor.claims.present? ? @contractor.claims.count : 0 %> </span>
+</h4>
+
+<% if @contractor.claims.present? %>
+	<table class="table table-condensed table-striped table-bordered sortable_table">
+		<thead>
+			<th>CONTRACT #</th>
+			<th>CLAIM #</th>
+			<th>LAST UPDATED</th>
+			<th>CLAIM CREATED</th>
+			<th>CLAIM STATUS</th>
+			<th>AUTHORIZED AMOUNT</th>
+			<th>CHARGE</th>
+			<th>INVOICE RECEIVED</th>
+			<th>INVOICE STATUS</th>
+		</thead>	
+		<tbody>
+			<% @contractor.claims.each do |claim| %>
+				<tr>
+					<td>
+						<% if claim.customer_id.present? %>
+							<%= link_to claim.customer.contract_number, "/admin/customers/edit/#{claim.customer_id}" %>
+						<% end %>
+					</td>
+					<td><%= link_to claim.id, "/admin/claims/edit/#{claim.id}" %></td>
+					<td><%= claim.updated_at.strftime("%m/%d/%Y") if claim.updated_at.present? %></td>
+					<td><%= claim.created_at.strftime("%m/%d/%Y") if claim.created_at.present? %></td>
+					<td><%= claim.status if claim.status_code.present? %></td>
+					<td>
+						<% if claim.repair.present? %>
+							<%= "$%.2f" % claim.repair.amount %>
+						<% end %>
+					</td>
+					<td>
+						<% if claim.repair.present? && claim.repair.service_charge.present? %>
+							<%= "$%.2f" % claim.repair.service_charge  %>
+						<% end %>
+						</td>
+					<td>
+						<% if claim.invoice_receive.present? %>
+						<a data-toggle="modal" href="#InvoiceReceive_<%= claim.id %>" ><%= claim.invoice_receive.strftime("%m/%d/%Y") %></a>
+						<% else %>
+							<a data-toggle="modal" href="#InvoiceReceive_<%= claim.id %>" >Edit </a>
+						<% end %>
+					</td>
+					<td>
+						<% if claim.invoice_status.present? %>
+							<a data-toggle="modal" href="#InvoiceStatus_<%= claim.id %>" ><%= claim.invoice_status %></a>
+						<% else %>
+							<a data-toggle="modal" href="#InvoiceStatus_<%= claim.id %>" >Edit </a>
+						<% end %>
+					</td>
+				</tr>
+				<div class="modal hide" id="InvoiceReceive_<%= claim.id %>">
+  				<div class="modal-header">
+    				<button type="button" class="close" data-dismiss="modal">×</button>
+    				<h3>Date Invoice Received</h3>
+  				</div>
+  				<%= form_tag "/admin/claims/update/#{claim.id}", :method => 'post', :remote => true do %>
+    				<div class="modal-body">
+      				<p>Invoice Receive : <%= text_field_tag :invoice_receive, nil, :class => "datepicker", :id => "invoice_receive_#{claim.id}" %> </p>
+  	  			</div>
+			  		<div class="modal-footer">
+  			  		 <%= submit_tag "Save Changes", :name => nil, :class => "btn btn-primary" %>
+					  </div>
+					<% end %>
+				</div>
+
+				<div class="modal hide" id="InvoiceStatus_<%= claim.id %>">
+  				<div class="modal-header">
+    				<button type="button" class="close" data-dismiss="modal">×</button>
+    				<h3>Invoice Status</h3>
+  				</div>
+  				<%= form_tag "/admin/claims/update/#{claim.id}", :method => 'post', :remote => true do %>
+  					<div class="modal-body">
+    					<p>Invoice Status : 
+    						<%= select_tag 'invoice_status', options_for_select(Claim::INVOICE_STATUS.collect{ |u| [u, u] }, params[:invoice_status]), {prompt: 'SELECT STATUS', :style => "width: 100%;"} %>
+    					</p>
+  					</div>
+						<div class="modal-footer">
+	 						<%= submit_tag "Save Changes", :name => nil, :class => "btn btn-primary" %>
+						</div>
+					<% end %>
+				</div>
+			<% end %>
+		</tbody>
+	</table>
+
+<% else %>
+	<h4>No Claim Present.</h4>
+<% end %>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script>
+  jQuery(function() {
+    jQuery(".datepicker").datepicker();
+  });
+</script>

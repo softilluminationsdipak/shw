@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+set -e
+
+bin/rubocop
+bin/brakeman --quiet --skip-libs --exit-on-warn --ignore-config=.brakeman-ignore

@@ -1,0 +1,13 @@
+<%= form_for  @ip_address, :url => { :action => "#{ipaddress_url}", :id => @ip_address.id }, :remote => true do |ip| %>
+	<table class="form_table">
+	 	<tbody>
+			<tr>
+				<td>IP Address</td>
+				<td><%= ip.text_field :ip %></td>
+			</tr>
+			<tr>
+				<td colspan="4"><br><%= submit_tag "#{ipaddress_url.capitalize} IP Address",:id => "save_ip_address", :class => "btn" %></td>
+			</tr>
+	 	</tbody>
+	</table>
+<% end %>

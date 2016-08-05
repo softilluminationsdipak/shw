@@ -1,0 +1,37 @@
+<%= form_for  @permission, :url => { :action => "#{permission_url}", :id => @permission.id } do |permission| %>
+	<table class="form_table table-condensed table">
+	 	<tbody>
+	 		<tr>
+	 			<td>Action Name</td>
+	 			<% if @permission.new_record? %>
+	 			<td><%= permission.text_field :action_name %></td>
+	 			<% else %>
+	 				<td><%= permission.object.action_name %></td>
+	 			<% end %>
+	 		</tr>
+			<tr>
+				<td>Is Admin Access</td>
+				<td><%= permission.check_box :is_admin_access %></td>
+			</tr>
+			<tr>
+				<td>Is Sales Access</td>
+				<td><%= permission.check_box :is_sales_access %></td>
+			</tr>
+			<tr>
+				<td>Is Claim Access</td>
+				<td><%= permission.check_box :is_claim_access %></td>
+			</tr>
+			<!-- <tr>
+				<td>Is Affilate Access</td>
+				<td><%#= permission.check_box :is_affilate_access %></td>
+			</tr> -->
+			<tr>
+				<td>Description</td>
+				<td><%= permission.text_area :action_description, style: 'height:60px;width:90%;' %></td>
+			</tr>
+			<tr>
+				<td colspan="4"><br><%= submit_tag "#{permission_url.capitalize} Permission",:id => "", :class => "btn" %></td>
+			</tr>
+	 	</tbody>
+	</table>
+<% end %>

@@ -1,0 +1,33 @@
+<div class="pagination">
+  <% if params[:page].to_s != "0" %>
+    <a href="/admin/contractors?page=<%= prev_of_character(params[:page]) %>" class="previous_page">Previous</a>
+  <% else %>
+    <span class="previous_page disabled">Previous</span>
+  <% end %>
+  <% alphabetics = [ "#" ] %>
+  <% alphabetics +=  ("A".."Z").to_a %>  
+  <% alphabetics.each do |character| %>
+    <%  if (character == params[:page]) || (character=="#" && params[:page]=="0") then  %>
+      <em class="current"><%= character %></em>
+    <% else %>
+      <% if character != "#" then %>
+        <% if params[:contractor_id].present? or params[:state].present? or params[:zipcode].present? or params[:status].present? %>
+          <a href="/admin/contractors?page=<%= character %>&contractor_id=<%= params[:contractor_id] %>&state=<%= params[:state] %>&zipcode=<%= params[:zipcode] %>&status=<%= params[:status] %>"><%= character %></a>
+        <% else %>
+          <a href="/admin/contractors?page=<%= character %>"><%= character %></a>
+        <% end %>          
+      <% else %>
+        <% if params[:contractor_id].present? or params[:state].present? or params[:zipcode].present? or params[:status].present? %>
+          <a href="/admin/contractors?page=0&contractor_id=<%= params[:contractor_id] %>&state=<%= params[:state] %>&zipcode=<%= params[:zipcode] %>&status=<%= params[:status] %>"><%= character %></a>
+        <% else %>        
+          <a href="/admin/contractors?page=0"><%= character %></a>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if params[:page] != "Z" %>
+    <a href="/admin/contractors?page=<%= params[:page].succ %>" class="next_page">Next</a>
+  <% else %>
+    <span class="next_page disabled">Next</span>
+  <% end %>
+</div>

@@ -1,0 +1,39 @@
+<table cellspacing="8">
+	<tr>
+		<td colspan="2">{image logo}</td>
+	</tr>
+	<tr>
+		<td class="label">Contract:</td>
+		<td>{customer contract_number}</td>
+	</tr>
+	<tr>
+		<td class="label">Buyer Name:</td>
+		<td>{customer name}</td>
+	</tr>
+	<tr>
+		<td class="label">Cvg. Address:</td>
+		<td>{customer full_address}</td>
+	</tr>
+	<tr>
+		<td class="label">Coverage:</td>
+		<td>
+			{customer package_name} for ${customer pay_amount} annually<br>
+			<span class="gray">{customer package_covers}</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="label">&nbsp;</td>
+		<td>{customer coverage_option_names}</td>
+	</tr>
+	<tr>
+		<td class="label">Please send check to:</td>
+		<td>
+			<br><strong>{installation name}<br>
+			100 Church St<br> 
+            PMB 1003<br>
+			New York, NY 10007<br></strong>
+
+			<a href="mailto:{installation info_email}">{installation info_email}</a>
+		</td>
+	</tr>
+</table>

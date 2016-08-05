@@ -1,0 +1,2192 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Default Routes",
+      "warning_code": 11,
+      "fingerprint": "ff2b76e22c9fd2bc3930f9a935124b9ed9f6ea710bbb5bc7c51505d70ca0f2d5",
+      "message": "All public methods in controllers are available as actions in routes.rb",
+      "file": "config/routes.rb",
+      "line": 48,
+      "link": "http://brakemanscanner.org/docs/warning_types/default_routes/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "df2117a23092db416e9d6b323fdc2c989b0f61fb9f816f8eb6d5230928ed24a5",
+      "message": "Model attribute used in file name",
+      "file": "app/models/fax_source.rb",
+      "line": 81,
+      "link": "http://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.open(\"#{Rails.root}/faxes/#{Fax.new(:received_at => (Mail.read_from_string(Net::IMAP.new(\"imap.gmail.com\", 993, true).fetch((local message_id), \"RFC822\")[0].attr[\"RFC822\"]).date), :source_id => (self.id), :message_id => ((local message_id))).id}.pdf\", \"w\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "FaxSource",
+        "method": "retrieve!"
+      },
+      "user_input": "Fax.new(:received_at => (Mail.read_from_string(Net::IMAP.new(\"imap.gmail.com\", 993, true).fetch((local message_id), \"RFC822\")[0].attr[\"RFC822\"]).date), :source_id => (self.id), :message_id => ((local message_id)))",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "bb0b2e4bcc26bf3440fca27ab806ff9ed3e9759ceef434632b0908a555c03684",
+      "message": "Model attribute used in file name",
+      "file": "app/models/postoffice.rb",
+      "line": 71,
+      "link": "http://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.read(\"#{Rails.root}/contracts/workorder_#{Repair.find(((local data)[:repair].id rescue 0)).claim.claim_number}.pdf\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Postoffice",
+        "method": "template"
+      },
+      "user_input": "Repair.find(((local data)[:repair].id rescue 0)).claim.claim_number",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "95e3e25a882e8e60053bfc588f8f48bf1337318528edaffb0b1ac46c9bcb19f9",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/claims_controller.rb",
+      "line": 91,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Claim.new(params[:claim])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ClaimsController",
+        "method": "create"
+      },
+      "user_input": "params[:claim]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "e453b538102e24e5dcd42637ed5de7b3f6a81f6c0c665e22b19a585c72b09dbd",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/contractors_controller.rb",
+      "line": 219,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Contractor.new(params[:contractor])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ContractorsController",
+        "method": "create"
+      },
+      "user_input": "params[:contractor]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "25e6464896815a6e8ababc188432dbe78bb5cf60edbcb2ef328e8f7d300f23c9",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/credit_cards_controller.rb",
+      "line": 94,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(params[:id]).credit_cards.new(:first_name => (Customer.find(params[:id]).first_name), :last_name => (Customer.find(params[:id]).last_name), :phone => (Customer.find(params[:id]).customer_phone), :exp_date => ((Customer.find(params[:id]).expirationDate or Date.today.strftime(\"%m/%d\"))), :last_4 => ((\"1234123412340000\" or Customer.find(params[:id]).credit_card_number)[(-4..-1)]))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CreditCardsController",
+        "method": "add_for_customer"
+      },
+      "user_input": "Customer.find(params[:id]).credit_card_number",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "937cbb01d84caca52bf998911cdf66e48c90d28fe951e82e42045c4b86c48da3",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/renewals_controller.rb",
+      "line": 18,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Renewal.new(params[:renewal])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::RenewalsController",
+        "method": "async_create_for_customer"
+      },
+      "user_input": "params[:renewal]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "9af5e91bc0d898acae8ef25478156296907b1a6467249ee6199cbe904da6e5eb",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/api/v1/customers_controller.rb",
+      "line": 4,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.new(params[:customer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::V1::CustomersController",
+        "method": "add_customer_for_get_a_quote"
+      },
+      "user_input": "params[:customer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "eccd758ce91cb93d16181aaf42003fd120a6fa3de0c8185edb6b7ed2a914976c",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/agents_controller.rb",
+      "line": 72,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Agent.find(params[:id]).update_attributes(params[:agent])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::AgentsController",
+        "method": "update"
+      },
+      "user_input": "params[:agent]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "1e64a363875e7b1a26698cc6876c409274eb170e5352323f8802775dc615cb62",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/agents_controller.rb",
+      "line": 73,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Agent.find(params[:id]).account.update_attributes(params[:account])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::AgentsController",
+        "method": "update"
+      },
+      "user_input": "params[:account]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "2e3a3936af9c83d73fc8ebfc69bd48dd43c443993ccec34802919096ee2a4f2e",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/cancellation_reasons_controller.rb",
+      "line": 12,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "CancellationReason.find(params[:id]).update_attributes(params[:reason])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CancellationReasonsController",
+        "method": "async_update"
+      },
+      "user_input": "params[:reason]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "74b306980a6ada7680c90d45d2f72b0d357f69ebef4af08e269eed115a2fd457",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/claims_controller.rb",
+      "line": 35,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Claim.find(params[:id]).repair.update_attributes(params[:repair])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ClaimsController",
+        "method": "async_update_claim_or_repair"
+      },
+      "user_input": "params[:repair]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "4d809ca744ec3e1ef6b865139731b360e259eda46e06d8780f3950b0f84c883e",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/claims_controller.rb",
+      "line": 60,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Claim.find(params[:id]).update_attributes(:status_code => (params[:status_code]))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ClaimsController",
+        "method": "async_update_claim_or_repair"
+      },
+      "user_input": "params[:status_code]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "a012e3fd01e6c3275cda6c72272dab82342875ebd8ca80477f2799ace57997c6",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/content_controller.rb",
+      "line": 13,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Content.find_by_slug(params[:id]).update_attributes(:html => (params[:html]))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ContentController",
+        "method": "async_save"
+      },
+      "user_input": "params[:html]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "fcd53e9e0a21e6b5870af66b160e1074c401211542bfd055eb14aaaf622f7c21",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/contractors_controller.rb",
+      "line": 205,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Contractor.find(params[:id]).update_attributes(params[:contractor])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ContractorsController",
+        "method": "update_invoice_receipt"
+      },
+      "user_input": "params[:contractor]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "06e61c10985c7cbeefd3c50299a646e8a525f4f7988acb570940caf8e7c348c9",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/contractors_controller.rb",
+      "line": 234,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Contractor.find(params[:id]).update_attributes(params[:contractor])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ContractorsController",
+        "method": "async_update"
+      },
+      "user_input": "params[:contractor]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "04d1918ea57674b08f183de13b1eb51c9b04af85054eb201dac42d6fcab7d2f7",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/contractors_controller.rb",
+      "line": 235,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Contractor.find(params[:id]).account.update_attributes(:email => (Contractor.find(params[:id]).email))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ContractorsController",
+        "method": "async_update"
+      },
+      "user_input": "Contractor.find(params[:id]).email",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "0c51db478e376e894e58aa980dd0518c6b91e5560dbbc7c57d10181a4405d8e0",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/contractors_controller.rb",
+      "line": 250,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Contractor.find(params[:id]).update_attributes(params[:contractor])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ContractorsController",
+        "method": "update"
+      },
+      "user_input": "params[:contractor]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "f48f5b73dfa8f91c24069fea4ba9a2dfbb9a8498d2cf6912f427d69758109f62",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/contractors_controller.rb",
+      "line": 251,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Contractor.find(params[:id]).account.update_attributes(:email => (Contractor.find(params[:id]).email))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ContractorsController",
+        "method": "update"
+      },
+      "user_input": "Contractor.find(params[:id]).email",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "6bdf8a3533e8f9ddd839141063903a81f3a46f9b9751fb30f7b276e3c22ba499",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/credit_cards_controller.rb",
+      "line": 106,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(params[:id]).credit_cards.new(:first_name => (Customer.find(params[:id]).first_name), :last_name => (Customer.find(params[:id]).last_name), :phone => (Customer.find(params[:id]).customer_phone), :exp_date => ((Customer.find(params[:id]).expirationDate or Date.today.strftime(\"%m/%d\"))), :last_4 => ((\"1234123412340000\" or Customer.find(params[:id]).credit_card_number)[(-4..-1)])).update_attributes(:address_id => (((Customer.find(params[:id]).billing_address or Customer.find(params[:id]).addresses.first).duplicate_for_addressable!(Customer.find(params[:id]).credit_cards.new(:first_name => (Customer.find(params[:id]).first_name), :last_name => (Customer.find(params[:id]).last_name), :phone => (Customer.find(params[:id]).customer_phone), :exp_date => ((Customer.find(params[:id]).expirationDate or Date.today.strftime(\"%m/%d\"))), :last_4 => ((\"1234123412340000\" or Customer.find(params[:id]).credit_card_number)[(-4..-1)]))) or Address.create(:address => \"123 Maple St\", :city => \"Nowhere\", :state => \"KS\", :zip_code => \"12345\", :addressable_type => \"CreditCard\", :addressable_id => (Customer.find(params[:id]).credit_cards.new(:first_name => (Customer.find(params[:id]).first_name), :last_name => (Customer.find(params[:id]).last_name), :phone => (Customer.find(params[:id]).customer_phone), :exp_date => ((Customer.find(params[:id]).expirationDate or Date.today.strftime(\"%m/%d\"))), :last_4 => ((\"1234123412340000\" or Customer.find(params[:id]).credit_card_number)[(-4..-1)])).id))).id))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CreditCardsController",
+        "method": "add_for_customer"
+      },
+      "user_input": "Address.create(:address => \"123 Maple St\", :city => \"Nowhere\", :state => \"KS\", :zip_code => \"12345\", :addressable_type => \"CreditCard\", :addressable_id => (Customer.find(params[:id]).credit_cards.new(:first_name => (Customer.find(params[:id]).first_name), :last_name => (Customer.find(params[:id]).last_name), :phone => (Customer.find(params[:id]).customer_phone), :exp_date => ((Customer.find(params[:id]).expirationDate or Date.today.strftime(\"%m/%d\"))), :last_4 => ((\"1234123412340000\" or Customer.find(params[:id]).credit_card_number)[(-4..-1)])).id))",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "7e041cfb4fd8be790e55e959227e500f07fe5051f2bea349a02bb8c5259c2f5a",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/customers_controller.rb",
+      "line": 475,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(params[:id]).update_attributes(params[:customer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CustomersController",
+        "method": "async_update"
+      },
+      "user_input": "params[:customer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "3aade6ceabf66740391ad824cf31d0d432f47a85258f93778c5a39c7afa2d01f",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/customers_controller.rb",
+      "line": 480,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(params[:id]).account.update_attributes(:email => (Customer.find(params[:id]).email))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CustomersController",
+        "method": "async_update"
+      },
+      "user_input": "Customer.find(params[:id]).email",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "ced2a0dc9b05e5a471def6a1abba0bc5d78dd88372467a2009463e35545edd84",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/customers_controller.rb",
+      "line": 501,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(params[:id]).update_attributes(params[:customer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CustomersController",
+        "method": "update"
+      },
+      "user_input": "params[:customer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "304356751110290ed1c71ae249bd16ec4e2ff42a59e84584cc396535edcc7250",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/customers_controller.rb",
+      "line": 506,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(params[:id]).account.update_attributes(:email => (Customer.find(params[:id]).email))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CustomersController",
+        "method": "update"
+      },
+      "user_input": "Customer.find(params[:id]).email",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "af7b1cfcb6a674d73e114b9b1af39d6da2d8de5fd927f620a172cc9ee85c4e5e",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/discounts_controller.rb",
+      "line": 57,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Discount.find(params[:id]).update_attributes(params[:discount])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::DiscountsController",
+        "method": "update"
+      },
+      "user_input": "params[:discount]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "5bd7480e326652abf67e470f605e901e99b9dde2463fb03c205dc8426c1832d5",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/email_templates_controller.rb",
+      "line": 35,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "EmailTemplate.find(params[:id]).update_attributes(params[:email_template])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::EmailTemplatesController",
+        "method": "update"
+      },
+      "user_input": "params[:email_template]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "bec78074c8f38c603fb940c8886953364acceeb2bb690ec61c8a21349525bf46",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/fax_sources_controller.rb",
+      "line": 13,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "FaxSource.find(params[:id]).update_attributes(params[:fax_source])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::FaxSourcesController",
+        "method": "async_update"
+      },
+      "user_input": "params[:fax_source]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "e0e6b0b0f213ae09d8cc4e98e7052258e12d04fb44ba9c56f7786f7d1a68d8eb",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/packages_controller.rb",
+      "line": 19,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Package.find((local id)).update_attributes((local hash))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PackagesController",
+        "method": "update"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "4a665114ab62d98ab6910de74996e5160a6d78db5b09e67315ff434457c88107",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/packages_controller.rb",
+      "line": 27,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Coverage.find((local id)).update_attributes((local hash))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PackagesController",
+        "method": "update_coverages"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "6496b5708a6e959f5c7419e6dd580f602851a0984124cf488af1a99100deae56",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/properties_controller.rb",
+      "line": 12,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Address.find(params[:id]).update_attributes(params[:property])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PropertiesController",
+        "method": "async_update"
+      },
+      "user_input": "params[:property]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "4cae1b6b2a649a96d05cf087b094adfde95ae093e075664a92a861d68309463c",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 142,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(cookies.signed[:incomplete_gaq_customer_id]).update_attributes(:billing_first_name => (params[:customer][:billing_first_name]), :billing_last_name => (params[:customer][:billing_last_name]))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "billing"
+      },
+      "user_input": "params[:customer][:billing_last_name]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "2de0fcf6db2a9c7bf26d3e5bd052045b7e5b4765126e6a8c6336a331680dad6d",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 178,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(cookies.signed[:incomplete_gaq_customer_id]).update_attributes(:subscription_id => (ActiveMerchant::Billing::AuthorizeNetGateway.new($installation[:authorize]).recurring((Customer.find(cookies.signed[:incomplete_gaq_customer_id]).pay_amount.to_f * 100.0), ActiveMerchant::Billing::CreditCard.new(:first_name => (Customer.find(cookies.signed[:incomplete_gaq_customer_id]).first_name), :last_name => (Customer.find(cookies.signed[:incomplete_gaq_customer_id]).last_name), :number => (params[:credit_card_number]), :month => (params[:date][:month]), :year => (params[:date][:year])), :billing_address => ({ :first_name => (Customer.find(cookies.signed[:incomplete_gaq_customer_id]).billing_first_name), :last_name => (Customer.find(cookies.signed[:incomplete_gaq_customer_id]).billing_last_name), :address1 => (Customer.find(cookies.signed[:incomplete_gaq_customer_id]).create_billing_address(params[:billing_address]).address), :city => (Customer.find(cookies.signed[:incomplete_gaq_customer_id]).create_billing_address(params[:billing_address]).city), :state => (Customer.find(cookies.signed[:incomplete_gaq_customer_id]).create_billing_address(params[:billing_address]).state), :zip => (Customer.find(cookies.signed[:incomplete_gaq_customer_id]).create_billing_address(params[:billing_address]).zip_code), :country => \"US\" }), :subscription_name => ($installation.name), :interval => ({ :unit => :months, :length => ((12 / Customer.find(cookies.signed[:incomplete_gaq_customer_id]).num_payments)) }), :duration => ({ :start_date => (1.week.from_now.strftime(\"%Y-%m-%d\")), :occurrences => (Customer.find(cookies.signed[:incomplete_gaq_customer_id]).num_payments) })).params[\"subscription_id\"]), :credit_card_number => (params[:credit_card_number]), :expirationDate => (\"#{params[:date][:year]}-#{params[:date][:month]}\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "billing"
+      },
+      "user_input": "params[:date][:month]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "2862dbd39b8caee32913588132a8c444df8e9a56faa9421c84fe0d5ae9b153c9",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 213,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(cookies.signed[:incomplete_gaq_customer_id]).update_attributes(:cc_by => \"customer\", :pay_amount => (((Customer.find(cookies.signed[:incomplete_gaq_customer_id]).pay_amount.to_f / params[:customer][:num_payments].to_i).round(3) or params[:customer][:pay_amount])), :num_payments => (params[:customer][:num_payments].to_i))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "billing"
+      },
+      "user_input": "params[:customer][:num_payments]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "68e268d1e5d732fc95c32b2f0246ba39564e9aca760e7233eb3b4b90dfb2b5e6",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 305,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(cookies.signed[:incomplete_gaq_customer_id]).update_attributes(params[:customer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "purchase"
+      },
+      "user_input": "params[:customer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "68e268d1e5d732fc95c32b2f0246ba39564e9aca760e7233eb3b4b90dfb2b5e6",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 366,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(cookies.signed[:incomplete_gaq_customer_id]).update_attributes(params[:customer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "purchase"
+      },
+      "user_input": "params[:customer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "491f82701a1b987acd94f1280574a3f3f90bf2625f205f85d0419b65c781d14a",
+      "message": "Unprotected mass assignment",
+      "file": "app/models/account.rb",
+      "line": 113,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "self.update_attributes(:password => (Account.generate_random_password))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Account",
+        "method": "reset_password"
+      },
+      "user_input": "Account.generate_random_password",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "4260475e8793d9fe504d5c0181eee9f4e444e6fd801561286c0afc59eadf1fa0",
+      "message": "Unprotected mass assignment",
+      "file": "app/models/fax_source.rb",
+      "line": 85,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Fax.new(:received_at => (Mail.read_from_string(Net::IMAP.new(\"imap.gmail.com\", 993, true).fetch((local message_id), \"RFC822\")[0].attr[\"RFC822\"]).date), :source_id => (self.id), :message_id => ((local message_id))).update_attributes(:path => (\"#{Rails.root}/faxes/#{Fax.new(:received_at => (Mail.read_from_string(Net::IMAP.new(\"imap.gmail.com\", 993, true).fetch((local message_id), \"RFC822\")[0].attr[\"RFC822\"]).date), :source_id => (self.id), :message_id => ((local message_id))).id}.pdf\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "FaxSource",
+        "method": "retrieve!"
+      },
+      "user_input": "Fax.new(:received_at => (Mail.read_from_string(Net::IMAP.new(\"imap.gmail.com\", 993, true).fetch((local message_id), \"RFC822\")[0].attr[\"RFC822\"]).date), :source_id => (self.id), :message_id => ((local message_id)))",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "fa4bc7b3145be5c7d46a38a07f7219b6c33dddb817e7eb84930b9e6601bb2e8e",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/agents_controller.rb",
+      "line": 61,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Agent.create(params[:agent])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::AgentsController",
+        "method": "create"
+      },
+      "user_input": "params[:agent]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "5147729fa884cf33930f800ba06cbeff3ff7ec7debdea6b29bd31f0a9b9ff091",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/agents_controller.rb",
+      "line": 64,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Account.create(params[:account])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::AgentsController",
+        "method": "create"
+      },
+      "user_input": "params[:account]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "6e17d98eab87d88ac6a5e53e959907e3eda43b753460addddacda319c1ad4c36",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/cancellation_reasons_controller.rb",
+      "line": 18,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "CancellationReason.create(params[:reason])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CancellationReasonsController",
+        "method": "async_create"
+      },
+      "user_input": "params[:reason]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "80b1b5d1dbf1349b43f22429d5ef3a347c7a4492bca3001681e1b43661f2048b",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/claims_controller.rb",
+      "line": 124,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Claim.create(params[:claim])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ClaimsController",
+        "method": "async_create"
+      },
+      "user_input": "params[:claim]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "894a7c77731f504f0ee5d70151c346e1349d1d8278f60bd6fd2bb9d741d4a09e",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/content_controller.rb",
+      "line": 25,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Content.create(params[:content])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ContentController",
+        "method": "async_create"
+      },
+      "user_input": "params[:content]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "61166d689ec088a75678942595f88508f3718232763e593e40b948a045105602",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/contractors_controller.rb",
+      "line": 166,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Contractor.create(params[:contractor])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ContractorsController",
+        "method": "async_create"
+      },
+      "user_input": "params[:contractor]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "3c6c3fd82ef301ed38dc811b273bd72c1bf5d63d9e8006cd6a92378018fd36b8",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/credit_cards_controller.rb",
+      "line": 37,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Address.create(params[:address])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CreditCardsController",
+        "method": "update"
+      },
+      "user_input": "params[:address]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "424e7f27294c82f14cab188db70b0c28b617421bd5351feec04bbdb202760235",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/credit_cards_controller.rb",
+      "line": 52,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Note.create(:customer_id => (CreditCard.find(params[:id]).customer.id), :note_text => ((\"Billed $%.2f to card ending in #{CreditCard.find(params[:id]).last_4}.\" % params[:amount].to_f)), :agent_name => (current_account.parent.name), :author_id => (current_account.parent.id))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CreditCardsController",
+        "method": "bill"
+      },
+      "user_input": "params[:amount]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "fb2f421626f6a6f682998350188b8c7a3605487e76a6e966fa5a5ab11207e670",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/credit_cards_controller.rb",
+      "line": 61,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Note.create(:customer_id => (CreditCard.find(params[:id]).customer.id), :note_text => ((\"Attempted to bill $%.2f to card ending in #{CreditCard.find(params[:id]).last_4}#{(\", but it failed because: #{CreditCard.find(params[:id]).charge_cents!((params[:amount].to_f * 100.0)).params[\"response_reason_text\"]}.\" or \".\")}\" % params[:amount].to_f)), :agent_name => (current_account.parent.name), :author_id => (current_account.parent.id))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CreditCardsController",
+        "method": "bill"
+      },
+      "user_input": "params[:amount]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "c71ef35d9c279d81aa9294080538876fbd931b67f244bd1ddf9527420d8c6ee0",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/credit_cards_controller.rb",
+      "line": 104,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Address.create(:address => \"123 Maple St\", :city => \"Nowhere\", :state => \"KS\", :zip_code => \"12345\", :addressable_type => \"CreditCard\", :addressable_id => (Customer.find(params[:id]).credit_cards.new(:first_name => (Customer.find(params[:id]).first_name), :last_name => (Customer.find(params[:id]).last_name), :phone => (Customer.find(params[:id]).customer_phone), :exp_date => ((Customer.find(params[:id]).expirationDate or Date.today.strftime(\"%m/%d\"))), :last_4 => ((\"1234123412340000\" or Customer.find(params[:id]).credit_card_number)[(-4..-1)])).id))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CreditCardsController",
+        "method": "add_for_customer"
+      },
+      "user_input": "Customer.find(params[:id])",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "8509a0bfa106a2722f2ba2103cd257f85867e5df2fb5e040aea56d22cd21579a",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/customers_controller.rb",
+      "line": 532,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.create(params[:customer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CustomersController",
+        "method": "create"
+      },
+      "user_input": "params[:customer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "df022058744a51bf887b65ed5caa21e80ca14853af3ae9de20bc3fc730fb6a71",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/customers_controller.rb",
+      "line": 533,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.create(params[:customer]).properties.create(params[:property])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CustomersController",
+        "method": "create"
+      },
+      "user_input": "params[:property]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "e6ab019e3f5d7b0873100f04033ffc4b7ca89340221f1bf6268723cd8ff9d601",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/email_templates_controller.rb",
+      "line": 27,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "EmailTemplate.create(params[:email_template])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::EmailTemplatesController",
+        "method": "create"
+      },
+      "user_input": "params[:email_template]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "d409591215d880baa5a80eba577693c8f5bef663ef458b42c9786fb6f766fa90",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/faxes_controller.rb",
+      "line": 139,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "FaxAssignableJoin.create(:fax_id => (Fax.find(params[:id]).id), :assignable_id => (params[:assignable_type].capitalize.constantize.find(params[:assignable_id]).id), :assignable_type => (params[:assignable_type]))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::FaxesController",
+        "method": "async_assign"
+      },
+      "user_input": "params[:assignable_type]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "409c3184ef5f1974c97b95483d7fbc2d779b3cfad57fb977feb6d694ab97537a",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/notes_controller.rb",
+      "line": 12,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Note.create(params[:note])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::NotesController",
+        "method": "async_create"
+      },
+      "user_input": "params[:note]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "11515d5b2b3c5165b71c843c733833d478d3e12e9b82284e646918e70e19fb05",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/notes_controller.rb",
+      "line": 26,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Note.create(params[:note])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::NotesController",
+        "method": "create"
+      },
+      "user_input": "params[:note]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "3666f0d932b1f44aa65bfced60105ad607e4b34476bbb94692a937adcab8cb6d",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/notes_controller.rb",
+      "line": 41,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Note.create(params[:note])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::NotesController",
+        "method": "add_note"
+      },
+      "user_input": "params[:note]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "e9677008724d868cfcae8ccd0d243bf77bbfad97bb40136b71ee71f893957c2d",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/packages_controller.rb",
+      "line": 35,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Coverage.create(params[:coverage])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PackagesController",
+        "method": "create_coverage"
+      },
+      "user_input": "params[:coverage]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "f7b154f07d05af6ef6e534679435447370f13828b609fd9ff1db2094b0421e1e",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/properties_controller.rb",
+      "line": 18,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Address.create(params[:property])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::PropertiesController",
+        "method": "async_create"
+      },
+      "user_input": "params[:property]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "f2ef5a59675b267f7c4113ac7c81d94eb9f9e9bf7ce0e620ec02a730683dde58",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/admin/repairs_controller.rb",
+      "line": 238,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Repair.find(params[:id]).claim.customer.notes.create(params[:note])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::RepairsController",
+        "method": "complete"
+      },
+      "user_input": "params[:note]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "36bb1b421b8a0d8c9df1cd447326c7dab4a401a9beda0d35abec43165d43d33c",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 409,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Address.create(:address => \"123 Maple St\", :city => \"Nowhere\", :state => \"KS\", :zip_code => \"12345\", :addressable_type => \"CreditCard\", :addressable_id => ((Customer.find((local customer_id)) rescue nil).credit_cards.new(:first_name => ((Customer.find((local customer_id)) rescue nil).first_name), :last_name => ((Customer.find((local customer_id)) rescue nil).last_name), :phone => ((Customer.find((local customer_id)) rescue nil).customer_phone), :exp_date => (((Customer.find((local customer_id)) rescue nil).expirationDate or Date.today.strftime(\"%m/%d\"))), :last_4 => ((\"1234123412340000\" or (Customer.find((local customer_id)) rescue nil).credit_card_number)[(-4..-1)])).id))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "add_credit_card_to_customer"
+      },
+      "user_input": "Customer.find((local customer_id))",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "7695566e37c0bd71bd5f3902ec9b69aec82bb48b63f9b02ebb50565018bcaa42",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 30,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.create(params[:customer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "thanks"
+      },
+      "user_input": "params[:customer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "67741b0a67edc94fca019ec98bb38af77a8c7d6b8b7cf5262935f5955dd3adb6",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 32,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.create(params[:customer]).notes.create(:note_text => (params[:extra].collect do\n \"#{(local label).humanize.titleize}: #{(local value)}\"\n end.join(\", \")))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "thanks"
+      },
+      "user_input": "params[:extra].collect",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "19c794487683b698e0ee7189f40a3c7bd501bbff2c558f4420c96220524fe1d1",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 34,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.create(params[:customer]).properties.create(params[:property])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "thanks"
+      },
+      "user_input": "params[:property]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "a626ae862d68ae723359e5086362bccbade0e9d771f42832a1e711fac6b93121",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 39,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Account.create(:parent_id => (Customer.create(params[:customer]).id), :parent_type => \"Customer\", :email => (Customer.create(params[:customer]).email), :password => (Account.generate_random_password), :role => \"customer\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "thanks"
+      },
+      "user_input": "Account.generate_random_password",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "793226e9158557a799a0efd730053793582bb03f720f249885c794999419edd6",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 192,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(cookies.signed[:incomplete_gaq_customer_id]).renewals.create(:years => (params[:contract_length].to_i), :amount => (Customer.find(cookies.signed[:incomplete_gaq_customer_id]).pay_amount.to_f), :starts_at => (1.week.from_now), :ends_at => ((1.week.from_now + (((params[:contract_length].to_i * 12) + 2).months or (params[:contract_length].to_i * 12).months))))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "billing"
+      },
+      "user_input": "(params[:contract_length].to_i * 12).months",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "92999aaf81729bcd966d4aa0cf50e6bea54fa51105699b7e01bfed2ab98a7608",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 199,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Account.create(:parent_id => (Customer.find(cookies.signed[:incomplete_gaq_customer_id]).id), :parent_type => \"Customer\", :email => (Customer.find(cookies.signed[:incomplete_gaq_customer_id]).email), :password => (Digest::SHA1.hexdigest(\"#{rand((1 << 64))}\")[(0...5)]), :role => \"customer\", :last_login_ip => (request.remote_ip), :last_login_at => (Time.now))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "billing"
+      },
+      "user_input": "Customer.find(cookies.signed[:incomplete_gaq_customer_id]).email",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "88df94654d7175d2c07f5994b56733c89184a75ffb0f03767ff5f43c34a19285",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 272,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.create(params[:customer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "purchase"
+      },
+      "user_input": "params[:customer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "89009ba9b3318f206e8d19bc2d3bfd35ff5ff136f836f2de37b5776f24692832",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 289,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.create(params[:customer]).properties.create(params[:property])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "purchase"
+      },
+      "user_input": "params[:property]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "d1c1ae1bb70fe3a2eb1ad6d8f3fbf59683ed53f2899c134d71da2743504d4dfe",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 307,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(cookies.signed[:incomplete_gaq_customer_id]).properties.create(params[:property])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "purchase"
+      },
+      "user_input": "params[:property]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "88df94654d7175d2c07f5994b56733c89184a75ffb0f03767ff5f43c34a19285",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 333,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.create(params[:customer])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "purchase"
+      },
+      "user_input": "params[:customer]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "89009ba9b3318f206e8d19bc2d3bfd35ff5ff136f836f2de37b5776f24692832",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 350,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.create(params[:customer]).properties.create(params[:property])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "purchase"
+      },
+      "user_input": "params[:property]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "d1c1ae1bb70fe3a2eb1ad6d8f3fbf59683ed53f2899c134d71da2743504d4dfe",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/site_controller.rb",
+      "line": 368,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.find(cookies.signed[:incomplete_gaq_customer_id]).properties.create(params[:property])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SiteController",
+        "method": "purchase"
+      },
+      "user_input": "params[:property]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "806a5ecf0c6a2a2f33456721c5fcfb71e5b67f3375632e6c269fa1732d91a756",
+      "message": "Unprotected mass assignment",
+      "file": "app/models/address.rb",
+      "line": 35,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Address.create(self.attributes.dup)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Address",
+        "method": "duplicate_for_addressable!"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "99c9b60844e01fa8b87d363df308d1ea8249a3b2ca5ba67c62c2da12ff8f7e96",
+      "message": "Unprotected mass assignment",
+      "file": "app/models/coverage.rb",
+      "line": 17,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Coverage.create((local object)[\"coverage\"])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Coverage",
+        "method": "Coverage.reload_defaults!"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "2e3b5a43bac9e4ddcef69182e89d30f5d48b4afb6f844584ea73cede4792cef8",
+      "message": "Unprotected mass assignment",
+      "file": "app/models/customer.rb",
+      "line": 672,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "IContactRequest.create(:path => (\"contact/#{self.icontact_id}/subscription/#{IContactRequest::FOLLOW_UP_LIST_ID}\"), :put => (IContactRequest.follow_up_subscription(((local action) == :add))))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Customer",
+        "method": "enqueue_follow_up_list_action"
+      },
+      "user_input": "IContactRequest.follow_up_subscription(((local action) == :add))",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "c0f037da2226277905b93b0893ed6aeb8f132c445e23ff351c21bc5fd1c558dc",
+      "message": "Unprotected mass assignment",
+      "file": "app/models/customer.rb",
+      "line": 679,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "IContactRequest.create(:path => (\"contact/#{self.icontact_id}/subscription/#{IContactRequest::LEFT_MESSAGE_LIST_ID}\"), :put => (IContactRequest.left_message_subscription(((local action) == :add))))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Customer",
+        "method": "enqueue_left_message_list_action"
+      },
+      "user_input": "IContactRequest.left_message_subscription(((local action) == :add))",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 17,
+      "fingerprint": "40e4249d53ef2edb5040e257efa1911530dba1ae0d293740ba5b8ceead6e5ed6",
+      "message": "Unprotected mass assignment",
+      "file": "app/controllers/api/v1/customers_controller.rb",
+      "line": 11,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "Customer.new(params[:customer]).properties.build(params[:property])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Api::V1::CustomersController",
+        "method": "add_customer_for_get_a_quote"
+      },
+      "user_input": "params[:property]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 73,
+      "fingerprint": "f6981b9c24727ef45040450a1f4b158ae3bc31b4b0343efe853fe12c64881695",
+      "message": "Rails 3.2.16 has a vulnerability in number helpers (CVE-2014-0081). Upgrade to Rails version 3.2.17",
+      "file": "Gemfile",
+      "line": null,
+      "link": "https://groups.google.com/d/msg/ruby-security-ann/9WiRn2nhfq0/2K2KRB4LwCMJ",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "f007ff05b06cd289b2be2338292218eb102b8487113acb6145713105215a0097",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/admin/notes_controller.rb",
+      "line": 28,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(\"/admin/customers/edit/#{Note.create(params[:note]).customer_id}#notes\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::NotesController",
+        "method": "create"
+      },
+      "user_input": "Note.create(params[:note]).customer_id",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Denial of Service",
+      "warning_code": 75,
+      "fingerprint": "403a72d08a90043384fe56d3a6bc3e255b8799b380693914143d403607433db7",
+      "message": "Rails 3.2.16 has a denial of service vulnerability (CVE-2014-0082). Upgrade to Rails version 3.2.17",
+      "file": "Gemfile",
+      "line": null,
+      "link": "https://groups.google.com/d/msg/rubyonrails-security/LMxO_3_eCuc/ozGBEhKaJbIJ",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Dangerous Send",
+      "warning_code": 23,
+      "fingerprint": "443ac4f71328afb4918e3a84ddd43c5b77cc316d10c68323b6226d165d7b9c7d",
+      "message": "User controlled method execution",
+      "file": "app/controllers/admin/content_controller.rb",
+      "line": 52,
+      "link": "http://brakemanscanner.org/docs/warning_types/dangerous_send/",
+      "code": "(local package).send(\"#{params[:home_type].strip}_price\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ContentController",
+        "method": "async_get_package_prices"
+      },
+      "user_input": "params[:home_type].strip",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Dangerous Send",
+      "warning_code": 23,
+      "fingerprint": "dab268460f2cebabe45a5d481f1e34c7aace623bf655319fb985f4c6b71d933a",
+      "message": "User controlled method execution",
+      "file": "app/controllers/admin/customers_controller.rb",
+      "line": 426,
+      "link": "http://brakemanscanner.org/docs/warning_types/dangerous_send/",
+      "code": "Customer.send(\"with_#{params[:param]}\", params[:query].to_s.strip)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CustomersController",
+        "method": "smart_search"
+      },
+      "user_input": "params[:param]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Dangerous Send",
+      "warning_code": 23,
+      "fingerprint": "940f0f585cdfb0ffbf93a7f416534b125cc9082efcf2b325f8ae3937d50aabdc",
+      "message": "User controlled method execution",
+      "file": "app/controllers/admin/fax_sources_controller.rb",
+      "line": 19,
+      "link": "http://brakemanscanner.org/docs/warning_types/dangerous_send/",
+      "code": "FaxSource.send(params[:id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::FaxSourcesController",
+        "method": "retrieve"
+      },
+      "user_input": "params[:id]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Session Setting",
+      "warning_code": 29,
+      "fingerprint": "715ad9c0d76f57a6a657192574d528b620176a80fec969e2f63c88eacab0b984",
+      "message": "Session secret should not be included in version control",
+      "file": "config/initializers/secret_token.rb",
+      "line": 7,
+      "link": "http://brakemanscanner.org/docs/warning_types/session_setting/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "aabe89f29e1433e0e0471fea7d4e36d4c7bc6b8299924c963284ac4fdeea068f",
+      "message": "Possible SQL injection",
+      "file": "app/models/renewal.rb",
+      "line": 9,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Renewal.where(\"ends_at BETWEEN '#{(local from).strftime(\"%Y-%m-%d\")}' AND '#{(local to).strftime(\"%Y-%m-%d\")}'\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Renewal",
+        "method": "for_agent_renewal_between"
+      },
+      "user_input": "(local from).strftime(\"%Y-%m-%d\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "9ec0fb1b3d37b9ada232fe0bcdc94c5425c810766fdc4e098a82cc4bdc1320ac",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/admin/claims_controller.rb",
+      "line": 74,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Claim.count(:conditions => (\"status_code IN (#{params[:CIFilterActiveFilters].to_s.gsub(/[^\\d,]/, \"\")})\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::ClaimsController",
+        "method": "async_claims"
+      },
+      "user_input": "params[:CIFilterActiveFilters].to_s.gsub(/[^\\d,]/, \"\")",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "c4780dd4717f5a561077546f17a5dcfab5a85ad6530db1bd35886bda15635fb5",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/admin/customers_controller.rb",
+      "line": 36,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Customer.update_all(\"status_id = #{Customer.id_for_status(:new)}\", \"id IN (#{Customer.find(:all, :select => \"id\", :order => \"updated_at DESC\", :readonly => (true), :conditions => ({ :status_id => (Customer.id_for_status(params[:id].to_sym)) }), :offset => (((params[:page].to_i - 1) * params[:count].to_i)), :limit => 30).collect(&:id).join(\",\")})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CustomersController",
+        "method": "revert_to_new"
+      },
+      "user_input": "Customer.id_for_status(:new)",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "54c8d7b7a664276ca40dff32c2d84fcf415f07e4734eb7dcac890215461f71b3",
+      "message": "Possible SQL injection",
+      "file": "app/models/transaction.rb",
+      "line": 34,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Renewal.where(\"ends_at BETWEEN '#{(local from).strftime(\"%Y-%m-%d\")}' AND '#{(local to).strftime(\"%Y-%m-%d\")}'\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Transaction",
+        "method": "Transaction.search_customer_by_renewal_date"
+      },
+      "user_input": "(local from).strftime(\"%Y-%m-%d\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "2b252b7b3149eb89998bec6c13f52c725d028821e4d07757f9e409793a24cd50",
+      "message": "Possible SQL injection",
+      "file": "app/models/contractor.rb",
+      "line": 37,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "scope(:with_fax, lambda do |f|\n  { :conditions => (Customer.telecom_number_strip_condition(\"fax\", (local f))) }\nend)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Contractor",
+        "method": null
+      },
+      "user_input": "Customer.telecom_number_strip_condition(\"fax\", (local f))",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "8c86e79080a833565735e058460e9d9f28948900080638049acfd9de102cc4d9",
+      "message": "Possible SQL injection",
+      "file": "app/models/customer.rb",
+      "line": 54,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "scope(:with_first_name, lambda { |f| { :conditions => (\"first_name LIKE '%#{(local f)}%'\") } })",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Customer",
+        "method": null
+      },
+      "user_input": "(local f)",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "efa68f80fea2d79ca249fc813e79aaaa0f8faecd308fb47313ea3c5d113789b0",
+      "message": "Possible SQL injection",
+      "file": "app/models/customer.rb",
+      "line": 57,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "scope(:with_last_name, lambda { |f| { :conditions => (\"last_name LIKE '%#{(local f)}%'\") } })",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Customer",
+        "method": null
+      },
+      "user_input": "(local f)",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "f9b82d2f5028467ff59064a2bff5226dff9e8ed19cd1c68a47f993e9c15cac5c",
+      "message": "Possible SQL injection",
+      "file": "app/models/customer.rb",
+      "line": 62,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "scope(:with_phone, lambda do |p|\n  { :conditions => (\"REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(customer_phone, '.', ''), ')', ''), '(', '') ,' ', ''), '-', '') LIKE '%#{(local p).gsub(/\\(|\\)|\\s|-|\\./, \"\")}%'\") }\nend)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Customer",
+        "method": null
+      },
+      "user_input": "(local p).gsub(/\\(|\\)|\\s|-|\\./, \"\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "7f2036997b749afcc11c69eab0b60517912da5d070e43b8f06c35325337a44d5",
+      "message": "Possible SQL injection",
+      "file": "app/models/customer.rb",
+      "line": 73,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "scope(:with_email, lambda { |e| { :conditions => (\"email LIKE '%#{(local e)}%'\") } })",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Customer",
+        "method": null
+      },
+      "user_input": "(local e)",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "50a7c352674ebd1e04fe922cbc99b205bb76a9b2740957044faee042c1e8f89a",
+      "message": "Possible SQL injection",
+      "file": "app/models/renewal.rb",
+      "line": 5,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "scope(:for_agent, lambda { |agent| { :joins => (Renewal.agents_join_sql((local agent).id)) } })",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Renewal",
+        "method": null
+      },
+      "user_input": "Renewal.agents_join_sql((local agent).id)",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "f43477baded97d38f500d5f24ab429a511ca07f07d58fca14a84ea1621095248",
+      "message": "Possible SQL injection",
+      "file": "app/models/transaction.rb",
+      "line": 8,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "scope(:for_agent, lambda do |agent|\n  { :joins => (Transaction.agents_join_sql((local agent).id)) }\nend)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Transaction",
+        "method": null
+      },
+      "user_input": "Transaction.agents_join_sql((local agent).id)",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "SSL Verification Bypass",
+      "warning_code": 71,
+      "fingerprint": "1d896f2c28d71acaf5fb47f13b1ff6b482a4f91f85437325d65bef27ad3cdac0",
+      "message": "SSL certificate verification was bypassed",
+      "file": "app/models/address.rb",
+      "line": 98,
+      "link": "http://brakemanscanner.org/docs/warning_types/ssl_verification_bypass/",
+      "code": "Net::HTTP.new($AVS_URL.host, $AVS_URL.port).verify_mode = OpenSSL::SSL::VERIFY_NONE",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Address",
+        "method": "Address.ups_request"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Denial of Service",
+      "warning_code": 59,
+      "fingerprint": "65f84479ca07a28c1543687c713f5bb04c731c2387e488c8a8038d1ceba98e4f",
+      "message": "Symbol conversion from unsafe string (parameter value)",
+      "file": "app/controllers/admin/customers_controller.rb",
+      "line": 33,
+      "link": "http://brakemanscanner.org/docs/warning_types/denial_of_service/",
+      "code": "params[:id].to_sym",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CustomersController",
+        "method": "revert_to_new"
+      },
+      "user_input": "params[:id]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Denial of Service",
+      "warning_code": 59,
+      "fingerprint": "c059a8a3391c2af1bd782e1528c49bf952f37c4e629f493d2102356e0015f1d8",
+      "message": "Symbol conversion from unsafe string (parameter value)",
+      "file": "app/controllers/admin/customers_controller.rb",
+      "line": 240,
+      "link": "http://brakemanscanner.org/docs/warning_types/denial_of_service/",
+      "code": "params[:id].to_sym",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CustomersController",
+        "method": "list"
+      },
+      "user_input": "params[:id]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Denial of Service",
+      "warning_code": 59,
+      "fingerprint": "5985b6c4c27c08021b2988fb2fc4dfecddaee89ec166c74984a586eea06cce77",
+      "message": "Symbol conversion from unsafe string (parameter value)",
+      "file": "app/controllers/admin/customers_controller.rb",
+      "line": 252,
+      "link": "http://brakemanscanner.org/docs/warning_types/denial_of_service/",
+      "code": "(params[:id] or \"new\").to_sym",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CustomersController",
+        "method": "async_list"
+      },
+      "user_input": "params[:id]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "239b498e1c228fcfd25c3770c4bee241b53bd73e662d2171e2b958db1d6fe67d",
+      "message": "Unsafe reflection method constantize called with parameter value",
+      "file": "app/controllers/admin/accounts_controller.rb",
+      "line": 7,
+      "link": "http://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "params[:object_type].constantize",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::AccountsController",
+        "method": "async_reset_password"
+      },
+      "user_input": "params[:object_type]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "5b4a0848e9813bfeb98c678dc661c60a680ea8df85c6d505295ae3e747ec8365",
+      "message": "Unsafe reflection method constantize called with parameter value",
+      "file": "app/controllers/admin/accounts_controller.rb",
+      "line": 20,
+      "link": "http://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "params[:object_type].constantize",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::AccountsController",
+        "method": "async_grant_web_account"
+      },
+      "user_input": "params[:object_type]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "680a4459eee00a6431e060cd961f9e254706e0fba029ee16e5b0afa358a0a9f6",
+      "message": "Unsafe reflection method constantize called with parameter value",
+      "file": "app/controllers/admin/faxes_controller.rb",
+      "line": 135,
+      "link": "http://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "params[:assignable_type].capitalize.constantize",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::FaxesController",
+        "method": "async_assign"
+      },
+      "user_input": "params[:assignable_type].capitalize",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "bf3ec382581c8e89a48f309a964ca26f8e663ef78998be91fb72b9ad573586e4",
+      "message": "Unescaped model attribute",
+      "file": "app/views/site/contact.html.erb",
+      "line": 3,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Content.for(:contact)",
+      "render_path": [
+        "SiteController#contact"
+      ],
+      "location": {
+        "type": "template",
+        "template": "site/contact (SiteController#contact)"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "b93041a734c3154d6e0cd3cf1ba8f88f5683183dd039c312b4a70e00fd72a00b",
+      "message": "Unescaped model attribute",
+      "file": "app/views/site/contractors.html.erb",
+      "line": 3,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Content.for(:contractors)",
+      "render_path": [
+        "SiteController#contractors"
+      ],
+      "location": {
+        "type": "template",
+        "template": "site/contractors (SiteController#contractors)"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "2a4ff1443fdfb8a138ad0e3e16599afeb5d44307ac7539a09d6268417372398b",
+      "message": "Unescaped model attribute",
+      "file": "app/views/site/faq.html.erb",
+      "line": 2,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Content.for(:faq).html_safe",
+      "render_path": [
+        "SiteController#faq"
+      ],
+      "location": {
+        "type": "template",
+        "template": "site/faq (SiteController#faq)"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "b3d445cbb3a8d9c7b98a8ec4c21e51ddad3259be3a643aca020efb464fe4463d",
+      "message": "Unescaped model attribute",
+      "file": "app/views/site/homeownercenter.html.erb",
+      "line": 3,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Content.for(:homeownercenter)",
+      "render_path": [
+        "SiteController#homeownercenter"
+      ],
+      "location": {
+        "type": "template",
+        "template": "site/homeownercenter (SiteController#homeownercenter)"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "526f5af3104e2bc74a2e14daeff9facc3e9509910c905fe90e499b9d5f25df85",
+      "message": "Unescaped model attribute",
+      "file": "app/views/site/plans.html.erb",
+      "line": 6,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Content.for(:plans)",
+      "render_path": [
+        "SiteController#plans"
+      ],
+      "location": {
+        "type": "template",
+        "template": "site/plans (SiteController#plans)"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "9d055dd755160bea2f6139c93953ad8b2e187210467ef7f54e6d31c4dd50d179",
+      "message": "Unescaped model attribute",
+      "file": "app/views/site/please_call.html.erb",
+      "line": 1,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Content.for(:please_call).html_safe",
+      "render_path": [
+        "SiteController#please_call"
+      ],
+      "location": {
+        "type": "template",
+        "template": "site/please_call (SiteController#please_call)"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "03ac970ab6cc218c8740b6e5e2ce64aadee7398b28408d1b8028c213d95b6708",
+      "message": "Unescaped model attribute",
+      "file": "app/views/site/realestate.html.erb",
+      "line": 3,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Content.for(:realestate)",
+      "render_path": [
+        "SiteController#realestate"
+      ],
+      "location": {
+        "type": "template",
+        "template": "site/realestate (SiteController#realestate)"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "628cc14c63d56e2625627a8bc499d046caf3bf5185f618cb12cbefe84d9bdbc6",
+      "message": "Unescaped model attribute",
+      "file": "app/views/site/buyingandselling.html.erb",
+      "line": 3,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Content.for(:buyingandselling)",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "site/buyingandselling"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "e5c1d79557dbd1cd4c09f3d7528f648b12b9e486b98930c0480f03a50f35e459",
+      "message": "Unescaped model attribute",
+      "file": "app/views/site/quote_old.html.erb",
+      "line": 14,
+      "link": "http://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Content.for(:quote)",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "site/quote_old"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "005a5d80dd0f67a0d03297d889b2b8780a3ddd27112e2ab1a7353a6eb2cbb1cf",
+      "message": "Unsafe parameter value in link_to href",
+      "file": "app/views/site/billing.html.erb",
+      "line": 108,
+      "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(\"Billing Info. is same as Contact Info.\", params.merge(:copy_billing_info => (true)), :class => \"note\", :style => \"text-decoration:underline;\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "site/billing"
+      },
+      "user_input": "params.merge(:copy_billing_info => (true))",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "bfcaf4ef358cf1593a3b6f41823f1ffe2a8a6bba9ba103f2826d52f20df7ea15",
+      "message": "Unsafe parameter value in link_to href",
+      "file": "app/views/site/billing_old.html.erb",
+      "line": 18,
+      "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(\"Billing Info. is same as Contact Info.\", params.merge(:copy_billing_info => (true)))",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "site/billing_old"
+      },
+      "user_input": "params.merge(:copy_billing_info => (true))",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "868f6d970417c1cbb4d640d8bbd1836d75d1a5288061e6eab4b82a7db758eae5",
+      "message": "Unsafe parameter value in link_to href",
+      "file": "app/views/site/select_affiliate/billing.html.erb",
+      "line": 94,
+      "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(\"Billing Info. is same as Contact Info.\", params.merge(:copy_billing_info => (true)), :style => \"text-decoration: underline;\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "site/select_affiliate/billing"
+      },
+      "user_input": "params.merge(:copy_billing_info => (true))",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 60,
+      "fingerprint": "79c9a0c4b443d95b9143c6d7d4e914ac4dd2ebc38ec4c56f4390e23d52167cdf",
+      "message": "Potentially dangerous attribute available for mass assignment",
+      "file": "app/models/credit_card.rb",
+      "line": null,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": ":address_id",
+      "render_path": null,
+      "location": {
+        "type": "model",
+        "model": "CreditCard"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 60,
+      "fingerprint": "9e5c8f126462ce8c20a80096a619df4acb37f108870efe91d2ab265b7ed26d20",
+      "message": "Potentially dangerous attribute available for mass assignment",
+      "file": "app/models/transaction.rb",
+      "line": null,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": ":transaction_id",
+      "render_path": null,
+      "location": {
+        "type": "model",
+        "model": "Transaction"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 60,
+      "fingerprint": "d110014b68beaa0dfd38b0437fe23e1134ed71df97b8f1dc9e3cf34637835aa3",
+      "message": "Potentially dangerous attribute available for mass assignment",
+      "file": "app/models/transaction.rb",
+      "line": null,
+      "link": "http://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": ":subscription_id",
+      "render_path": null,
+      "location": {
+        "type": "model",
+        "model": "Transaction"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Attribute Restriction",
+      "warning_code": 19,
+      "fingerprint": "eb33ff522ee85fef6771def2f48999dc98046ac25b514f7a107a029b2a664442",
+      "message": "Mass assignment is not restricted using attr_accessible",
+      "file": "app/models/account, address, agent, cancellation_reason, claim, content, contractor, contractor_payment, coverage, customer, discount, email_template, fax, fax_assignable_join, fax_source, i_contact_request, note, notification, package, property, renewal, repair, signature_hash.rb",
+      "line": null,
+      "link": "http://brakemanscanner.org/docs/warning_types/attribute_restriction/",
+      "code": null,
+      "render_path": null,
+      "location": {
+        "type": "model",
+        "model": "Account, Address, Agent, CancellationReason, Claim, Content, Contractor, ContractorPayment, Coverage, Customer, Discount, EmailTemplate, Fax, FaxAssignableJoin, FaxSource, IContactRequest, Note, Notification, Package, Property, Renewal, Repair, SignatureHash"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "note": ""
+    }
+  ],
+  "updated": "2014-03-31 18:57:30 +0400",
+  "brakeman_version": "2.4.3"
+}

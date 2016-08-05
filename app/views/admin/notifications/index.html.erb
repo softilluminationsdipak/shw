@@ -1,0 +1,57 @@
+<%= will_paginate @notifications %>
+
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+		<tr>
+			<td><strong> ID</strong></td>
+			<td><strong></strong></td>
+			<td><strong>Notification Type</strong></td>
+			<td><strong>Subject Type</strong></td>
+			<td><strong>Subject Summary</strong></td>
+			<td><strong>Date</strong></td>
+			<td><strong>Time</strong></td>
+			<td><strong>Action</strong></td>
+		</tr>
+	</thead>
+	<% @notifications.each do |notification| %>
+		<tr>
+			<td><%= notification.id %></td>
+			<td class="bell" style="width: 2.50%;"><img src="<%=notification.image_url%>" alt="<%=notification.notification_type.capitalize%>"/></td>
+			<td><%= notification.notification_type %></td>			
+			<td><%= notification.subject_type %></td>			
+			<td class="text"><%= notification.subject_link.html_safe if notification.present? && notification.subject_link.present? %></td>
+			<td><%=notification.date%></td>
+			<td><%=notification.time%></td>
+			<% if notification.actor.present? %>
+				<td><a href="<%=notification.actor.edit_url%>"><%= notification.actor_summary%></a></td>
+			<% end %>
+	</tr>
+	<% end %>
+</table>
+
+<%= will_paginate @notifications %>
+
+<!-- <table cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0 2px;">
+
+	<%# @notifications.each do |notification| %>
+		<tr class="notification <%#=notification.css_class%>">
+			<td class="bell">
+				<img src="<%#=notification.image_url%>" alt="<%#=notification.notification_type.capitalize%>"/>
+			</td>
+			<td class="text">
+				<%#=notification.subject_link.html_safe%>
+				<%# if (notification.subject_summary || '')[-1..-1] == 's' and not ['Customer', 'Contractor'].include?(notification.subject_type) %>
+					were
+				<%# else %>
+					was
+				<%# end %>
+				<%#=notification.message%> <%#=notification.formatted_date%>
+				<%# if notification.actor %>
+					by <a href="<%#=notification.actor.edit_url%>">
+						<%#= notification.actor_summary%>
+					</a>
+				<%# end %>
+			</td>
+		</tr>
+	<%# end %>
+</table> -->

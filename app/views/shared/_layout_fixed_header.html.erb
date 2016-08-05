@@ -1,0 +1,49 @@
+<div id="layout_fixed_header">
+	<% if current_account.customer? %>
+		<div id="layout_toolbar">
+   		<div style="position: relative; top: 3px; left: 3px; display: inline;">
+		  	<a href="/admin/customers/claims" style="font-size: 18px;">Your Contract Number is <strong><%= current_account.parent.contract_number%></strong></a>
+			</div>
+		</div>
+	<% elsif current_account.can_see_nhw_tabs %>
+	<% end %>
+	<% if current_account.empty? %>
+		<div id="layout_header">
+			<h1><%=$installation.name%></h1>
+		</div>
+	<% elsif not current_account.can_see_nhw_tabs %>
+		<div id="layout_header">
+			<h1>
+				<%=$installation.name%>, <%= current_account.parent.send(current_account.contractor? ? :company : :name) %>
+			</h1>
+		</div>
+	<% end %>
+	<div id="layout_tabs">
+		<% if current_account.can_see_nhw_tabs %>
+		<% elsif current_account.customer? %>
+			<a class="<%= 'selected' if @selected_tab == 'edit'%>" href="/admin/customers/edit/<%=current_account.parent.id%>">Personal Info.</a>
+			<a href="/admin/customers/claims#add">Make Claim</a>
+			<a class="<%= 'selected' if @selected_tab == 'claims'%>" href="/admin/customers/claims">My Claims</a>
+			<a class="<%= 'selected' if @selected_tab == 'history'%>" href="/admin/customers/claim_history">Claim History</a>
+			<a style="margin-left: 30px;" href="/admin/logout">Logout</a>
+		<% elsif current_account.contractor? %>
+			<!--<a class="<%#= 'selected' if @selected_tab == 'contractors'%>" href="/admin/customers/edit/<%#=current_account.parent.id%>">Company Info.</a> -->
+			<a class="<%= 'selected' if @selected_tab == 'repairs'%>" href="/admin/customers/claims">Repairs</a>
+			<a style="margin-left: 30px;" href="/admin/logout">Logout</a>
+		<% else %>
+			<a class="<%= 'selected' if @selected_tab == 'login'%>" href="/admin/login">Login</a>
+		<% end %>
+	</div>
+	<div id="advancedSearchDiv">
+		<form id="advancedSearchForm" action="/admin/customers/advanced_search" method="post">
+			<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>"/>
+			<table cellpadding="4" cellspacing="0">
+				<%= search_hud_rows([
+					:first_name, :last_name, :phone, :email, :street, :city, :state, :zip_code,
+					["Status", :status_id, [['Any', '']] + Customer.formatted_status_array],
+					["Agent", :agent_id, [['Any', '']] + Agent.array]
+				]) %>
+			</table>
+		</form>
+	</div>
+</div>

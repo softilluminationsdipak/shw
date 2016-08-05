@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<style>
+			body {
+				font-family: Helvetica, Arial, sans-serif;
+				line-height: 1.3em;
+			}
+			
+			table td.label {
+				vertical-align: top;
+				text-align: right;
+				width: 120px;
+			}
+			
+			span.gray {
+				color: gray;
+			}
+			
+			p.indent_30 {
+				text-indent: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<%=yield%>
+		
+		<p class="left_30">
+			What you can expect from {installation name}:<br>
+			<ul>
+				<li>Help in protection from unexpected repair and replacement expenses on covered systems and appliances</li>
+				<li>24-hours a day, seven days a week, one call convenience to our service line</li>
+				<li>Service provided by pre-screened, licensed, and insured local technicians</li>
+			</ul><br>
+			If you have any questions, please call me at <strong>{installation phone}</strong>.
+		</p>
+	</body>
+</html>

@@ -1,0 +1,324 @@
+<% @claim = claim %>
+<table cellpadding="15" cellspacing="0" style="margin: 0px 0px 0px -12px;">
+	<tr>
+		<td valign="top" style="width:350px;">
+			<table class="form_table claim_edit_cls">
+				<tr>
+					<td class="label" style="width: 140px;"><%= f.label :id, "CLAIM # :" %></td>
+					<td class="pleft">
+						<%= select_tag 'claim_id', options_for_select(@customer.claims.collect{ |u| [u.id, u.id]}, @claim.id), :id => "customer_claim_ids" %>
+					</td>
+				</tr>					
+			</table>
+		</td>
+		<td valign="top" style="width:300px;">
+			<table class="form_table claim_edit_cls">
+				<tr>
+					<td class="label" style="width: 146px;"><%= f.label :status_code, "CLAIM STATUS :" %></td>
+					<td class="pleft">
+						<%= f.select :status_code, options_for_select(ClaimStatus.active_status.collect{|p| [p.claim_status, p.csid]}, f.object.status_code) %>
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td valign="top" style="width:360px;">
+			<table class="form_table claim_edit_cls">
+				<tr>
+					<td class="label" style="width: 120px;"><%= f.label :customer_id, "CONTRACT # :" %></td>
+					<td class="pleft">
+						<h4><%= link_to f.object.customer.contract_number, "/admin/customers/edit/#{@claim.customer_id}" %></h4>
+					</td>						
+				</tr>					
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3" style="padding: 0px;">
+			<hr style="padding: 0px;margin: 0px;">
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" style="width:380px;">
+			<table class="form_table">
+				<tr>
+					<td class="label"><%= f.label :address_id, "PROPERTY ADDRESS :" %></td>
+					<td class="pleft">
+						<%= f.select :address_id, options_for_select(f.object.customer.addresses.collect{|p| ["#{p.address},#{p.city},#{p.state},#{p.zip_code}", p.id]}), {},{:style => "font-size: 11px;width:270%;"} %>
+					</td>						
+				</tr>
+				<%= f.fields_for :customer do |c| %>
+					<tr>
+						<td class="label"><%= f.label :fullname, "CUSTOMER NAME:" %></td>
+						<td class="pleft">
+							<%= text_field_tag :fullname, "#{@claim.customer.first_name + " " + @claim.customer.last_name}", :readonly => true %>
+						</td>						
+					</tr>
+					<tr>
+						<td class="label"><%= f.label :customer_phone, "CUSTOMER PHONE:" %></td>
+						<td class="pleft">
+							<%= c.text_field :customer_phone, :value => "#{@claim.customer.customer_phone}" %>
+						</td>						
+					</tr>
+					<tr>
+						<td class="label"><%= f.label :mobile_phone, "CUSTOMER MOBILE PHONE:" %></td>
+						<td class="pleft">
+							<%= c.text_field :mobile_phone, :value => "#{@claim.customer.mobile_phone}" %>
+						</td>						
+					</tr>				
+					<tr>
+						<td class="label"><%= f.label :work_phone, "CUSTOMER WORK PHONE:" %></td>
+						<td class="pleft">
+							<%= c.text_field :work_phone, :value => "#{@claim.customer.work_phone}" %>
+						</td>						
+					</tr>
+					<tr>
+						<td class="label">
+							<a href="#quick_email_customer_<%= @claim.id %>" role="button" data-toggle="modal">
+								<%= f.label :email, "CUSTOMER EMAIL:" %>
+							</a>
+						</td>
+						<td class="pleft" style="display: inline-flex;">
+							<%= c.text_field :email, :value => "#{@claim.customer.email}" %>
+							<!--<a href="#quick_email_<%#= @claim.id %>" role="button" data-toggle="modal" style="margin: 4px -20px 0px 0px;">
+								<img alt="Mail_write" src="/assets/icons/mail_write.png">
+							</a> -->
+						</td>
+					</tr>
+				<% end %>
+				<%= f.fields_for :repair do |c| %>					
+					<tr>
+						<td class="label"><%= c.label :service_charge, "SC CHARGE :" %></td>
+						<td>
+							<% service_charge = '%.2f' % c.object.service_charge.to_f %>
+							<%= c.text_field :service_charge, :value => service_charge %>							
+						</td>
+					</tr>
+				<% end %>
+				<tr>
+					<td class="label"><%= f.label :claim_type, "CLAIM TYPE / SOURCE:" %></td>
+					<td class="pleft"><%= f.select :claim_type, options_for_select([["Customer", "customer"], ["Call Center", "call_center"]]) %></td>						
+				</tr>
+				<tr>
+					<td class="label"><%= f.label :claim_text, "CLAIM DESCRIPTION :" %></td>
+					<td><%= f.text_area :claim_text, :style => "height:55px;" %></td>						
+				</tr>
+				<tr>
+					<td class="label"><%#= f.label :notes, "NOTES :" %></td>
+					<td>
+						<!--	<%#= f.text_area :notes, :style => "height:55px;" %>
+							<%#= link_to "ATTACH", "#", :class => "btn btn-primary", :style =>"margin-right:30px;height: 13px;padding: 1px 5px 5px 5px;" %>
+							<%#= file_field_tag :note_image %>
+							<span id="submit_note" class="btn btn-primary pull-right" style="margin-right:30px;height: 13px;padding: 1px 5px 5px 5px;">ADD NOTE</span> 
+						-->
+						<a data-toggle="modal" href="#add_notes_<%= @claim.id %>" class="btn btn-primary" style="height: 13px;padding: 1px 5px 5px 5px;">ADD NOTE</a>
+						<br><br>
+					</td>						
+				</tr>					
+			</table>
+		</td>
+		<td valign="top" style="width:300px;">
+			<table class="form_table claim_edit_cls">
+				<tr>
+					<td class="label"></td>
+					<td class="pleft"></td>
+					<br><br>
+				</tr>
+				<tr>
+					<td class="label"><%= f.label :age, "AGE :" %></td>
+					<td class="pleft"><%= f.number_field :age %></td>						
+				</tr>
+				<tr>
+					<td class="label"><%= f.label :make, "MAKE :" %></td>
+					<td class="pleft"><%= f.text_field :make %></td>						
+				</tr>
+				<tr>
+					<td class="label"><%= f.label :model, "MODEL :" %></td>
+					<td class="pleft"><%= f.text_field :model %></td>						
+				</tr>
+				<tr>
+					<td class="label"><%= f.label :size, "SIZE :" %></td>
+					<td class="pleft"><%= f.text_field :size %></td>						
+				</tr>
+				<tr>
+					<td class="label"><%= f.label :serial, "SERIAL :" %></td>
+					<td class="pleft"><%= f.text_field :serial %></td>						
+				</tr>
+				<tr>
+					<td class="label"><%= f.label :condition, "CONDITION :" %></td>
+					<td><%= f.select :condition, options_for_select([["Excellent", "Excellent"], ["Good", "Good"], ["Fair", "Fair"], ["Poor", "Poor"]], @claim.condition) %></td>						
+				</tr>
+				<tr>
+					<td class="label"><%= f.label :estimate, "ESTIMATE :" %></td>
+					<td>
+						<% estimate = '%.2f' % f.object.estimate.to_f %>
+						<%= f.text_field :estimate, :value => estimate %>
+					</td>						
+				</tr>
+				<tr>
+					<td class="label"><%= f.label :approve_amount, "CUST APPROVED AMOUNT :" %></td>
+					<td>
+						<% approve_amount = '%.2f' % f.object.approve_amount.to_f %>
+						<%= f.text_field :approve_amount, :value => approve_amount %>
+					</td>						
+				</tr>
+			</table>
+		</td>
+		<td valign="top" style="width:360px;">
+			<table class="form_table claim_edit_cls">
+				<%# if @claim.contractor.present? %>
+				<tr>
+					<td class="label"><label>CONTRACTOR ID:</label></td>
+					<td>
+						<% if @claim.contractor.present? %>
+							<h4><%= link_to @claim.contractor.id, "/admin/contractors/edit/#{@claim.contractor.id}", :target => "_blank" %></h4><br>
+						<% else %>
+							<%= text_field_tag :contractor_id, '', :readonly => true %>
+						<% end %>
+						<!-- <%# if @claim.contractor.present? %><p style="word-break: break-all;">				
+								<%#= link_to @claim.contractor.contractor_id_with_cr, "/admin/contractors/edit/#{@claim.contractor.id}" %>-<%#= @claim.contractor.contractor_full_detail_without_id.html_safe %></p>
+							<%# else %>
+								(ID#) - Phone/Fax/Email/Address
+								<br><br>
+								(ID#) - Phone/Fax/Email/Address
+								<br><br>
+							<%# end %> -->
+					</td>						
+				</tr>
+				<tr>
+					<td class="label"><label>CONTRACTOR NAME:</label></td>
+					<td>
+						<% if @claim.contractor.present? %>
+							<%= text_field_tag :company, @claim.contractor.company, :readonly => true %>
+						<% else %>
+							<%= text_field_tag :company, '', :readonly => true %>
+						<% end %>
+					</td>
+				</tr>
+				<tr>
+					<td class="label"><label>CONTRACTOR ADDRESS:</label></td>
+					<td>
+						<% if @claim.contractor.present? %>
+							<%= text_field_tag :contractor_address, @claim.contractor.address, :readonly => true %>
+						<% else %>
+							<%= text_field_tag :contractor_address, '', :readonly => true %>
+						<% end %>
+					</td>
+				</tr>
+				<tr>
+					<td class="label">
+						<label>
+							<a href="#quick_email_<%= @claim.id %>" role="button" data-toggle="modal">
+								CONTRACTOR EMAIL:
+							</a>
+						</label>
+					</td>
+					<td>
+						<% if @claim.contractor.present? %>
+							<%= text_field_tag :contractor_email, @claim.contractor.email, :readonly => true %>
+						<% else %>
+							<%= text_field_tag :contractor_email, '', :readonly => true %>
+						<% end %>
+					</td>
+				</tr>
+				<tr>
+					<td class="label"><label>CONTRACTOR PHONE:</label></td>
+					<td>
+						<% if @claim.contractor.present? %>
+							<%= text_field_tag :contractor_phone, @claim.contractor.phone, :readonly => true %>
+						<% else %>
+							<%= text_field_tag :contractor_phone, '', :readonly => true %>
+						<% end %>
+					</td>
+				</tr>
+				<tr>
+					<td class="label"><label>CONTRACTOR FAX:</label></td>
+					<td>
+						<% if @claim.contractor.present? %>
+							<%= text_field_tag :contractor_fax, @claim.contractor.fax, :readonly => true %>
+						<% else %>
+							<%= text_field_tag :contractor_fax, '', :readonly => true %>
+						<% end %>
+					</td>
+				</tr>
+				<%= f.fields_for :contractor do |c| %>
+					<tr>
+						<td class="label"><%= c.label :lobor_rate, "LABOR RATE :" %></td>
+						<td>
+							<% lobor_rate = '%.2f' % c.object.lobor_rate.to_f %>
+							<%= c.text_field :lobor_rate, :value => lobor_rate %>
+						</td>						
+					</tr>
+					<tr>
+						<td class="label"><%= c.label :min_charge, "MINIMUM/CLAIM :" %></td>
+						<td>
+							<% min_charge = '%.2f' % c.object.min_charge.to_f %>
+							<%= c.text_field :min_charge, :value => min_charge %>
+						</td>						
+					</tr>
+				<% end %>
+				<tr>
+					<td class="label"><%= f.label :invoice_receive, "INVOICE RECEIVED :" %></td>
+					<td>
+						<% if @claim.invoice_receive.present? %>
+						<%= f.text_field :invoice_receive, :value => @claim.invoice_receive.strftime("%m/%d/%Y") ,:class => "datepicker",:readonly => true %>
+						<% else %>
+							<%= f.text_field :invoice_receive, :class => "datepicker", :readonly => true %>
+						<% end %>								
+					</td>						
+				</tr>
+				<tr>
+					<td class="label"><%= f.label :invoice_amount, "INVOICE AMOUNT :" %></td>
+					<td>
+						<% invoice_amount = '%.2f' % f.object.invoice_amount.to_f %>
+						<%= f.text_field :invoice_amount, :value => invoice_amount %>
+					</td>						
+				</tr>
+				<tr>
+					<td class="label"><%= f.label :invoice_status, "INVOICE STATUS :" %></td>
+					<td><%= f.select :invoice_status, options_for_select(Claim::INVOICE_STATUS.collect{ |u| [u, u] }, @claim.invoice_status), {prompt: 'SELECT STATUS'} %></td>						
+				</tr>
+				<%= f.fields_for :repair do |c| %>					
+					<tr>
+						<td class="label"><%= c.label :amount, "CTR AUTHORIZED AMOUNT :" %></td>
+						<td>
+							<% amount = '%.2f' % c.object.amount.to_f %>
+							<%= c.text_field :amount, :value => amount %>							
+						</td>
+					</tr>
+				<% end %>
+				<tr>
+					<td class="label"><%= f.label :ctr_check, "CTR CHECK #:" %></td>
+					<td>
+						<%= f.text_field :ctr_check %>							
+					</td>
+				</tr>
+				<tr>
+					<td class="label"><%= f.label :ctr_check_date, "CTR CHECK DATE:" %></td>
+					<td>
+						<% if @claim.ctr_check_date.present? %>
+						<%= f.text_field :ctr_check_date, :value => @claim.ctr_check_date.strftime("%m/%d/%Y") , :class => "datepicker" %>
+						<% else %>
+							<%= f.text_field :ctr_check_date, :class => "datepicker" %>
+						<% end %>								
+					</td>
+				</tr>
+				<tr>
+					<td class="label"></td>
+					<td>
+						<% if @claim.repair.present? %>
+							<%= link_to "WORK ORDER", "/admin/repairs/work_order/#{@claim.repair.id}", :target => "_blank",:class => "btn" %>
+						<% end %>								
+					</td>						
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3" style="margin: 0px;padding: 0px;">
+			<div style="margin:1%;">
+				<%= f.submit "Update", :class => "btn", :style => "width:200px;" %>
+			</div>
+			<hr style="margin: 0px;padding: 0px;">
+		</td>
+	</tr>
+</table>

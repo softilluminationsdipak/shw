@@ -1,0 +1,24 @@
+<%= fields_for 'packages[]', package do |f| %>
+	<% cycle_class = cycle('', ' stripe') %>
+	<tr class="hoverable<%=cycle_class%>">
+		<td style="text-align: right;"><%=package.package_name%></td>
+		<% Package::HOME_TYPES.each do |type| %>
+			<td><%= f.text_field "#{type}_price".to_sym, :size => 6 %></td>
+		<% end %>
+	</tr>
+	<tr class="hoverable<%=cycle_class%>">
+		<td class="gray" style="text-align: right;" valign="top">Covers</td>
+		<td colspan="<%=Package::HOME_TYPES.length%>">
+			<% @package_coverage_sets.each do |set| %>
+				<ul class="packages_coveragesList">
+				<% set.each do |coverage| %>
+					<li>
+						<%=check_box_tag "packages[#{package.id}][coverage_ids][]", coverage.id, package.coverage_ids.include?(coverage.id)%>
+						<%=coverage.coverage_name%>
+					</li>
+				<% end %>
+				</ul>
+			<% end %>
+		</td>
+	</tr>
+<% end %>

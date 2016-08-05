@@ -1,0 +1,32 @@
+<div class="fixed-width">
+  <div class="sidebar">
+    <img src="<%= image_path 'pictures/plans.jpg' %>" class="photo" alt="" />
+    <div class="interested-info">
+      <%= h Content.for(:plans) %>
+      <%= render :partial => 'homeowners_table' %>
+    </div>
+  </div><!-- /sidebar -->
+  <div class="main-area">
+    <h2>Coverage Plans</h2>
+	  <%= render :partial => 'plans_table' %>
+    <h4>Please take advantage of the Optional Coverage Below:</h4>
+    <div id="plans-coverages" style="display: inline-flex;">
+      <% @optional_coverages.each do |group| %>
+        <ul>
+          <% group.each do |coverage|
+           unless coverage.nil? %><li><%= coverage %></li>
+          <% end end %>
+        </ul>
+      <% end %>
+    </div>
+    <div class="get-quote">
+      <a href="<%= quote_path %>" class="get-quote-btn"><strong>Get a Free Quote Now</strong></a>
+    </div>
+  </div>
+</div>
+<%= google_analytics_js %>
+<script type = "text/javascript" >
+   function preventBack(){window.history.forward();}
+    setTimeout("preventBack()", 0);
+    window.onunload=function(){null};
+</script>

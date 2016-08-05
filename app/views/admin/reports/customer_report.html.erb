@@ -1,0 +1,107 @@
+<div class="row-fluid">
+  <ul class="breadcrumb">
+    <%= render_breadcrumbs :separator => ' / ' %>
+    <li class="pull-right">
+      
+      <span id="without_full_info">
+        Download:
+        <%= link_to "CSV", "/admin/reports/customer_report?property_state=#{params[:property_state]}&status=#{params[:status]}&format=csv", :id => "comp_rept_csv" %> |
+        <%= link_to "Excel", "/admin/reports/customer_report?property_state=#{params[:property_state]}&status=#{params[:status]}&format=xls", :id => "comp_rept_excel" %> 
+      </span>
+      <span id="with_full_info" style="display:none;">
+        Download:
+        <%= link_to "CSV", "/admin/reports/customer_report?property_state=#{params[:property_state]}&status=#{params[:status]}&full_property_info=true&format=csv", :id => "comp_rept_csv" %> |
+        <%= link_to "Excel", "/admin/reports/customer_report?property_state=#{params[:property_state]}&status=#{params[:status]}&full_property_info=true&format=xls", :id => "comp_rept_excel" %> 
+      </span>
+      <%= check_box_tag "full_property_info" %>&nbsp;Include Property Address
+    </li>
+  </ul>
+</div>
+<div id="layout_content">
+  <table>
+    <tr>
+      <td>
+        <div style="padding:1%;width:60%;">
+          <%= form_tag "/admin/reports/customer_report", :method => 'GET' do %>
+            <table>
+              <tr>
+                <td><label for="from">State</label></td>
+                <td>
+                  <%= select_tag 'property_state', options_for_select(State.all.map(&:name).collect{ |u| [u, u] }, params[:state]), :style => "width: 100%;" %>
+                </td>&nbsp;&nbsp;&nbsp;&nbsp;
+              <td><label for="to">Customer Status</label></td>
+              <td>
+                <%= select_tag 'status', options_for_select(CustomerStatus.all.collect{ |u| [u.customer_status, u.csid] }, params[:status]) %>
+              </td>
+              <td><%= submit_tag "Search", :name => nil %></td>
+            </tr>
+            </table>
+          <% end %>
+        </div>
+      </td>
+      <td>
+        <h4>Customer Founds : <%= @customers.present? ? @customers.count : 0 %></h4>
+      </td>
+    </tr>
+  </table>
+  <% if @customers.present? %>
+    <table class="table table-condensed table-striped table-bordered sortable_table">
+      <thead>
+        <tr>
+          <th><strong>ID</strong></th>
+          <th><strong>Email</strong></th>
+          <th><strong>First Name</strong></th>
+          <th><strong>Last Name</strong></th>
+          <th><strong>Phone Number</strong></th>
+          <th><strong>Status ID</strong></th>
+          <th><strong>Created At</strong></th>
+          <th><strong>Updated At</strong></th>
+          <th><strong>City</strong></th>
+          <th><strong>State</strong></th>
+          <th><strong> # of transactions</strong></th>
+          <th><strong>Total Transactions</strong></th>
+          <th><strong>Transaction Date</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @customers.each do |customer| %>
+          <% if customer.present? %>
+            <tr>
+              <td><%= customer.id %></td>
+              <td><%= customer.email %></td>
+              <td><%= customer.first_name %></td>
+              <td><%= customer.last_name %></td>
+              <td><%= customer.customer_phone %></td>
+              <td><%= customer.status %></td>
+              <td><%= customer.created_at.strftime("%m-%d-%y") if customer.created_at.present? %></td>
+              <td><%= customer.updated_at.strftime("%m-%d-%y") %></td>
+              <td><%= customer.addresses.last.city %></td>
+              <td><%= customer.state.upcase %></td>
+              <td><%= customer.transactions.count %></td>
+              <td><%= customer.transaction_total_amount_with_success if customer.transactions.present? %></td>
+              <td><%= customer.transaction_first_approve_date if customer.transactions.present? %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+    <%= will_paginate @customers, :param_name => :customers %>
+  <% else %>
+    <h4 class="breadcrumb"><p>No Records Present Yet!</p></h4>
+  <% end %>
+</div>
+<script>
+  jQuery("#full_property_info").change(function(){
+    fpinfo = jQuery("#full_property_info").is(':checked')
+    if(fpinfo == true){
+      jQuery("#without_full_info").hide();
+      jQuery("#with_full_info").show();
+    }else{
+      jQuery("#without_full_info").show();
+      jQuery("#with_full_info").hide();
+    }
+  })
+  jQuery(document).ready(function(){
+    jQuery("#full_property_info").attr('checked', false)
+  });
+</script>

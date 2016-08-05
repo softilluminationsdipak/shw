@@ -1,0 +1,83 @@
+<%= form_tag "/admin/reports/affiliate_and_leads", :method => 'post' do %>
+  <p>
+    <span id="datpicker-2">
+      <%= text_field_tag :mweek_start, params[:mweek_start], :placeholder => "Select Date" %>
+      -
+      <%= text_field_tag :mweek_end, params[:mweek_end], :placeholder => "Select Date" %>
+    </span>
+    <%= submit_tag "View Reports", :name => nil, :class => "btn" %>
+  </p>
+<% end %>
+
+<hr>
+
+<% if @api_customer_r.present? %>
+  <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<% else %>
+  No Results Found!
+<% end %>
+
+
+
+<script type="text/javascript">
+
+  $(function () {
+  $('#container').highcharts({
+    chart: {
+      type: 'area'
+    },
+    title: {
+      text: 'Lead By Affiliate'
+    },
+    xAxis: {
+        type: "datetime",
+        labels: {
+          formatter: function() {
+            var monthStr = Highcharts.dateFormat('%b-%e-%y', this.value);
+            return monthStr;
+          }
+        }
+      },
+    yAxis: {
+      title: {
+        text: '# of leads'
+      },
+      labels: {
+        formatter: function() {
+          return this.value;
+        }
+      }
+    },
+    tooltip: {
+      pointFormat: '# of leads - <b>{point.y:,.0f}</b>'
+    },
+    series: [
+      <% @customer_group_with_partner.keys.each_with_index do |key,index| %>
+        <% partner = Partner.find_by_id(key) %>
+        <% if @customer_group_with_partner.keys.count == index+1 %>
+          <% if partner.present? %>
+            {
+            name: '<%= partner.email %>',
+            pointInterval: <%= 1.day * 1000 %>,
+            pointStart: <%= @mweek_start.to_i * 1000 %>,
+            data: <%= (@mweek_start.to_date..@mweek_end).map { |dt| Customer.joins(:partner).where("DATE(customers.created_at) = ? and partners.id = ? and partners.company_api_access = ?", dt, key, "Approved").count }%>
+            }
+          <% end %> 
+        <% else %>
+          <% if partner.present? %>
+              {
+              name: '<%= partner.email %>',
+              pointInterval: <%= 1.day * 1000 %>,
+              pointStart: <%= @mweek_start.to_i * 1000 %>,
+                data: <%= (@mweek_start.to_date..@mweek_end).map { |dt| Customer.joins(:partner).where("DATE(customers.created_at) = ? and partners.id = ? and partners.company_api_access = ?", dt, key, "Approved").count  }%>
+              },
+          <% end %>
+        <% end %>
+      <% end %>
+      ]
+  });
+});
+    
+</script>
+
+

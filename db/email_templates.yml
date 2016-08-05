@@ -1,0 +1,705 @@
+--- 
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "3"
+    locked: "1"
+    body: |-
+      <p>Congratulations! You are now part of a select group of homeowners who made the intelligent choice of purchasing a home service contract from Select Home Warranty.<p>
+      
+      <p>This contract will protect your home systems and appliances from sudden break-down and at the same time protect your budget. We will provide you with quality coverage, timely and courteous customer service. This investment will pay for itself.</p>
+      
+      <p>Please look over your contract agreement and make sure all of the information is correct by browsing to <a href="https://selecthomewarranty.com/admin/customers/contract/{customer id}">https://selecthomewarranty.com/admin/customers/contract/{customer id}</a>. Alternatively, you may electronically sign your contract by browsing to <a href="https://selecthomewarranty.com/admin/customers/esign/{customer id}">https://selecthomewarranty.com/admin/customers/esign/{customer id}</a>.</p>
+      
+      <p>You may log in to our customer administrative interface by navigating to <a href="http://selecthomewarranty.com/admin/login">http://selecthomewarranty.com/admin/login</a> or by clicking the "Customer Login" link on <a href="http://selecthomewarranty.com">http://selecthomewarranty.com</a></p>
+      <p>Your username is your email address: {customer email}</p>
+      <p>Your password is: <strong>{the password}</strong></p>
+      
+      <p>Should you need to make a service call, please call us at <strong>{support phone}</strong>.</p>
+    subject: Welcome to Select Home Warranty, {customer name}
+    name: Welcome
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "4"
+    locked: "0"
+    body: |-
+      <table cellspacing="8">
+      			<tr>
+      				<td colspan="2">{image logo}</td>
+      			</tr>
+      			<tr>
+      				<td class="label">Contract:</td>
+      				<td>{customer contract_number}</td>
+      			</tr>
+      			<tr>
+      				<td class="label">Buyer Name:</td>
+      				<td>{customer name}</td>
+      			</tr>
+      			<tr>
+      				<td class="label">Cvg. Address:</td>
+      				<td>{customer full_address}</td>
+      			</tr>
+      			<tr>
+      				<td class="label">Coverage:</td>
+      				<td>
+      					{customer package_name} for ${customer pay_amount} annually<br>
+      					<span class="gray">{customer package_covers}</span>
+      				</td>
+      			</tr>
+      			<tr>
+      				<td class="label">&nbsp;</td>
+      				<td>{customer coverage_option_names}</td>
+      			</tr>
+      			<tr>
+      				<td class="label">Please send check to:</td>
+      				<td>
+      					<br><strong>Select Home Warranty<br>
+                              One International Blvd.<br>
+                              Suite 400<br>
+                              Mahwah, New Jersey 07495-0400<br>
+
+      					<a href="mailto:info@selecthomewarranty.com">info@selecthomewarranty.com</a>
+      				</td>
+      			</tr>
+      		</table>
+      		<p>
+      			What you can expect from Select Home Warranty:<br>
+      			<ul>
+      				<li>Help in protection from unexpected repair and replacement expenses on covered systems and appliances</li>
+      				<li>24-hours a day, seven days a week, one call convenience to our service line</li>
+      				<li>Service provided by pre-screened, licensed, and insured local technicians</li>
+      			</ul><br>
+      			If you have any questions, please call me at <strong>{support phone}</strong>.
+      		</p>
+      		
+      		<p class="indent_30">Thank You,</p>
+      		<p class="indent_30"><strong>{my name}</strong></p>
+    subject: Proforma Invoice {customer contract_number}
+    name: Proforma
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "6"
+    locked: "1"
+    body: ""
+    subject: New Web Order, Customer {customer contract_number}
+    name: New Web Order
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "7"
+    locked: "1"
+    body: |-
+      <table>
+      	<tr>
+      		<td class="label">Full Name:</td>
+      		<td colspan="3">{the name}</td>
+      	</tr>
+      	<tr>
+      		<td class="label">Company Name:</td>
+      		<td colspan="3">{the company_name}</td>
+      	</tr>
+      	<tr>
+      		<td class="label">Email:</td>
+      		<td colspan="3">{the email}</td>
+      	</tr>
+      	<tr>
+      		<td class="label">Phone No.:</td>
+      		<td colspan="3">{the phone}</td>
+      	</tr>
+      	<tr>
+      		<td class="label">Address:</td>
+      		<td colspan="3">{the address}</td>
+      	</tr>
+      	<tr>
+      		<td class="label">City:</td>
+      		<td colspan="3">{the city}</td>
+      	</tr>
+      	<tr>
+      		<td class="label">State:</td>
+      		<td>{the state}</td>
+      		<td class="label">Zip:</td>
+      		<td>{the zip}</td>
+      	</tr>
+      	<tr>
+      		<td class="label" style="vertical-align: top;">Comments:</td>
+      		<td colspan="3">{the comments}</td>
+      	</tr>
+      </table>
+    subject: Request to Join NHW
+    name: Join Our Team
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "8"
+    locked: "1"
+    body: |-
+      <table>
+      	<tr>
+      		<td class="label">Full Name:</td>
+      		<td colspan="3">{the name}</td>
+      	</tr>
+      	<tr>
+      		<td class="label">Company Name:</td>
+      		<td colspan="3">{the company_name}</td>
+      	</tr>
+      	<tr>
+      		<td class="label">Email:</td>
+      		<td colspan="3">{the email}</td>
+      	</tr>
+      	<tr>
+      		<td class="label">Phone No.:</td>
+      		<td colspan="3">{the phone}</td>
+      	</tr>
+      	<tr>
+      		<td class="label">Address:</td>
+      		<td colspan="3">{the address}</td>
+      	</tr>
+      	<tr>
+      		<td class="label">City:</td>
+      		<td colspan="3">{the city}</td>
+      	</tr>
+      	<tr>
+      		<td class="label">State:</td>
+      		<td>{the state}</td>
+      		<td class="label">Zip:</td>
+      		<td>{the zip}</td>
+      	</tr>
+      	<tr>
+      		<td class="label" style="vertical-align: top;">Comments:</td>
+      		<td colspan="3">{the comments}</td>
+      	</tr>
+      </table>
+    subject: Request to become NHW Contractor
+    name: Become Contractor
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "9"
+    locked: "1"
+    body: "<table cellspacing=\"8\">\r\n\
+      \t\t\t<tr>\r\n\
+      \t\t\t\t<td colspan=\"2\">{image logo}</td>\r\n\
+      \t\t\t</tr>\r\n\
+      \t\t\t<tr>\r\n\
+      \r\n\
+      \r\n\
+      Thank you for your purchase from Select Home Warranty contract {customer contract_number}.<br> Failure to contact us in a timely manner will cause a lapse in coverage.<br>\r\n\
+      \r\n \r\n\
+      \r\n\
+      <br>Please take a minute to contact our billing department in reference to your account.<br>\r\n\
+      \r\n\
+      <br>Thank you, <br>\r\n\
+      \r\n\
+      <br>Billing Department<br>\r\n\
+      \r\n\
+      <br>Select Home Warranty<br>\r\n\
+      \r\n\
+      <br>Phone:  {installation phone}<br> \r\n\
+      \r\n\
+      <br>Fax:      {installation fax}<br>\r\n\
+      \r\n\
+      <br>http://selecthomewarranty.com\r\n\
+      <br>\r\n\
+      \t\t\t\t\t\r\n\
+      <br>P Please don't print this email unless you really need to.<br>\r\n\
+      \r\n\
+      <br><i>Confidential \xE2\x80\x93 For Select Home Warranty Internal Use Only: This transmission is intended for the use of the addressee and may contain information that is privileged, confidential and exempt from disclosure under applicable law.  If you are not the intended recipient, or the employee or agent responsible for delivering the message to the intended recipient, you are hereby notified that any dissemination, distribution, or copy of this communication is strictly prohibited.  If you received this communication in error, please notify the sender immediately.</i><br>\r\n\
+      \r\n\
+      \t\t\t\t\r\n \r\n"
+    subject: Select Home Warranty
+    name: Billing
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "10"
+    locked: "0"
+    body: "<table cellspacing=\"8\">\r\n\
+      \t\t\t<tr>\r\n\
+      \t\t\t\t<td colspan=\"2\">{image logo}</td>\r\n\
+      \t\t\t</tr>\r\n\
+      \t\t\t<tr>\r\n \r\n\
+      \r\n\
+      <br>Your business is important to us, please contact our renewal department today to take advantage of special Renewal Rates.<br>{customer contract_number}\r\n\
+      \r\n\
+      <br>Thank you, <br>\r\n\
+      <br>Renewal Department<br>\r\n\
+      <br>Select Home Warranty<br>\r\n\
+      <br>Phone:  {installation phone} <br> \r\n\
+      <br>Fax:      {installation fax}<br>\r\n\
+      <br>http://selecthomewarranty.com\r\n\
+      <br>\r\n\
+      \t\t\t\t\t\r\n\
+      <br>P Please don't print this email unless you really need to.<br>\r\n\
+      \r\n\
+      <br><i>Confidential \xE2\x80\x93 For Select Home Warranty Internal Use Only: This transmission is intended for the use of the addressee and may contain information that is privileged, confidential and exempt from disclosure under applicable law.  If you are not the intended recipient, or the employee or agent responsible for delivering the message to the intended recipient, you are hereby notified that any dissemination, distribution, or copy of this communication is strictly prohibited.  If you received this communication in error, please notify the sender immediately.</i><br>\r\n\
+      \r\n\
+      \t\t\t\t\r\n \r\n"
+    subject: Select Home Warranty
+    name: renewal
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "12"
+    locked: "0"
+    body: |-
+      <table cellspacing="8">
+      			<tr>
+      				<td colspan="2">{image logo}</td>
+      			</tr>
+      			<tr>
+      								</td>
+      			</tr>
+      		</table>
+      		<p>Thank you for your interest in a home warranty plan from Select Home Warranty, a leader in the home warranty industry. We have promotions available for customers buying with us for the first time, as well as multi-policy and multi-year discounts. Please call our sales staff or go online and use discount code
+      <strong>NWOCT10</strong> and receive a <strong>10% discount</strong>. Use this code for multiple year and multi-policy discounts, even referral discounts.
+      
+      <tr>
+      			<br>What you can expect from Select Home Warranty:</br>
+      			<ul>
+      				<li>Help in protection from unexpected repair and replacement expenses on covered systems and appliances</li>
+      				<li>24-hours a day, seven days a week, one call convenience to our service line</li>
+      				<li>Service provided by pre-screened, licensed, and insured local technicians</li>
+      			</ul><br>
+      			Please take a moment to call our information hotline with any questions and for our latest available promotions, please call us at <strong>{support phone}</strong>.
+      		</p>
+      		
+      		<p class="indent_30">Thank You,</p>
+      		<p class="indent_30"><strong>{my name}</strong></p>
+    subject: ""
+    name: discount code
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "13"
+    locked: "1"
+    body: |
+      <strong>Claimed Items:</strong><br>
+      {the summary}
+      <br>
+      <br>
+      <strong>Claim:</strong><br>
+      {the text}
+
+    subject: New Claim by Customer {customer contract_number}
+    name: New Claim by Customer
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "14"
+    locked: "1"
+    body: |-
+      Dear {contractor company}, 
+      <br/><br/>
+      Thank you for taking an interest in becoming a vendor for Select Home Warranty, a leader in the 
+      home warranty industry. Your role as a service provider will go a long way in assuring our customers' 
+      satisfaction.  
+      <br/><br/>
+      Please take a minute to complete all attached materials.
+      <br/><br/>
+    subject: Welcome to Select Home Warranty
+    name: Welcome Contractor
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "16"
+    locked: "0"
+    body: |-
+      <table cellspacing="8">
+      			<tr>
+      				<td colspan="2">{image logo}</td>
+      			</tr>
+      			<tr>
+      				<td class="label">Contract:</td>
+      				<td>{customer contract_number}</td>
+      			</tr>
+      			<tr>
+      				<td class="label">Customer Name:</td>
+      				<td>{customer name}</td>
+      			</tr>
+      			<tr>
+      				<td class="label">Coverage Address:</td>
+      				<td>{customer full_address}</td>
+      			</tr>
+      			<tr>
+      				<td class="label">Coverage:</td>
+      				<td>
+      					{customer package_name} for ${customer pay_amount} annually<br>
+      				<span class="gray">{customer package_covers}</span>
+      				</td>
+      			</tr>
+      			<tr>
+      				<td class="label">&nbsp;</td>
+      				<td>{customer coverage_option_names}</td>
+      			</table>	
+      		<p>
+      			What you can expect from Select Home Warranty:<br>
+      			<ul>
+      				<li>Help in protection from unexpected repair and replacement expenses on covered systems and appliances</li>
+      				<li>24-hours a day, seven days a week, one call convenience to our service line</li>
+      				<li>Service provided by pre-screened, licensed, and insured local technicians</li>
+      			</ul><br>
+      			If you have any questions, please call me at <strong>{support phone}</strong>.
+      		</p>
+      		
+      		<p class="indent_30">Thank You,</p>
+      		<p class="indent_30"><strong>{my name}</strong></p>
+    subject: Your Price Quote
+    name: Price Quote
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "17"
+    locked: "0"
+    body: "Dear {customer name},<br/>\r\n\
+      <br/>\r\n\
+      Your request for service has been assigned to {contractor company}, an authorized Select Home Warranty service technician. You may now contact {contractor company} at {contractor phone}  to schedule a mutually convenient service appointment.<br/>\r\n\
+      <br/>\r\n\
+      If you do not have an appointment scheduled with your authorized Select contractor within 48 hours, please call us at {installation phone} option 2 so that we may assist you in getting an appointment scheduled.<br/>\r\n\
+      <br/>\r\n\
+      Please remember that upon the technician\xE2\x80\x99s arrival you will be required to pay the {the service_charge} service call fee.\r\n\
+      Should you have any questions feel free to call our claims department at {installation phone}.<br/>\r\n <br/>\r\n <br/>\r\n\
+      Thank you,<br/>\r\n\
+      Select Home Warranty<br/>\r\n\
+      Claims Department<br/>\r\n\
+      <a href=\"mailto:info@selecthomewarranty.com\">info@selecthomewarranty.com</a><br/>\r\n "
+    subject: Contractor Assigned to Select Home Warranty Claim {customer contract_number}
+    name: Contractor Assigned
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "18"
+    locked: "0"
+    body: "<table cellspacing=\"8\">\r\n\
+      \t\t\t<tr>\r\n\
+      \t\t\t\t<td colspan=\"2\">{image logo}</td>\r\n\
+      \t\t\t</tr>\r\n\
+      \t\t\t<tr>\r\n\
+      \r\n\
+      <br>Contract {customer contract_number}<br>Your claim has been placed in our system. Please send back your signed contract as soon as possible so that we may dispatch a contractor in a timely manner. Failure to do so will cause a delay in your service time. <br>\r\n\
+      Thank you for contacting Select Home Warranty's claims department. \r\n \r\n\
+      <br>Thank you, <br>\r\n\
+      \r\n\
+      <br>Claims Department<br>\r\n\
+      \r\n\
+      <br>Select Home Warranty<br>\r\n\
+      \r\n\
+      <br>Phone:  {installation phone} <br> \r\n\
+      \r\n\
+      <br>Fax:      {installation fax}<br>\r\n\
+      \r\n\
+      <br>http://selecthomewarranty.com\r\n\
+      <br>\r\n\
+      \t\t\t\t\t\r\n\
+      <br>P Please don't print this email unless you really need to.<br>\r\n\
+      \r\n\
+      <br><i>Confidential \xE2\x80\x93 For Select Home Warranty Internal Use Only: This transmission is intended for the use of the addressee and may contain information that is privileged, confidential and exempt from disclosure under applicable law.  If you are not the intended recipient, or the employee or agent responsible for delivering the message to the intended recipient, you are hereby notified that any dissemination, distribution, or copy of this communication is strictly prohibited.  If you received this communication in error, please notify the sender immediately.</i><br>\r\n"
+    subject: Signed Contract Reminder
+    name: Signed contract Reminder
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "19"
+    locked: "0"
+    body: |
+      Dear Valued Customer,<br>
+      
+      Please be advised that your claim is presently pending in our system. We require more information to proceed with your claim 				 Contract :
+      				{customer contract_number}.<br> At this time, we are requesting that you supply additional information on the unit in question (i.e. maintenance records/reports, repair records/invoices, etc.) You may fax them to {installation fax}  Attention: Claims Department; or email them to claims@selecthomewarranty.com. Please note, if your claim is time sensitive, poses health concerns, or may result in further damages if not immediately repaired, Select Home Warranry encourages you to have the repairs done out of pocket. You may then submit the above info, along with paid invoice, to be reviewed for possible reimbursement. If you have further questions or concerns, please call us Monday through Friday, 10am to 5pm Eastern Standard Time at {installation phone} option 2 and ask for a claims manager so that we may assist you further.<br>
+      
+      Thank you,<br>
+      
+      Select Home Warranty<br>
+      
+      Claims Department
+
+    subject: Current Claim
+    name: Maintenance Records
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "20"
+    locked: "0"
+    body: "<html>\r\n\
+      \r\n            <head>\r\n\
+      \r\n                        <style>\r\n\
+      \r\n                                    body {\r\n\
+      \r\n                                                font-family: Helvetica, Arial, sans-serif;\r\n\
+      \r\n                                                line-height: 1.3em;\r\n\
+      \r\n                                    }\r\n\
+      \r\n                                    \r\n\
+      \r\n                                    table td.label {\r\n\
+      \r\n                                                vertical-align: top;\r\n\
+      \r\n                                                text-align: right;\r\n\
+      \r\n                                                width: 120px;\r\n\
+      \r\n                                    }\r\n\
+      \r\n                                    \r\n\
+      \r\n                                    span.gray { color: gray; }\r\n\
+      \r\n                                    \r\n\
+      \r\n                                    p.indent_30 { text-indent: 30px; }\r\n\
+      \r\n                                    \r\n\
+      \r\n                                    p.left_30 { margin-left: 30px; }\r\n\
+      \r\n                        </style>\r\n\
+      \r\n            </head>\r\n\
+      \r\n            <body>\r\n\
+      \r\n                        {image logo}\r\n\
+      \r\n                        <p>Dear Loyal Customer, we regret to inform you that we no longer offer coverage in your area and your plan will expire 30 days after your last monthly payment was taken. We apologize for any inconvenience that this may cause you.<br></p>\r\n\
+      \r\n\
+      <p>If you have any questions please call us Monday though Friday 10AM - 5PM EST at {installation phone} prompt 4 for our billing department.<br></p>\r\n\
+      \r\n\
+      <p class=\"left_30\">\r\n\
+      \r\n            Thank you,<br />\r\n\
+      \r\n            Billing Department\r\n\
+      \r\n\
+      </p>\r\n\
+      \r\n                        \r\n\
+      \r\n                        <p class=\"left_30\">\r\n\
+      \r\n                                    {installation name}<br />\r\n\
+      \r\n                                   \r\n\
+      \r\n \r\n\
+      \r\n                        <p class=\"left_30\">\r\n\
+      \r\n                                    Please don't print this email unless you really need to.<br />\r\n\
+      \r\n                                    <br />\r\n\
+      \r\n                                    Confidential \xE2\x80\x93 For {installation name} Internal Use Only: This transmission is intended for the use of the addressee and may contain information that is privileged, confidential and exempt from disclosure under applicable law.  If you are not the intended recipient, or the employee or agent responsible for delivering the message to the intended recipient, you are hereby notified that any dissemination, distribution, or copy of this communication is strictly prohibited.  If you received this communication in error, please notify the sender immediately.\r\n\
+      \r\n                        </p>\r\n\
+      \r\n            </body>\r\n\
+      \r\n\
+      </html>\r\n"
+    subject: "Monthly "
+    name: monthly cancellation
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "21"
+    locked: "0"
+    body: |
+      
+      Dear Select Home Warranty Customer:
+      
+      We are writing to you regarding your home warranty contract with Select Home Warranty.  Unfortunately, we are no longer offering home warranty contracts in the State of Nevada.  As a current Select Home Warranty contract holder you have two options.  You may either continue to receive services under your contract until the contract terminates (one year after the date on which your contract took effect) or you may choose to receive a pro rata refund of payments made by you for the remaining term of your coverage.  If you wish to continue to receive service under your home warranty contract with us, then you do not need to do anything.  We will continue to provide the high level of customer service which you have come to rely on until your contract terminates.
+      
+      If you no longer wish to receive service form us under your home warranty contract, you must notify us by mail that you wish to receive a pro rata refund within 45 days of the date of this email/letter.  Refund requests should be mailed to the following address: 
+      
+      Select Home Warranty
+      One International Blvd.
+      Suite 400
+      Mahwah, New Jersey 07495-0400
+      
+      
+      
+      
+      
+      Thank you,
+      
+      
+      Select Home Warranty
+
+    subject: Important Update on your Select Home Warranty
+    name: NV customers cancellation and prorata offer
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "22"
+    locked: "0"
+    body: "<table cellspacing=\"8\">\r\n\
+      \t\t\t<tr>\r\n\
+      \t\t\t\t<td colspan=\"2\">{image logo}</td>\r\n\
+      \t\t\t</tr>\r\n\
+      \t\t\t<tr>\r\n \r\n\
+      <br>Contract {customer contract_number}<br>\r\n\
+      <br>We are writing to you regarding your home warranty contract with Select Home Warranty.  Unfortunately, we are no longer offering home warranty contracts in the State of Nevada.  As a current Select Home Warranty contract holder you have two options.  You may either continue to receive services under your contract until the contract terminates (one year after the date on which your contract took effect) or you may choose to receive a pro rata refund of payments made by you for the remaining term of your coverage.  If you wish to continue to receive service under your home warranty contract with us, then you do not need to do anything.  We will continue to provide the high level of customer service which you have come to rely on until your contract terminates.<br>\r\n\
+      \r\n\
+      <br>If you no longer wish to receive service form us under your home warranty contract, you must notify us by mail that you wish to receive a pro rata refund within 45 days of the date of this email/letter.  Refund requests should be mailed to the following address: <br>\r\n\
+      \r\n\
+      <br>Select Home Warranty<br>\r\n\
+      <br>One International Blvd.<br>
+      Suite 400<br>
+      Mahwah, New Jersey 07495-0400<br>
+      \r\n\
+      \r\n\
+      \t\t\t\t\t\r\n\
+      <br>P Please don't print this email unless you really need to.<br>\r\n\
+      \r\n\
+      <br><i>Confidential \xE2\x80\x93 For Select Home Warranty Internal Use Only: This transmission is intended for the use of the addressee and may contain information that is privileged, confidential and exempt from disclosure under applicable law.  If you are not the intended recipient, or the employee or agent responsible for delivering the message to the intended recipient, you are hereby notified that any dissemination, distribution, or copy of this communication is strictly prohibited.  If you received this communication in error, please notify the sender immediately.</i><br>\r\n\
+      \r\n\
+      \t\t\t\t\r\n \r\n"
+    subject: Important Update on your Select Home Warranty
+    name: nv new
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false
+- !ruby/object:EmailTemplate 
+  attributes: 
+    id: "23"
+    locked: "0"
+    body: |-
+      Dear Select Home Warranty Customer:
+      
+      We are writing to you regarding your home warranty contract with Select Home Warranty.  Unfortunately, we are no longer offering home warranty contracts in your area.  As a current Select Home Warranty contract holder you  will receive a pro rata refund of payments made by you for the remaining term of your coverage.  
+      Rest assured any pending claims will be honored.
+      
+      Thank you,
+      Select Home Warranty
+    subject: No More Service
+    name: No More Service
+  attributes_cache: {}
+
+  changed_attributes: {}
+
+  destroyed: false
+  marked_for_destruction: false
+  new_record: false
+  previously_changed: {}
+
+  readonly: false

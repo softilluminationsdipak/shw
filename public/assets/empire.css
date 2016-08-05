@@ -1,0 +1,475 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-image: url(/images/site/bg.png);
+	background-repeat: repeat-x repeat-y;
+	font-family: Tahoma;
+	font-size: 12px;
+	color: #333;
+}
+
+h1 {
+	color: #578838;
+	font-weight: normal;
+}
+body.trident h1 {
+	font-size: 30px;
+}
+h2 {
+	color: #837F74;
+	font-weight: normal;
+}
+.inline {
+	display: inline;
+	margin: 0;
+}
+a {
+	color: #578838;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+p {
+	line-height: 1.5em;
+}
+/*** Layout ***/
+#layout_body {
+	width: 840px;
+	margin: 0 auto 0 auto;
+	background-image: url(/images/site/body_bg.png);
+	background-repeat: repeat-y;
+	padding: 20px 55px 20px 55px;
+}
+#layout_body > *:first-child {
+	margin-top: 0;
+}
+#layout_nav {
+	width: 900px;
+	height: 56px;
+	margin: 0 auto 0 auto;
+	background-image: url(/images/site/nav_bg_56.png);
+	background-repeat: repeat-x;
+	text-align: center;
+}
+#layout_header {
+	width: 950px;
+	height: 175px;
+/*	background-image: url(/images/site/header.png); */
+	margin: 0 auto 0 auto;
+}
+#layout_footer {
+	width: 840px;
+	height: 100%;
+	margin: 0 auto 0 auto;
+	background-image: url(/images/site/body_bg.png);
+	background-repeat: repeat-y;
+	padding: 40px 55px 20px 55px;
+	text-align: center;
+}
+#layout_cap {
+	width: 950px;
+	height: 34px;
+	margin: 0 auto 0 auto;
+	background-image: url(/images/site/cap_bg.png);
+}
+/*** Form Tables ***/
+form > table > tbody td {
+	padding: 5px;
+}
+form > table > tbody > tr > td:first-child {
+	text-align: right;
+	min-width: 110px;
+}
+form > table > tbody > tr > td:first-child[colspan] {
+	min-width: auto;
+	text-align: center;
+}
+form > table > tbody > tr > td.field > p {
+	margin: 0;
+}
+form > table > tbody > tr > td.label {
+	text-align: right;
+	min-width: 85px;
+}
+
+/*** General Tables ***/
+.body_table > tbody td { vertical-align: top; }
+.requestForm_table td { padding: 3px; }
+.stripe { background-color: #FBF6EA; }
+
+/*** Plans ***/
+.plansTable {
+	height: 642px;
+	width: auto;
+}
+body.trident .plansTable {
+	height: 760px;
+}
+.plansTableHeaderColumn {
+	width: 150px;
+	float: left;
+	font-size: 12px;
+}
+.plansTableHeaderColumn > p {
+	text-align: left;
+	height: 23px;
+}
+.plansTable.purchase .plansTableHeaderColumn > p {
+	height: 20px;
+	margin: 8px 0 8px 0;
+}
+.plansTableHeaderColumn > p:first-child {
+	font-weight: bold;
+}
+
+.plansTableColumn {
+	width: 90px;
+	float: left;
+	background-image: url(/images/site/long_gradient.png);
+	background-repeat: no-repeat;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin-right: 1px;
+}
+.plansTableColumn > p {
+	width: 90px;
+	height: 23px;
+	text-align: center;
+}
+.plansTable.purchase .plansTableColumn > p {
+	height: 20px;
+	margin: 8px 0 8px 0;
+}
+.plansTableColumn > p:first-child {
+	font-weight: bold;
+}
+#plans_coverages {
+	clear: both;
+	height: 175px;
+}
+#plans_coverages ul {
+	 float: left; margin-right: 15px;
+}
+#plans_coverages li {
+	padding: 5px 0 5px 0;
+}
+/*** Arrows ***/
+.longArrow {
+	background-image: url(/images/site/arrows/long.png);
+	width: 210px;
+	height: 29px;
+	color: white;
+	font-size: 17px;
+	padding-top: 7px;
+	padding-left: 10px;
+	text-shadow: 0 1px 2px #173703;
+	cursor: pointer;
+	display: block;
+	text-decoration: none;
+}
+
+/*** Sidebar ***/
+.sidebar {
+	width: 258px;
+	background-image: url(/images/site/gradient.png);
+	background-repeat: no-repeat;ь
+	margin-bottom: 25px;
+	vertical-align: top;
+}
+.sidebar form > table > tbody > tr > td:first-child {
+	min-width: 95px;
+}
+.sidebar > * {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.leftSidebar {
+	margin-right: 25px;
+	float: left;
+}
+
+/*** Insurance ***/
+#insurance_table {
+	margin: 0 auto 0 auto;
+	width: 100%;
+}
+#insurance_table > thead td {
+	color: #578838;
+	border-bottom: 2px solid #578838;
+	text-align: center;
+	padding: 0;
+	font-weight: bold;
+	padding-bottom: 8px;
+	font-size: 11px;
+}
+#insurance_table > tbody td {
+	font-size: 11px;
+}
+#insurance_table > tbody td:first-child {
+	border-right: 1px solid #D7D1C0 !important;
+}
+#insurance_table > tbody td.col2 {
+	border-right: 1px solid #D7D1C0 !important;
+	text-align: center;
+	color: #7F7C75;
+}
+#insurance_table > tbody td.col3 {
+	text-align: center;
+	font-style: italic;
+	color: #426618;
+}
+#insurance_table > tbody td.col2 {
+	width: 75px;
+}
+/*** Navbar ***/
+#layout_nav {
+	line-height: 2em;
+	color: white;
+}
+#layout_nav > a {
+	color: white;
+	text-decoration: none;
+	font-size: 13px;
+}
+#layout_nav > * {
+	margin-right: 10px;
+	text-shadow: 0 1px 2px #173703;
+	position: relative;
+	top: 3px;
+}
+#layout_nav > a:hover {
+	font-weight: bold;
+}
+
+/*** Footer ***/
+#layout_footer > ul {
+	margin: 0 0 10px 0;
+	list-style: none;
+	padding: 0;
+}
+#layout_footer > ul > li {
+	display: inline;
+	margin-right: 20px;
+}
+
+/*** Header ***/
+#layout_header > a {
+	display: block;
+	text-decoration: none;
+	text-align: center;
+	color: #333;
+	width: 255px;
+	font-size: 20px;
+}
+#header_tab {
+	height: 140px;
+	margin: 0 auto 0 auto;
+}
+#header_quote {
+	float: left;
+	padding-top: 60px;
+	position: relative;
+	left: 35px;
+	height: 75px;
+}
+#layout_header > a > strong {
+	color: #578838;
+	font-weight: normal;
+	font-size: 28px;
+}
+#header_right {
+	float: right;
+	position: relative;
+	right: 25px;
+	padding-top: 60px;
+	height: 75px;
+	width: 320px;
+}
+#header_mbpContest_top {
+	display: block;
+	position: absolute;
+	right: 0; top: 25px;
+	width: 320px;
+	height: 75px;
+}
+#header_mbpContest_left {
+	display: block;
+	position: absolute;
+	top: 100px;
+	left: 0;
+	width: 170px;
+	height: 70px;
+}
+#header_mbpContest_details {
+	display: block;
+	position: absolute;
+	top: 100px;
+	right: 0;
+	width: 140px;
+	height: 70px;
+}
+
+/*** Home ***/
+#home_image {
+	background-image: url(/images/site/home.jpg);
+	width: 900px;
+	height: 378px;
+	position: relative;
+	top: -22px;
+}
+body.trident #home_image {
+	top: 0;
+}
+#layout_body.withoutPadding {
+	padding: 0 0 0 25px !important;
+	width: 900px;
+	position: relative;
+	left: -13px;
+}
+#home_image > h1 {
+	font-size: 33px;
+	color: #47453D;
+	display: block;
+	width: 400px;
+	position: relative;
+	left: 30px;
+	top: 10px;
+	text-align: left;
+}
+#home_image > div {
+	width: 400px;
+	position: relative;
+	left: 30px;
+	top: -5px;
+	font-size: 13px;
+}
+#home_image > div > p {
+	color: #3D3A34;
+}
+
+/*** GAQ ***/
+#getaquoteintro_form td.title {
+	text-align: left;
+	font-weight: bold;
+	vertical-align: top;
+}
+
+#getaquoteintro_form td.title label {
+	font-weight: normal;
+	display: block;
+}
+
+#getaquoteintro_button {
+	float: right;
+}
+
+
+
+/*** Resource Center ***/
+#resourceCenter_td {
+	min-height: 310px;
+}
+#resourceCenter_td > ul {
+	list-style-type: circle;
+	margin-left: 20px;
+}
+#resourceCenter_td > ul > li {
+	margin-bottom: 8px;
+}
+#resourceCenter_td > ul > li.selected {
+	font-weight: bold;
+	color: #578838;
+}
+
+/*** Purchase ***/
+#purchase_info {
+	height: 255px;
+}
+#purchase_info > div {
+	float: left;
+	margin-right: 10px;
+}
+
+#purchase_package {
+	height: 730px;
+}
+#purchase_package > div {
+	float: left;
+}
+#purchase_package > div:first-child {
+	margin-right: 15px;
+}
+ul.coveragesList {
+	list-style-type: none;
+	float: left;
+	margin: 0;
+	padding: 0;
+	font-size: 11px;
+	margin-right: 15px;
+	height: 130px;
+	margin-bottom: 20px;
+}
+ul.coveragesList > li {
+	margin-top: 3px;
+}
+#package_homeType {
+	background-color: #578838;
+	color: white;
+	padding: 5px;
+	text-align: center;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#purchase_submit {
+	background-color: #578838;
+	color: white;
+	text-align: center;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	padding: 5px;
+	clear: both;
+}
+#purchase_submit a { color: white; }
+#purchase_submit a:hover { color: white; font-weight: bold; }
+#purchase_seals {
+	text-align: center;
+}
+
+/*** Contact ***/
+#contact_container > div > p:first-child {
+	background-color: #837F74;
+	color: white;
+	margin: 0;
+	padding: 4px;
+}
+#contact_container {
+	height: 280px;
+}
+body.trident #contact_container {
+	height: 330px;
+}
+#contact_container > div {
+	border: 1px solid #837F74;
+	float: left;
+	height: 300px;
+}
+body.trident #contact_container > div {
+	height: 330px;
+}
+#contact_container > div > div {
+	padding: 10px;
+}
+#contact_container > div > div > *:first-child {
+	margin-top: 0.3em;
+}
+#contact_container > div:first-child {
+	margin-right: 30px;
+}
+
+/*** General ***/
+.green { color: #578838; }

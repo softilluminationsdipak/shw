@@ -1,0 +1,103 @@
+<br>
+<div class="container">
+  <div class="row">
+    <p id="page1" class="fixed-width" style="text-align: center;font-size: 20px;">Looking to convert your website traffic into commission? There are no sign-up costs and we offer some of the highest commissions in the industry for quality lead generation. Please complete the registration form below to join our team of affiliate of marketers.</p>
+    <br>
+    <div class="col-xs-3 col-sm-3 col-md-3"></div>
+    <div class="col-xs-10 col-sm-10 col-md-6">
+      <table class="table" border="2">
+        <tr>
+          <td id="sign_in_td" class="signintd"><b>SIGN IN<b/></td>
+          <td id="sign_up_td" class=''><b>SIGN UP<b></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-3"></div>
+    <div class="col-xs-10 col-sm-10 col-md-6">
+      <div class="">
+        <div class="panel-body">
+          <div class="row">
+            
+              <!-- LOGIN PART --> 
+              <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+                <div class="col-xs-6 col-sm-6 col-md-6 login-box">
+                  <div id="partner_login_part">
+                    <div class="input-group">
+                      <%= f.email_field :email, :class => "form-control", :placeholder => "Email", :autofocus => true %>
+                    </div>
+                    <div class="input-group">
+                      <%= f.password_field :password, :class => "form-control", :placeholder => "Password" %>
+                    </div>
+                    <div class="input-group">
+                      <% if devise_mapping.rememberable? -%>
+                        <div class="checkbox"><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+                      <% end -%>
+                    </div>
+                    <div><%= f.submit "Login", :class => "btn btn-success btn-labeled" %></div>
+                  </div>
+                  <br><a href="javascript:void(0);" class="btn facebook btn-block social_icon_btn" role="button">Register using Facebook</a>
+                  <br><a href="javascript:void(0);" class="btn twitter btn-block social_icon_btn" role="button">Register using Twitter</a>
+                </div>
+              <% end %>
+           
+           <!-- REGISTRATION PART --> 
+           <div id="partner_signup_part" class="<% 'signintd' if resource.errors.present? %>" style="<%= 'display:none;' unless resource.errors.present? %> ">
+              <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+                <%= devise_error_messages! %>
+                <div class="col-xs-6 col-sm-6 col-md-6 login-box">               
+                  <div class="input-group">
+                    <%= f.hidden_field :company_api_access, :value => "In Progress" %>
+                    <%= f.text_field :firstname, :class => "form-control", :placeholder => "First Name", :autofocus => true %>
+                  </div>
+                  <div class="input-group">
+                    <%= f.text_field :lastname, :class => "form-control", :placeholder => "Last Name", :autofocus => true %>
+                  </div>
+                  <div class="input-group">
+                    <%= f.email_field :email, :class => "form-control", :placeholder => "Email", :autofocus => true %>
+                  </div>
+                  <div class="input-group">
+                    <%= f.text_field :company_name, :class => "form-control", :placeholder => "Company Name", :autofocus => true %>
+                  </div>
+                  <div class="input-group">
+                    <%= f.text_field :phone, :class => "form-control", :placeholder => "Phone", :autofocus => true %>
+                  </div>
+                  <div class="input-group">
+                    <%= f.password_field :password, :class => "form-control", :placeholder => "Password" %>
+                  </div>
+                  <div class="input-group">
+                    <%= f.password_field :password_confirmation, :class => "form-control", :placeholder => "Password Confirmation" %>
+                  </div>
+                  <!-- Don't have an account?  <%#= link_to "Register Here", new_partner_session_path %><br> -->
+                  <%= recaptcha_tags %>
+                  
+                  <div class="row">
+                    <br>
+                    <%= f.submit "Register", :class => "btn btn-success btn-labeled" %>
+                    <%= link_to "Cancel", root_path, :class => "btn btn-danger btn-labeled", :style => "color: white;text-decoration: none;" %>
+                  </div>
+                </div>
+
+                <script type="text/javascript">
+                  <% if resource.errors.present? %>
+                    $(document).ready(function(){
+                      $("#sign_up_td").removeClass('signintd2').addClass('signintd')
+                      $("#sign_in_td").addClass('signintd2')
+                      $("#partner_signup_part").show();
+                      $("#partner_login_part").hide();
+                    });
+                  <% end %>
+                </script>
+
+              <% end %>    
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<h4 class="breadcrumb">Submit Claims&nbsp;&nbsp;&nbsp;</h4>
+<!-- <table style="width:100%;">
+	<tr>
+	  <%#= form_tag "/admin/submitclaim", :method => 'get' do %>
+	  	<td style="width:10%;">
+	  		<%#= text_field_tag :search, params[:search], :placeholder => "Search" %>
+	  	</td>
+		  <td style="padding: 0px 0px 7px 10px;">
+		  	<%#= submit_tag "Search", :name => nil, :class => "btn" %>
+		  </td>
+		<%# end %>
+	</tr>
+</table>
+<br>
+ -->
+<%= will_paginate @submitclaims if @submitclaims.present? %>
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+	<tr>
+		<th><strong>ID</strong></th>
+		<th><strong>Name</strong></th>
+		<th><strong>Policy #</strong></th>
+		<th><strong>Issue Type</strong></th>
+		<th class='span2'><strong>Issue Description</strong></th>
+		<th><strong>Phone #</strong></th>
+		<th><strong>Email</strong></th>
+		<th><strong>Address</strong></th>
+		<th><strong>City</strong></th>
+		<th><strong>State</strong></th>
+		<th><strong>Zipcode</strong></th>
+		<th><strong>IP Address</strong></th>
+	</tr>
+	</thead>
+	<% if @submitclaims.present? %>
+		<% @submitclaims.each do |claim| %>
+			<tr class="hoverable <%=cycle('stripe', '')%>">
+				<td><%= claim.id %></td>
+				<td><%= claim.name %></td>
+				<td><%= claim.policy_number %></td>
+				<td><%= claim.issue_type %></td>
+				<td><%= claim.issue_description %></td>
+				<td><%= claim.phone_number %></td>
+				<td><%= claim.email %></td>
+				<td><%= claim.address %></td>
+				<td><%= claim.city %></td>
+				<td><%= claim.state %></td>
+				<td><%= claim.zipcode %></td>
+				<td><%= claim.ip_address %></td>
+			</tr>
+		<% end %>
+	<% end %>
+</table>
+<%= will_paginate @submitclaims if @submitclaims.present? %>

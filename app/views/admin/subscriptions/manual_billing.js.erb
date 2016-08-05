@@ -1,0 +1,26 @@
+<% if params[:manual][:credit_card_id].present?  && params[:manual][:amount].present?  %>
+	<% if params[:manual][:amount].to_s.to_i == params[:manual][:amount].to_i && params[:manual][:amount].to_i > 0 %>
+		jQuery("#nmi_customer_subscription").html("<%= escape_javascript(render :partial => '/admin/customers/nmi_subscription', :locals => {:customer => @customer}) %>")
+		jQuery("#nmi_customer_transaction").html("<%= escape_javascript(render :partial => '/admin/customers/nmi_transaction', :locals => {:customer => @customer}) %>")
+		jQuery("#manual_billing").modal('hide');
+	<% else %>
+		jQuery("#manual_amt").html("Must be a Numeric Value");
+	<% end %>	
+	jQuery("#manual_billing_form span").html('');
+	jQuery("#manual_billing_form")[0].reset();
+<% else %>
+	<% if params[:manual][:credit_card_id].present? %>
+		jQuery("#manual_ccid").html('')
+	<% else %>
+		jQuery("#manual_ccid").html("Can't be blank")
+	<% end %>
+
+	<% if params[:manual][:amount].present? %>
+		jQuery("#manual_amt").html('')
+	<% else %>
+		jQuery("#manual_amt").html("Can't be blank")
+	<% end %>	
+<% end %>
+jQuery("#manual_billing_btn").removeAttr('disabled')
+jQuery("#manual_billing_btn").val('Manual Billing');
+

@@ -1,0 +1,7 @@
+<%= fields_for 'coverages[]', coverage do |f| %>
+<tr class="hoverable <%=cycle('', 'stripe')%>">
+	<td><%=f.text_field 	:coverage_name, :require => true  %></td>
+	<td>$<%=f.text_field	:price, :size => 6, :require => true, :value => "%.2f" % coverage.try(:price) if coverage.price.present? %></td>
+	<td><%=f.check_box 		:should_be_deleted, {}, true, false%></td>
+</tr>
+<% end %>

@@ -1,0 +1,6 @@
+<% if @sub_affiliate.valid? %>
+	window.location.href = "/sub_affilates"
+<% else %>
+	alert("<%= @sub_affiliate.errors.full_messages.first.html_safe  %>")
+	return false;
+<% end %>	

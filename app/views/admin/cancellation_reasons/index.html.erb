@@ -1,0 +1,40 @@
+<h4 class="breadcrumb">Cancellation Reasons&nbsp;&nbsp;&nbsp;</h4>
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+		<tr>
+			<th><strong>Reason</strong></th>
+			<th><strong>Action</strong></th>
+		</tr>
+	</thead>
+	<% @cancellation_reasons.each do |reason| %>
+		<tr class="hoverable <%=cycle('stripe', '')%>">
+			<td><%= reason.reason %></td>
+			<td>
+				<a href="/admin/cancellation_reasons/edit/<%= reason.id %>">Edit</a> | 					
+				<%= link_to 'Delete', "/admin/cancellation_reasons/destroy/#{reason.id}", :confirm => "Are you sure you want to permanently delete this reason? This operation cannot be undone." %>
+			</td>
+		</tr>
+	<% end %>
+</table>
+<hr>
+<h4 class="breadcrumb">Add Cancellation Reason </h4>
+<form method="post" action="/admin/cancellation_reasons/create">
+	<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>"/>
+	<table class="form_table">
+	 <tbody>
+		<tr>
+			<td>Reason</td>
+			<td><input type="text" name="cancellation_reason[reason]" id="cancellation_reason_reason" style="width: 90%;margin:0%;" /></td>
+			<td><input type="submit" value="Add" id="add_cancellation_reason_button" class="btn" /></td>
+		</tr>
+   </tbody>
+	</table>
+</form>
+
+<script type="text/javascript">
+  jQuery('#add_cancellation_reason_button').click(function(e){
+    var reason;
+    reason = jQuery('#cancellation_reason_reason').val();
+    if (reason == ""){ alert("Please enter cancellation reason!"); return false;  }
+  });
+</script>

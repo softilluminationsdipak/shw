@@ -1,0 +1,11 @@
+<div class="fixed-width">
+  <div class="main-area">
+ <%= h Content.for(:contractors) %>	
+    <% content_for :request_intro do %>
+	<p class="notes">Please take a moment to fill out this registration form and a Contractor Relations Representative will contact you shortly:</p>
+    <% end %>
+	<%= render :partial => 'request_form', :locals => { :template_name => "Become Contractor", :css_class => "contractors", :tname => 'contractor'}%>
+
+  </div>
+</div>
+<%= google_analytics_js %>

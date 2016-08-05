@@ -1,0 +1,51 @@
+<h4 class="breadcrumb">Edit Fax Sources </h4>
+<%= form_for  @fax_source, :url => { :action => 'update', :id => @fax_source.id } do |f| %>
+	<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>"/>
+	<table class="form_table">
+	 <tbody>
+		<tr>
+			<td><%= f.label :name %></td>
+			<td><%= f.text_field :name %></td>
+		</tr>
+		<tr>
+			<td><%= f.label :number %></td>
+			<td><%= f.text_field :number %></td>			
+		</tr>
+		<tr>
+			<td><%= f.label :address, "Email" %></td>
+			<td><%= f.text_field :address %></td>			
+		</tr>
+		<tr>
+			<td><%= f.label :key %></td>
+			<td><%= f.text_field :key %></td>			
+		</tr>
+		<tr>
+			<td><%= f.label :password %></td>
+			<td><%= f.password_field :password, :value => f.object.password %></td>			
+		</tr>
+		<tr>			
+			<td>
+				<%= f.submit "Update", :class => "btn", :id => "add_fax_source_button" %>
+			</td>
+		</tr>
+   </tbody>
+	</table>
+<% end %>
+
+<script type="text/javascript">
+  jQuery('#add_fax_source_button').click(function(e){
+    var name, number, address, key, password;
+    name 			= jQuery('#fax_source_name').val();
+    number 		= jQuery('#fax_source_number').val();
+    address 	= jQuery('#fax_source_address').val();
+    key 			= jQuery('#fax_source_key').val();
+    password 	= jQuery('#fax_source_password').val();
+
+    if (name == ""){ alert("Please enter name!"); return false;  }
+    if (number == ""){ alert("Please enter number!"); return false;  }
+    if (address == ""){ alert("Please enter Email!"); return false;  }
+    if (key == ""){ alert("Please enter key!"); return false;  }
+    // if (password == ""){ alert("Please enter password!"); return false;  }
+
+  });
+</script>

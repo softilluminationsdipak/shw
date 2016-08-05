@@ -1,0 +1,109 @@
+
+<h2>Discounts</h2>
+
+<table class="table table-condensed table-striped table-bordered sortable_table">
+	<thead>
+	<tr>
+		<th><strong>Code</strong></th>
+		<th><strong>Starts</strong></th>
+		<th><strong>Ends</strong></th>
+		<th><strong>Amount</strong></th>
+		<th><strong>Is Monthly</strong></th>
+		<th><strong>Action</strong></th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	<% @discounts.each do |discount| %>
+		<tr>
+			<td><%=discount.code%></td>
+			<td><%=discount.starts_at.strftime(strftime_date) if discount.starts_at %></td>
+			<td><%=discount.ends_at.strftime(strftime_date) if discount.ends_at %></td>
+			<td><%=discount.amount %></td>
+			<td><%=discount.is_monthly == true ? "Yes" : "No" %></td>
+			<td>
+				<a href="/admin/discounts/edit/<%=discount.id%>">Edit</a>&nbsp;&nbsp;
+				<%= link_to 'Delete', "/admin/discounts/destroy/#{discount.id}", :confirm => "Are you sure you want to permanently delete this Discount? This operation cannot be undone." %>
+			</td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>
+
+
+<br>
+<hr>
+
+<h2>Add Discount</h2>
+<% this = Time.now.utc %>
+<% timezone = current_account.timezone + (this.isdst ? 1.hours : 0.hour) %>
+<% first_of_the_month = Time.utc(this.year, this.month, 1, timezone.abs, 0,0,0) + timezone %>
+<%= form_for Discount.new, :url => {:action => 'create'} do |f| %>
+<table class="form_table">
+	<tr>
+		<td>Monthly?</td>
+		<td><%=f.check_box :is_monthly%></td>
+	</tr>
+	<tr>
+		<td>Starts:</td>
+		<td><%=f.text_field :starts_at, :size => 8,:id=>:discount_starts_date, :value => first_of_the_month.strftime(strftime_date) %></td>
+	</tr>
+	<tr>
+		<td>Ends:</td>
+		<td><%=f.text_field :ends_at,:id=>:discount_ends_date, :size => 8%></td>
+	</tr>
+	<tr>
+		<td>Amount:</td>
+		<td>
+			<%=f.text_field :value,:id=>:discount_value, :size => 8%><input type="checkbox" name="is_percentage"/>&nbsp;Is a percentage
+		</td>
+	</tr>
+	<tr>
+		<td>Code:</td>
+		<td><%=f.text_field :name,:id=>:discount_name, :size => 8%>&nbsp;<span class="gray">If this is a Monthly Discount, Code will be set automatically</span></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><%=submit_tag "Add New Discount", :id=>'add_new_discount', :class=>'btn' %></td>
+	</tr>
+</table>
+<% end %>
+
+<script>
+window.addEvent('domready',function(){
+  $('add_new_discount').addEvent('click', function(){
+
+   var starts_date_val=$('discount_starts_date').get('value');
+   if (starts_date_val == '')
+   {
+      alert('Please input valid data');
+      return false;
+   }
+
+   var ends_date_val=$('discount_ends_date').get('value');
+   if (ends_date_val == '')
+   {
+      alert('Please input valid data');
+      return false;
+   }
+
+   var discount_val=$('discount_value').get('value');
+   if (discount_val == '')
+   {
+      alert('Please input valid data');
+      return false;
+   }
+
+   var discount_name=$('discount_name').get('value');
+   if (discount_name == '')
+   {
+      alert('Please input valid data');
+      return false;
+   }
+
+});
+
+});
+</script>
+
+<!-- tablecloth.js -->

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%="#{@page_title}"%> - <%=$installation.name%></title>
+    <% if controller.action_name.to_s == 'customer_report' %>
+      <%= javascript_include_tag 'cip/cip.src', 'admin' %>
+      <%= javascript_include_tag 'application' %>    
+    <% end %>
+    <link href="/assets/bootstrap.css" rel="stylesheet">
+    <link href="/assets/navbar.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .headerbtn2{margin-left:5px;padding: 5px 5px 5px 5px;background: white;width: 7%;float: left;text-align: center}
+      .headerbtn{margin-left: 1%;padding: 5px 5px 5px 5px;background: white;width: 15%;float: left;text-align: center}
+      .headerbtn3{margin-left:5px;padding: 5px 5px 5px 5px;background: white;float: left;text-align: center}
+      .cstatus{margin-left: 6px !important; background: white !important; padding: 4.5px !important;}
+      .navbar .nav > li > a.cstatus:hover {color: black;}
+    </style>
+    <link href="/assets/bootstrap-responsive.css" rel="stylesheet">    
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <style> div.layout_tab_container:hover{ height: 300px!important;  } </style>
+    <% if controller.action_name == 'customer_report'%>
+      <%= stylesheet_link_tag 'cip/cip', 'new_admin' %>
+    <% elsif controller.action_name == 'missing_renewal_dates' %>
+      <script src="/assets/bootstrap/jquery.js"></script>
+      <%= stylesheet_link_tag 'new_admin' %>
+    <% elsif controller.action_name == 'income_sources' || controller.action_name == 'affiliate_and_leads' || controller.action_name == 'lead_by_agent' %>
+      <script src="/assets/bootstrap/jquery.js"></script>
+      <% if controller.action_name == 'affiliate_and_leads' || controller.action_name == 'lead_by_agent' %>
+        <script src="/assets/select2.js"></script>
+        <%= stylesheet_link_tag 'select2.css' %>
+        <script type="text/javascript">
+          $(function() {
+            $( "#mweek_start" ).datepicker({ dateFormat: "dd-mm-yy" });
+            $( "#mweek_end" ).datepicker({ dateFormat: "dd-mm-yy" });
+          });
+          $(document).ready(function() { 
+            $("#my_agent_list").select2({
+              closeOnSelect:false
+            });
+          });        
+        </script>
+      <% end %>
+      <% if controller.action_name == 'lead_by_agent' %>
+        <script type="text/javascript">
+          $(function() {
+            $( "#day" ).datepicker({ dateFormat: "dd-mm-yy" });
+            $( "#mweek_start" ).datepicker({ dateFormat: "dd-mm-yy" });
+            $( "#mweek_end" ).datepicker({ dateFormat: "dd-mm-yy" });
+            $( "#mg_week_start" ).datepicker({ dateFormat: "dd-mm-yy" });
+            $( "#mg_week_end" ).datepicker({ dateFormat: "dd-mm-yy" });
+          });
+        </script>
+      <% end %>
+
+      <%= stylesheet_link_tag  'new_admin' %>
+      <%= stylesheet_link_tag "morris-0.4.3.min.css" %>
+      <%= javascript_include_tag "raphael-min.js", "morris-0.4.3.min.js" %>
+      <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+      <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+      <%= javascript_include_tag "highcharts.js","raphael-min.js", "exporting.js" %>      
+    <% end %>
+    <%= render :partial => "/shared/google_analystic" %>
+    <!-- tablecloth.js -->
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <%= render :partial => "/shared/hubspot_analytics_code" %>
+    <%= render :partial => "/layouts/admin_setting_header" %>
+    <%= render :partial => '/shared/team_sales_agent_chat' %>
+    <!-- container start -->
+    <div class="container-fluid">
+      <div class="span12" style="width: 100%;">
+        <div class="row-fluid">
+          <br><br>
+        </div>
+        <%= render :partial => "/layouts/search" %>
+        <div id="layout_fixed_header">
+        </div><!-- layout_fixed_header -->
+        <% if controller.controller_name == "claims"  or controller.controller_name == "reports" %>
+          <%= yield %>
+        <% else %>
+          <div id="layout_content"><%= yield %></div>
+        <% end %>
+        <div id="layout_footer"></div>
+      </div>
+      <!--  container-end -->
+    <%= render :partial => "/layouts/feedback" %>
+  </body>
+</html>

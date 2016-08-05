@@ -1,0 +1,188 @@
+# Rails 3 upgrade
+
+App core
+Libs
+Mailer
+BackgrounDRb
+
+SSL requirement:
+  - (all admin)
+  - expect for conversions_controller ? 
+  - sites_controller #ssl_required  :quote, :purchase
+
+--------------------------------------------------------------------------------
+### rake:upgrade:check output
+
+Old Rails generator API
+A plugin in the app is using the old generator API (a new one may be available at http://github.com/trydionel/rails3-generators).
+More information: http://blog.plataformatec.com.br/2010/01/discovering-rails-3-generators/
+
+The culprits: 
+	- vendor/plugins/active_merchant/generators/
+	- vendor/plugins/active_merchant/generators/integration/
+	- vendor/plugins/active_merchant/generators/gateway/
+	- vendor/plugins/backgroundrb/generators/
+	- vendor/plugins/backgroundrb/generators/bdrb_migration/
+	- vendor/plugins/backgroundrb/generators/worker/
+
+Deprecated ActionMailer attribute :sent_on
+Using the new mailer API, you can specify :date to the mail method.
+More information: http://stackoverflow.com/questions/7367185/weird-error-when-delivering-mail-undefined-method-index-for-2011-09-09-2215
+
+The culprits: 
+	- app/models/postoffice.rb
+
+Deprecated test_help path
+You now must require 'rails/test_help' not just 'test_help'.
+More information: http://weblog.rubyonrails.org/2009/9/1/gem-packaging-best-practices
+
+The culprits: 
+	- test/test_helper.rb
+	- test/test_helper.rb.rails2
+
+Deprecated filter_parameter_logging calls
+The list of filtered parameters are now stored in /config/application.rb. For example: config.filter_parameters += [:password]
+More information: http://de.asciicasts.com/episodes/224-controller-in-rails-3
+
+The culprits: 
+	- app/controllers/application_controller.rb
+	- app/controllers/application_controller.rb.rails2
+
+Soon-to-be-deprecated ActiveRecord calls
+Methods such as find(:all), find(:first), finds with conditions, and the :joins option will soon be deprecated.
+More information: http://m.onkey.org/2010/1/22/active-record-query-interface
+
+The culprits: 
+	- app/helpers/application_helper.rb
+	- app/helpers/application_helper.rb.rails2
+	- app/models/agent.rb
+	- app/models/i_contact_request.rb
+	- app/models/contractor.rb
+	- app/views/admin/customers/_package_select_tag.html.erb
+	- app/views/site/_plan_table_getaquote.html.erb
+	- app/controllers/admin/email_templates_controller.rb
+	- app/controllers/admin/discounts_controller.rb
+	- app/controllers/admin/conversions_controller.rb
+	- app/controllers/admin/notifications_controller.rb
+	- app/controllers/admin/notes_controller.rb
+	- app/controllers/admin/content_controller.rb
+	- app/controllers/admin/customers_controller.rb
+	- app/controllers/admin/transactions_controller.rb
+	- app/models/contractor.rb
+	- app/controllers/admin/notes_controller.rb
+	- app/controllers/admin/transactions_controller.rb
+	- app/controllers/admin/customers_controller.rb
+	- app/models/transaction.rb
+
+named_scope is now just scope
+The named_scope method has been renamed to just scope.
+More information: http://github.com/rails/rails/commit/d60bb0a9e4be2ac0a9de9a69041a4ddc2e0cc914
+
+The culprits: 
+	- app/models/fax_assignable_join.rb
+	- app/models/fax.rb
+	- app/models/property.rb
+	- app/models/transaction.rb
+	- app/models/contractor.rb
+	- app/models/account.rb
+	- app/models/customer.rb
+
+Deprecated ERb helper calls
+Block helpers that use concat (e.g., form_for) should use <%= instead of <%.  The current form will continue to work for now, but you will get deprecation warnings since this form will go away in the future.
+More information: http://weblog.rubyonrails.org/
+
+The culprits: 
+	- app/views/admin/agents/edit.html.erb
+	- app/views/admin/contractors/index.html.erb
+	- app/views/admin/contractors/edit.html.erb
+	- app/views/admin/customers/claims.html.erb
+	- app/views/admin/customers/edit.html.erb
+	- app/views/admin/customers/add.html.erb
+	- app/views/admin/discounts/index.html.erb
+	- app/views/admin/discounts/edit.html.erb
+	- app/views/admin/email_templates/index.html.erb
+	- app/views/admin/email_templates/edit.html.erb
+	- app/views/admin/notes/add_note.html.erb
+	- app/views/admin/packages/_coverages_crud.html.erb
+	- app/views/site/purchase.html.erb
+	- app/views/site/quote.html.erb
+	- app/views/admin/customers/_search.html.erb
+	- app/views/layouts/admin.html.erb
+	- app/views/layouts/new_admin.html.erb
+	- app/views/admin/contractors/_contractor_form.html.erb
+	- app/views/admin/packages/_package.html.erb
+	- app/views/admin/packages/_coverage.html.erb
+
+Deprecated constant(s)
+Constants like RAILS_ENV, RAILS_ROOT, and RAILS_DEFAULT_LOGGER are now deprecated.
+More information: http://litanyagainstfear.com/blog/2010/02/03/the-rails-module/
+
+The culprits: 
+	- app/models/fax_source.rb
+	- app/models/fax.rb
+	- app/models/i_contact_request.rb
+	- app/models/postoffice.rb
+	- app/models/signature_hash.rb
+	- app/models/coverage.rb
+	- app/views/admin/customers/contract.pdf.prawn
+	- app/controllers/application_controller.rb
+	- app/controllers/admin/repairs_controller.rb
+	- app/controllers/admin/faxes_controller.rb
+	- app/controllers/application_controller.rb.rails2
+	- lib/installation.rb
+	- lib/generators/worker/templates/unit_test.rb
+	- lib/tasks/fragment.rake
+	- lib/tasks/backgroundrb_tasks.rake
+
+Deprecated ActionMailer API
+You're using the old ActionMailer API to send e-mails in a controller, model, or observer.
+More information: http://lindsaar.net/2010/1/26/new-actionmailer-api-in-rails-3
+
+The culprits: 
+	- app/models/i_contact_request.rb
+	- app/models/transaction.rb
+	- app/controllers/site_controller.rb
+	- app/controllers/application_controller.rb
+	- app/controllers/admin/email_templates_controller.rb
+	- app/controllers/admin/claims_controller.rb
+	- app/controllers/admin/contractors_controller.rb
+	- app/controllers/admin/customers_controller.rb
+	- app/controllers/admin/accounts_controller.rb
+	- app/controllers/application_controller.rb.rails2
+
+Old ActionMailer class API
+You're using the old API in a mailer class.
+More information: http://lindsaar.net/2010/1/26/new-actionmailer-api-in-rails-3
+
+The culprits: 
+	- app/models/postoffice.rb
+	- app/models/postoffice.rb
+	- app/models/fax_source.rb
+	- app/models/postoffice.rb
+	- app/models/notification.rb
+	- app/models/fax_source.rb
+	- app/models/fax.rb
+	- app/models/postoffice.rb
+	- app/models/defaults/contractors.json
+	- app/models/contractor.rb
+
+--------------------------------------------------------------------------------
+New update by Engel
+Rails 2 deprecated plugins moved into lib/ folder.
+               ar_fixtures
+               dynamic_form
+
+Rails 3 gems and services:
+                -       imagemagick
+                -       redis
+                -       sidekiq
+
+backgroundrb is migreated into Sidekigq::BackgroundWorker.
+So to run the background worker, should run the sidekiq first by the following command.
+                bundle exec sidekiq
+
+
+For staging instantiate:
+   To use sendmail in staging server, we need to speicfy ssmtp.conf.
+   Please refer the following address.
+   https://support.cloud.engineyard.com/entries/21016513-Set-Up-SSMTP-for-Mail-Relay-to-AuthSMTP

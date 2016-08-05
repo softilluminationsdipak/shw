@@ -1,0 +1,14 @@
+<table>
+	<thead><tr>
+		<td style="width: 150px;">Date</td>
+		<td>Summary</td>
+                <td>Additional Information</td>
+	</tr></thead>
+	<% claims.each do |claim| %>
+		<tr>
+			<td><%= with_timezone(claim.date).strftime(strftime_date_time) %></td>
+			<td><%= claim.summary %></td>
+                        <td><%= claim.claim_text.html_safe %></td>
+		</tr>
+	<% end %>
+</table>

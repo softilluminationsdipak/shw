@@ -1,0 +1,2 @@
+module Admin::ClaimStatusHelper
+end

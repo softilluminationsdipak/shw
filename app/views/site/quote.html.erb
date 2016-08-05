@@ -1,0 +1,145 @@
+<% content_for :head do %>
+	<%= javascript_include_tag 'getaquote_jquery' %>
+<% end %>
+
+<div class="step-info step-1">
+  <h2>Shield Your Wallet</h2>
+  <h3>From Expensive Home Repairs</h3>
+  <p>As a homeowner, you never know when a heat or plumbing system, appliance, or garage door will break down. Repairing these systems requires time to look for a suitable repair technician and high repair costs. Let Select Home Warranty take the guess work out. We are available 24/7 to repair or even replace your covered claim. We have a network of over 10,000 contractors standing by.</p>
+  <p>Unfortunately, major home systems and appliances don't wait until a convenient time to break down.</p>
+</div>
+<!-- Form Container -->
+<div class="form-container">
+  <!-- customer form start -->
+  <%= form_for :customer, :url => 'purchase', :html => { :method => 'post', :id => 'getaquoteintro_form' } do |customer| %>
+    <!-- property field start -->
+    <%= fields_for :property do |property| %>
+      <div class="form-steps">
+        <ul>
+          <li class="current-step">1. Property Information</li>
+          <li>2. Select Your Plan</li>
+          <li>3. Sign Up Now</li>
+        </ul>
+      </div>
+      <div class="form-content">
+        <h4>Please fill out the following form to receive your free quote.</h4>
+        <div class="information-columns">
+          <div class="col left">
+            <h3>Your Information:</h3>
+            <div class="row">
+              <label for="firstname">First Name *</label>
+			        <%= customer.text_field :first_name, :id => 'intro_customer_first_name', :tabindex => 1,:class => "field" %>
+            </div>
+            <div class="row">
+              <label for="lastname">Last Name *</label>
+              <%=customer.text_field :last_name, :id => 'intro_customer_last_name', :tabindex => 2,:class => "field" %>
+            </div>
+            <div class="row">
+              <label for="email">Email *</label>
+              <%=customer.text_field :email, :id => 'intro_customer_email', :tabindex => 3,:class => "field" %>
+            </div>
+            <div class="row">
+              <label for="homephone">Home Phone *</label>
+              <%=customer.text_field :customer_phone, :id => 'intro_customer_customer_phone', :tabindex => 4,:class => "field" %>
+            </div>
+            <div class="row">
+              <label for="workphone">Work Phone</label>
+              <%=customer.text_field :work_phone, :tabindex => 5,:class => "field" %>
+            </div>
+            <div class="row">
+              <label for="cellphone">Cell Phone</label>
+              <%=customer.text_field :mobile_phone, :tabindex => 6,:class => "field" %>
+            </div>
+            <div class="row">                                
+              <!-- OBB logo -->
+              <!-- Add comment because of Found an HTML object in tinfoilsecurity.com -->
+              <!-- 
+                <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="https://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="80" height="124" id="SealTracker" align="middle" style="padding-top:15px; display:inline; float:left;">
+                  <param name="allowScriptAccess" value="sameDomain" />
+                  <param name="movie" value="https://www.onlinebusinessbureau.com/SealTracker.swf?Company_ID=1843450" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><embed src="https://www.onlinebusinessbureau.com/SealTracker.swf?Company_ID=1843450" quality="high" bgcolor="#ffffff" width="80" height="124" name="SealTracker" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="https://www.macromedia.com/go/getflashplayer" />
+                </object> 
+              -->
+              <!-- OBB logo end -->
+				      <!-- authrize new div -->
+    					<div class="AuthorizeNetSeal" style="padding-top:50px;">
+				        <script language="javascript" type="text/javascript">
+					        var ANS_customer_id="402ec64f-9589-4dfc-a799-03ed94357642";
+				        </script>
+				        <script src="//verify.authorize.net/anetseal/seal.js" language="javascript" type="text/javascript"></script>
+    					  <style type="text/css">
+		      				div.AuthorizeNetSeal{text-align:center;margin:0;padding:0;width:90px;font:normal 9px arial,helvetica,san-serif;line-height:10px;}
+						      div.AuthorizeNetSeal a{text-decoration:none;color:black;}
+						      div.AuthorizeNetSeal a:visited{color:black;}
+						      div.AuthorizeNetSeal a:active{color:black;}
+						      div.AuthorizeNetSeal a:hover{text-decoration:underline;color:black;}
+						      div.AuthorizeNetSeal a img{border:0px;margin:0px;text-decoration:none;}
+					       </style>
+      				  <a target="_blank" id="AuthorizeNetText" href="http://www.authorize.net/">Payment Processing</a>
+   		     		</div>
+    					<!-- authorize net div end -->
+    					<!-- CA Shield logo-->
+		       		<div style="float:right; margin-top:-114px;">
+		            <img src="/assets/CA_sheild.jpg" width="95" />
+		          </div>
+				      <!-- CA Shield logo end-->
+			      </div>
+          </div>
+          <div class="col right">
+            <h3>Property Information:</h3>
+            <div class="row">
+              <label for="address">Address</label>
+              <div class="input-wrap">
+       				  <%=property.text_field :address, :id => 'intro_property_address', :tabindex => 7 ,:class => "field" %>
+                <input type="text" class="field" value="" />
+                <input type="text" class="field" value="" />
+              </div>
+            </div>
+            <div class="row">
+              <label for="city">City</label>
+			        <%=property.text_field :city, :id => 'intro_property_city', :tabindex => 8 ,:class => "field" %>
+            </div>
+            <div class="row">
+              <label for="state">State *</label>
+			        <%= property.text_field :state, :id => 'intro_property_state', :tabindex => 9 ,:class => "field", :maxlength => 2 %>
+            </div>
+            <div class="row">
+              <label for="zipcode">Zip Code *</label>
+			        <%=property.text_field :zip_code, :id => 'intro_property_zip_code', :tabindex => 10 ,:class => "field" %>
+            </div>
+            <div class="row">
+              <label>Type of Home</label>
+			        <%= select_tag(:type_of_home, options_for_select(Customer.home_occupancies.to_a.map(&:second)), :tabindex => 11) %>
+            </div>
+            <div class="row">
+              <label>Square Footage</label>
+              <div class="radio-wrap">
+					      <% i = 0; Customer.home_sizes.each do |code, size| %>
+				          <label>
+				            <%= customer.radio_button :home_size_code, code, :checked => (code == 0), :id => "customer_home_size_#{code}", :tabindex => (12+i) %>
+				            <%= size %>
+ 					        </label>
+					       <% i += 1; end %>
+              </div>
+            </div>
+			      <div class="row">
+				      <div class="submit-button-wrap" style="text-align: right;">
+					      <input type="hidden" value="2" name="step" />
+    		        <%= button_to_function "Get a Free Quote Now", "validateGetAQuoteIntroForm();", :class => "submit-button", :id => 'getaquoteintro_button'%>
+    					</div>
+			      </div>
+          </div>
+          <div class="cl">&nbsp;</div>
+        </div>
+      </div>
+    <% end %>
+      <!-- property field start -->
+  <% end %>
+  <!-- customer form end -->
+  <span class="form-shadow"></span>
+</div>
+<!-- End of Form Container -->
+<script type = "text/javascript" >
+   function preventBack(){window.history.forward();}
+    setTimeout("preventBack()", 0);
+    window.onunload=function(){null};
+</script>

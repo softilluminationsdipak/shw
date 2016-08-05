@@ -1,0 +1,88 @@
+<% content_for :head do %>
+	<%= javascript_include_tag 'getaquote' %>
+<% end %>
+
+<div class="fixed-width">
+  <div class="wizard-steps">
+    <ol>
+      <li><div class="left-corner" id="active-step" ><%= Content.for_navigation_step 1%></div></li>
+      <li><div class="center"><%= Content.for_navigation_step 2%></div></li>
+      <li><div class="right-corner"><%= Content.for_navigation_step 3%></div></li>
+    </ol>
+</div>
+<div class="main-area">
+  <%= h Content.for(:quote) %>
+    
+    <%= form_for :customer, :url => 'purchase', :html => { :method => 'get', :id => 'getaquoteintro_form' } do |customer| %>
+    <%= fields_for :property do |property| %>
+    <table cellspacing="0" cellpadding="0" border="0" class="get-quote-tbl" summary="">
+      <tr>
+        <th colspan="2">Your Information:</th>
+        <th colspan="2">Property Information:</th>
+      </tr>
+      <tr>
+        <td class="label">First Name <b>*</b></td>
+        <td class="field"><%=customer.text_field :first_name, :id => 'intro_customer_first_name', :size => 20, :tabindex => 1%></td>
+        
+        <td class="label">Address </td>
+        <td class="field"><%=property.text_field :address, :id => 'intro_property_address', :size => 20, :tabindex => 7 %></td>
+      </tr>
+      <tr>
+        <td class="label">Last Name <b>*</b></td>
+        <td class="field"><%=customer.text_field :last_name, :id => 'intro_customer_last_name', :size => 20, :tabindex => 2%></td>
+        
+        <td>&nbsp;</td>
+        <td class="field"><%=property.text_field :address2, :size => 20, :tabindex => 8%></td>
+      </tr>
+      <tr>
+        <td class="label">Email <b>*</b></td>
+        <td class="field"><%=customer.text_field :email, :id => 'intro_customer_email', :size => 20, :tabindex => 3%></td>
+        
+        <td class="label">City </td>
+        <td class="field"><%=property.text_field :city, :id => 'intro_property_city', :size => 15, :tabindex => 8%></td>
+      </tr>
+      <tr>
+        <td class="label">Home Phone <b>*</b></td>
+        <td class="field"><%=customer.text_field :customer_phone, :id => 'intro_customer_customer_phone', :size => 15, :tabindex => 4%></td>
+			
+        <td class="label">State <b>*</b></td>
+        <td class="field"><%= property.text_field :state, :id => 'intro_property_state', :size => 2, :tabindex => 9 %></td>
+      </tr>
+      <tr>
+        <td class="label">Work Phone</td>
+        <td class="field"><%=customer.text_field :work_phone, :size => 15, :tabindex => 5 %></td>
+			
+        <td class="label">Zip Code <b>*</b></td>
+        <td class="field"><%=property.text_field :zip_code, :size => 5, :id => 'intro_property_zip_code', :tabindex => 10%></td>
+      </tr>
+      <tr>
+        <td class="label">Cell Phone</td>
+        <td class="field"><%=customer.text_field :mobile_phone, :size => 15, :tabindex => 6%></td>
+        <td class="label">Type of Home</td>
+        
+        <td> <%= select_tag(:type_of_home, options_for_select(Customer.home_occupancies.to_a.map(&:second))) %></td>
+			
+			<td colspan="2">&nbsp;</td>
+		</tr><tr>
+			<td colspan="2">&nbsp;</td>
+			
+			<td class="label" style="vertical-align: top;">Square Footage</td>
+			<td class="field radio">
+				<% i = 0; Customer.home_sizes.each do |code, size| %>
+					<%= customer.radio_button :home_size_code, code, :id => "customer_home_size_#{code}", :checked => (code == 0), :tabindex => (12+i) %>
+					<%= customer.label		  "home_size_#{code}".to_sym, size %>
+                    <div class="relax"></div>
+				<% i += 1; end %>
+			</td>
+			
+			<td colspan="2">&nbsp;</td>
+		</tr><tr>
+			<td colspan="4">
+        <input type="hidden" value="2" name="step" />
+        <%= button_to_function "Get a Free Quote Now", "validateGetAQuoteIntroForm();", :class => "submit", :id => 'getaquoteintro_button'%>
+			</td>
+		</tr>
+	</table>
+<% end; end %>
+</div></div>
+<%= google_analytics_js %>

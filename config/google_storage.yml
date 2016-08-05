@@ -1,0 +1,16 @@
+project_id: 460965111089
+auth_uri: https://accounts.google.com/o/oauth2/auth
+token_uri: https://accounts.google.com/o/oauth2/token
+client_email: 460965111089-f8a1bi73rj4psta9du9pe9vk6tvk0jsd@developer.gserviceaccount.com
+client_x509_cert_url: https://www.googleapis.com/robot/v1/metadata/x509/460965111089-f8a1bi73rj4psta9du9pe9vk6tvk0jsd@developer.gserviceaccount.com
+auth_provider_x509_cert_url: https://www.googleapis.com/oauth2/v1/certs
+client_id: 460965111089-f8a1bi73rj4psta9du9pe9vk6tvk0jsd.apps.googleusercontent.com
+scope: https://www.googleapis.com/auth/devstorage.full_control
+private_key: notasecret
+refresh_token: 
+access_token: 
+fax_bucket: faxhome
+fax_thumb_bucket: faxthumb
+fax_preview_bucket: faxpreview
+
+simple_access_key: AIzaSyCjhNmAZc--hPlpc6gEkeHqC0SyLNScux4

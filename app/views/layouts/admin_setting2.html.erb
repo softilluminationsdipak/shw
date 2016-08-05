@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+		<title><%="#{@page_title}"%> - <%=$installation.name%></title>
+		<%= yield :gmap_script %>
+		<%= javascript_include_tag 'cip/cip.src', 'admin' %>
+		<%= javascript_include_tag 'application' %>
+		<%= yield :cip_scripts %>
+		<%= yield :js_date_picker %>
+    <!-- Le styles -->
+    <%= yield :report_by_affiliates %>  
+    <link href="/assets/bootstrap.css" rel="stylesheet">
+    <link href="/assets/navbar.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .headerbtn2{margin-left:5px;padding: 5px 5px 5px 5px;background: white;width: 7%;float: left;text-align: center}
+      .headerbtn{margin-left: 1%;padding: 5px 5px 5px 5px;background: white;width: 15%;float: left;text-align: center}
+      .headerbtn3{margin-left:5px;padding: 5px 5px 5px 5px;background: white;float: left;text-align: center}
+      .cstatus{margin-left: 6px !important; background: white !important; padding: 4.5px !important;}
+      .navbar .nav > li > a.cstatus:hover {color: black;}
+    </style>
+    <link href="/assets/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/assets/docs.css" rel="stylesheet">
+		<link href="/assets/jquery.minicolors.css" rel="stylesheet">
+    
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/assets/bootstrap/jquery.js"></script>
+    <%= javascript_include_tag 'jquery_ujs.js' %>
+    <%= javascript_include_tag 'jquery.minicolors.js' %>
+  	<script type="text/javascript">
+      jQuery.noConflict();
+ 			jQuery(document).ready(function(){
+  			jQuery(".colorpicker").minicolors();
+  		});
+
+    </script>
+    <script src="/assets/bootstrap/bootstrap-dropdown.js"></script>
+    <!-- tablecloth.js -->
+    <script src="/assets/bootstrap/jquery.metadata.js"></script>
+    <script src="/assets/bootstrap/jquery.tablesorter.min.js"></script>
+    <script src="/assets/bootstrap/jquery.tablecloth.js"></script>
+    <!-- tablecloth.js end -->
+    <script src="/assets/bootstrap/bootstrap-modal.js"></script>
+    <%= stylesheet_link_tag "application" %>
+	  <!-- head part -->	
+  	<style> div.layout_tab_container:hover{ height: 300px!important;  } </style>
+  	<%= stylesheet_link_tag 'cip/cip', 'new_admin' %>
+		<script type="text/javascript">
+			CIApplication.baseParams = { authenticity_token: "<%=form_authenticity_token%>" };
+			var advancedSearchHud = null;
+			window.addEvent('domready', function() {
+				var advancedSearchHudContainer = new CIElement('div');
+				$('contractorFinder').addEvent('click', ContractorFinder.hud.show.bind(ContractorFinder.hud));
+				advancedSearchButton = new CIButton({
+					label: 'Search',
+					cssStyles: { display: 'block', CIFirmWidth: 278 },
+					Clicked: function() {
+						advancedSearchButton.setLabel('Searching...').disable();
+						new Request.JSON({
+							url: '/admin/customers/async_advanced_search_check',
+							data: $('advancedSearchForm').toQueryString(),
+							onSuccess: function(o, json) {
+								var count = o.count.toInt();
+								if (count > 100) {
+									CISheet.prompt(
+										"Over 100 results",
+										"Your search has yielded <strong>" + count + "</strong> results, " +
+										"which may cause the system to become unresponsive. Do you want to continue?",
+										{
+											label: 'Continue',
+											Clicked: function() {
+												$('advancedSearchForm').submit();
+											}
+										}
+									);
+									advancedSearchButton.setLabel('Search').enable();
+								} else if (count == 0) {
+									CISheet.alert(
+										'No results',
+										'Your search did not yield any results.'
+									);
+									advancedSearchButton.setLabel('Search').enable();
+								} else {
+									$('advancedSearchForm').submit();
+								}
+							}
+						}).post();
+					}
+				});
+				advancedSearchHud = new CIHud({
+					title: 'Advanced Search',
+					offset: { dx: 20, dy: 50 },
+					cssStyles: { CIFirmWidth: 305, position: 'fixed' },
+					content: [
+						advancedSearchHudContainer,
+						advancedSearchButton
+					],
+					Shown: function() {
+						var div = $('advancedSearchDiv');
+						advancedSearchHudContainer.element().adopt(div);
+						div.setStyle('display', 'block');
+					},
+					RemovingFromDom: function() {
+						var div = $('advancedSearchDiv');
+						div.setStyle('display', 'none');
+						$('layout_fixed_header').adopt(div);
+					}
+				});
+				$$('div.layout_tab_container').each(function(container) {
+					if (container.hasClass('hasNoSubtabs')) return;
+					container.set('tween', { duration: 300, property: 'height' });
+					container.addEvent('mouseenter', function() { container.tween(150); 	});
+					container.addEvent('mouseleave', function() { container.tween(26); 		});
+				});
+				var searchMenu = new CIMenu({
+					offset: { from: 'searchMenuButton', dy: 40 },
+					cssStyles: { CIFirmWidth: 180 },
+					items: [
+						{ html: '<span class="searchMenuLabel">#</span>Customer ID', value: 'id', symbol: '#' },
+						{ html: '<span class="searchMenuLabel">F</span>First Name', value: 'first_name', symbol: 'F' },
+						{ html: '<span class="searchMenuLabel">L</span>Last Name', value: 'last_name', symbol: 'L' },
+						{ html: '<span class="searchMenuLabel">E</span>Email', value: 'email', symbol: 'E' },
+						{ html: '<span class="searchMenuLabel">S</span>Street', value: 'street', symbol: 'S' },
+						{ html: '<span class="searchMenuLabel">P</span>Phone Number', value: 'phone', symbol: 'P' }
+						<% if current_account.admin? %>
+						,{ html: '<span class="searchMenuLabel">+</span>Advanced Search...', value: 'advanced', symbol: '+' }
+						<% end %>
+					],
+					Changed: function(value) {
+						if (this.selected.symbol == '+') {
+							this.select(0);
+							advancedSearchHud.show();
+						}
+						$('searchMenuButton').set('html', this.selected.symbol);
+						$('searchFieldHidden').set('value', value);
+					},
+					Clicked: function() { $('searchField').focus(); }
+				});
+				searchMenu.select(0);
+				$('searchMenuButton').addEvent('click', function() { searchMenu.toggle('layout_fixed_header'); });
+			});
+			window.addEvent('keypress', function(event) {
+				if (event.control) {
+					event.stop();
+					if (event.key == 'enter') {
+						$('searchField').focus();
+					}else if (event.key == 's') {
+						advancedSearchHud.show();
+					}
+				}
+			});
+		</script>
+	  <script>
+  	  function update_customer_status(){
+      	window.location = $('select_customer_status').get('value');
+   	 	}
+  	</script>
+		<%#= google_analytics_js %>
+		<%= render :partial => "/shared/google_analystic" %>
+	  <!-- process sortable table -->
+  	<!-- tablecloth.js -->
+		<link href="/assets/tablecloth.css" rel="stylesheet">
+  	<link href="/assets/prettify.css" rel="stylesheet">
+  	<!-- tablecloth.js -->
+		<script type="text/javascript" charset="utf-8">
+  		jQuery(document).ready(function() {
+    		jQuery("table.sortable_table").tablecloth({
+      		sortable: true,
+      		condensed: true,
+      		striped: true
+    		});
+  		});
+	  </script>
+  	<%= javascript_include_tag 'func/quick_email' %>
+  	<%= javascript_include_tag 'func/edit_customer_status' %>
+	  <!-- head part end -->
+  	<%= csrf_meta_tags %>
+  </head>
+  <body>
+  	<%= render :partial => "/shared/hubspot_analytics_code" %>
+  	<%= render :partial => "/layouts/admin_setting_header" %>
+  	<%= render :partial => '/shared/team_sales_agent_chat' %>
+    <!-- container start -->
+    <div class="container-fluid">
+	    <div class="span12" style="width: 100%;">
+      	<div class="row-fluid">
+      		<br><br>
+      		<% unless controller.controller_name == "claims" or controller.controller_name == "reports" %>
+        		<ul class="breadcrumb">
+          		<%= render_breadcrumbs :separator => ' / ' %>
+        		</ul>
+        	<% end %>
+      	</div>
+      	<% if controller.controller_name == 'customer_statuses' or controller.controller_name == 'claim_statuses' or controller.controller_name == 'lead_statuses' or controller.controller_name == 'result_statuses' or controller.controller_name == 'tag_statuses' or controller.controller_name == 'contract_statuses' or controller.controller_name == 'renewal_statuses' or controller.controller_name == 'cancellation_reasons' %>
+					<%= render :partial => "/layouts/sub_header" %>
+					<br><br>
+				<% end %>
+      	<%= render :partial => "/layouts/search" %>
+				<div id="layout_fixed_header">
+				<% if current_account.customer? %>
+     			<div id="layout_toolbar">
+			     	<div style="position: relative; top: 3px; left: 3px; display: inline;">
+						  <a href="/admin/customers/claims" style="font-size: 18px;">Your Contract Number is <strong><%= current_account.parent.contract_number%></strong></a>
+	  				</div>
+     			</div>
+				<% elsif current_account.can_see_nhw_tabs %>
+				<% end %>
+				<% if current_account.empty? %>
+					<div id="layout_header"><h1><%=$installation.name%></h1></div>
+				<% elsif not current_account.can_see_nhw_tabs %>
+					<div id="layout_header"><h1><%=$installation.name%>, <%= current_account.parent.send(current_account.contractor? ? :company : :name) %></h1></div>
+				<% end %>
+				<div id="layout_tabs">
+					<% if current_account.can_see_nhw_tabs %>
+					<% elsif current_account.customer? %>
+						<a class="<%= 'selected' if @selected_tab == 'edit'%>" href="/admin/customers/edit/<%=current_account.parent.id%>">Personal Info.</a>
+						<a href="/admin/customers/claims#add">Make Claim</a>
+						<a class="<%= 'selected' if @selected_tab == 'claims'%>" href="/admin/customers/claims">My Claims</a>
+						<a class="<%= 'selected' if @selected_tab == 'history'%>" href="/admin/customers/claim_history">Claim History</a>
+						<a style="margin-left: 30px;" href="/admin/logout">Logout</a>
+					<% elsif current_account.contractor? %>
+						<!--<a class="<%#= 'selected' if @selected_tab == 'contractors'%>" href="/admin/customers/edit/<%#=current_account.parent.id%>">Company Info.</a> -->
+						<a class="<%= 'selected' if @selected_tab == 'repairs'%>" href="/admin/customers/claims">Repairs</a>
+						<a style="margin-left: 30px;" href="/admin/logout">Logout</a>
+					<% else %>
+						<a class="<%= 'selected' if @selected_tab == 'login'%>" href="/admin/login">Login</a>
+					<% end %>
+				</div>
+				<div id="advancedSearchDiv">
+					<form id="advancedSearchForm" action="/admin/customers/advanced_search" method="post">
+						<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>"/>
+						<table cellpadding="4" cellspacing="0">
+							<%= search_hud_rows([
+								:first_name, :last_name, :phone, :email, :street, :city, :state, :zip_code,
+								["Status", :status_id, [['Any', '']] + Customer.formatted_status_array],
+								["Agent", :agent_id, [['Any', '']] + Agent.array]
+							]) %>
+						</table>
+					</form>
+				</div>
+				</div><!-- layout_fixed_header -->
+				<% if controller.controller_name == "claims"  or controller.controller_name == "reports" %>
+					<%= yield %>
+				<% else %>
+					<div id="layout_content"><%= yield %></div>
+				<% end %>
+				<div id="layout_footer"></div>
+  		</div>
+  		<!--  container-end -->
+		<%= render :partial => "/layouts/feedback" %>
+  </body>
+</html>

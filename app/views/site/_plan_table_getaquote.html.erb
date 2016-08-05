@@ -1,0 +1,155 @@
+<table class="table" cellpadding="3" cellspacing="0">
+	<tr>
+		<td class="label" style="width: 120px; color: black; padding-right: 8px;">Type of Home:</td>
+		<td>
+			<select id="customer_home_type" name="customer[home_type]" onchange="updatePlanTotal()">
+				<option value="single">Single-Family</option>
+				<option value="condo">Condominium</option>
+				<option value="duplex">Duplex</option>
+				<option value="triplex">Triplex</option>
+				<option value="fourplex">Fourplex</option>
+			</select>
+		</td>
+	</tr>
+</table>
+<br>
+<table class="table" id="getaquote_plansTable" cellpadding="3" cellspacing="0" style="color: black;">
+	<thead><tr>
+		<td class="label" style="width: 120px;">Covered Items</td>
+		<td style="font-size: 10pt;">Complete<br/>Systems</td>
+		<td style="font-size: 10pt;">Basic<br/>Systems</td>
+		<td style="font-size: 10pt;">Systems<br/>Only</td>
+		<td style="font-size: 10pt;">Appliances<br/>Only</td>
+	</tr></thead>
+	<tr>
+		<td class="label">Electrical</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+	</tr>
+	<tr class="stripe">
+		<td class="label">A/C, Cooling</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+	</tr>
+	<tr>
+		<td class="label">Plumbing System</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+	</tr>
+	<tr class="stripe">
+		<td class="label">Heating System</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+	</tr>
+	<tr>
+		<td class="label">Water Heater</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+	</tr>
+	<tr class="stripe">
+		<td class="label">Ductwork</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+	</tr>
+	<tr>
+		<td class="label">Cooktop</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered columnStripe"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+	</tr>
+	<tr class="stripe">
+		<td class="label">Stove/Oven</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered columnStripe"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+	</tr>
+	<tr>
+		<td class="label">Microwave (built-in)</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered columnStripe"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+	</tr>
+	<tr class="stripe">
+		<td class="label">Plumbing Stoppage</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered columnStripe"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="notoffered"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+	</tr>
+	<tr>
+		<td class="label">Garage Door Opener</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered columnStripe"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="notoffered"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+	</tr>
+	<tr class="stripe">
+		<td class="label">Dishwasher</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered columnStripe"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+	</tr>
+	<tr>
+		<td class="label">Ceiling Fans</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered columnStripe"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="notoffered"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+	</tr>
+	<tr class="stripe">
+		<td class="label">Refrigerator</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="notoffered columnStripe"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+	</tr>
+	<tr>
+		<td class="label">Garbage Disposal</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered columnStripe"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+	</tr>
+	<tr class="stripe">
+		<td class="label">Clothes Washer</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="notoffered columnStripe"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+	</tr>
+	<tr>
+		<td class="label">Clothes Dryer</td>
+		<td class="offered columnStripe"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+		<td class="notoffered"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="notoffered columnStripe"><img src="/images/site/plans/notoffered.png" alt="notoffered" title="Not Offered" /></td>
+		<td class="offered"><img src="/images/site/plans/offered.png" alt="offered" title="Offered"/></td>
+	</tr>
+	<tr class="fauxTfoot stripe">
+		<td>&nbsp;</td>
+		<% i = 0 %>
+		<% Package.find(:all).each do |package| %>
+		<% checked = 'checked="checked"' if i == 0 %>
+		<td class="<%='columnStripe' if i % 2 == 0%>">
+			<input type="radio" class="packageRadioButton" id="customer_coverage_type_<%=package.id%>" name="customer[coverage_type]" value="<%=package.id%>" onclick="updatePlanTotal()" <%=checked%>/><br/>
+			<label for="customer_coverage_type_<%=package.id%>" id="customer_coverage_type_<%=package.id%>_label"></label>
+		</td>
+		<% i += 1 %>
+		<% end %>
+	</tr>
+</table>

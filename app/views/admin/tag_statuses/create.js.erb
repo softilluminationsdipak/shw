@@ -1,0 +1,6 @@
+<% if @tag_status.valid? %>
+	window.location.href = "/admin/tag_statuses"
+<% else %>
+	alert("<%= @tag_status.errors.full_messages.first.html_safe  %>")
+	return false;
+<% end %>	

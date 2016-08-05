@@ -1,0 +1,3 @@
+<%= form_for @affiliate, :url => { :action => "update" }, :remote => true do |f| %>
+  <%= render :partial => "/admin/affiliates/form", :locals => {:f => f } %>
+<% end %>
