@@ -1,48 +1,25 @@
-# server-based syntax
-# ======================
-# Defines a single server with a list of roles and multiple properties.
-# You can define all roles on a single server, or split them:
-
-# server 'example.com', user: 'deploy', roles: %w{app db web}, my_property: :my_value
-# server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
-# server 'db.example.com', user: 'deploy', roles: %w{db}
+# Simple Role Syntax
+# ==================
+# Supports bulk-adding hosts to roles, the primary server in each group
+# is considered to be the first unless any hosts have the primary
+# property set.  Don't declare `role :all`, it's a meta role.
 
 role :app, %w( root@198.199.76.136 )
 role :web, %w( root@198.199.76.136 )
 role :db,  %w( root@198.199.76.136 )
 
-# role-based syntax
-# ==================
-
-# Defines a role with one or multiple servers. The primary server in each
-# group is considered to be the first unless any  hosts have the primary
-# property set. Specify the username and a domain or IP for the server.
-# Don't use `:all`, it's a meta role.
-
-# role :app, %w{deploy@example.com}, my_property: :my_value
-# role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
-# role :db,  %w{deploy@example.com}
-
+# Extended Server Syntax
+# ======================
+# This can be used to drop a more detailed server definition into the
+# server list. The second argument is a, or duck-types, Hash and is
+# used to set extended properties on the server.
 
 server '198.199.76.136', user: 'root', roles: %w( web app db ), my_property: :my_value
-
-# Configuration
-# =============
-# You can set any configuration variable like in config/deploy.rb
-# These variables are then only loaded and set in this stage.
-# For available Capistrano configuration variables see the documentation page.
-# http://capistranorb.com/documentation/getting-started/configuration/
-# Feel free to add new variables to customise your setup.
-
-
-# set :rvm_custom_path, '/usr/local/rvm'
-
 
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a
-# limited set of options, consult the Net::SSH documentation.
-# http://net-ssh.github.io/net-ssh/classes/Net/SSH.html#method-c-start
+# limited set of options, consult[net/ssh documentation](http://net-ssh.github.io/net-ssh/classes/Net/SSH.html#method-c-start).
 #
 # Global options
 # --------------
@@ -51,8 +28,11 @@ server '198.199.76.136', user: 'root', roles: %w( web app db ), my_property: :my
 #    forward_agent: false,
 #    auth_methods: %w(password)
 #  }
+
+set :ssh_options,  keys: %w( /home/dipak/.ssh/digital_ocean_softillumination.pub )
+set :rvm_custom_path, '/usr/local/rvm'
 #
-# The server-based syntax can be used to override options:
+# And/or per server (overrides global)
 # ------------------------------------
 # server 'example.com',
 #   user: 'user_name',
