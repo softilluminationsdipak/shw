@@ -5,7 +5,6 @@ source 'http://rubygems.org'
 # For Server
 gem 'rails', '3.2.17'
 gem 'mysql2'
-gem 'pg'
 gem 'bartt-ssl_requirement', '~>1.4.0', :require => 'ssl_requirement'
 gem 'mail'
 gem 'redis'
