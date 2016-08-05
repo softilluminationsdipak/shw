@@ -5,8 +5,8 @@ SSHKit.config.command_map[:rake] = 'bundle exec rake'
 SSHKit.config.command_map[:rails] = 'bundle exec rails'
 
 
-set :application, 'emr'
-set :repo_url, 'git@github.com:softilluminationsdipak/AngularDemo.git'
+set :application, 'shw'
+set :repo_url, 'git@github.com:softilluminationsdipak/shw.git'
 
 set :rvm_type, :user
 
@@ -21,7 +21,7 @@ set :rvm_roles, :all
 
 # Default value for :scm is :git
 # set :scm, :git
-set :deploy_to, '/var/www/emr'
+set :deploy_to, '/var/www/shw'
 # Default value for :format is :pretty
 # set :format, :pretty
 
@@ -59,20 +59,7 @@ namespace :deploy do
       # end
     end
   end
-
-  desc "Update the crontab file"
-  task :update_crontab do
-    on roles(:web, :app, :db) do
-      #run "cd #{release_path} && whenever --update-crontab report_builder"
-      execute 'crontab -r', raise_on_non_zero_exit: false
-      within release_path do
-        execute :bundle, :exec,'whenever --update-crontab', raise_on_non_zero_exit: false
-      end
-    end
-  end
-
-  after :deploy, "deploy:update_crontab"
-
+  
   desc 'Cleanup expired assets'
   task :cleanup_assets => [:set_rails_env] do
     next unless fetch(:keep_assets)
