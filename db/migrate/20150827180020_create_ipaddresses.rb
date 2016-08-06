@@ -1,9 +1,9 @@
 class CreateIpaddresses < ActiveRecord::Migration
   def change
-    create_table :ipaddresses do |t|
-      t.string :ip
+    # create_table :ipaddresses do |t|
+    #   t.string :ip
 
-      t.timestamps
-    end
+    #   t.timestamps
+    # end
   end
 end
