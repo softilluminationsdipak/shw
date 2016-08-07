@@ -45,7 +45,7 @@ Eripme::Application.configure do
   config.assets.debug = true
   config.action_dispatch.ip_spoofing_check = false
   
-  #SslRequirement.disable_ssl_check = true
+  SslRequirement.disable_ssl_check = true
 
   # for authorize.net test
 
